@@ -300,7 +300,7 @@ class _admin_addproductpromotionState extends State<admin_addproductpromotion> {
                             SizedBox(height: 20),
                             TextFormField(
                               initialValue:
-                                  DateFormat('วันที่ d เดือน MMMM ปี y', 'th')
+                                  DateFormat('วัน d เดือน MMMM ปี y', 'th')
                                       .format(startDate)
                                       .toString(),
                               onTap: () {
