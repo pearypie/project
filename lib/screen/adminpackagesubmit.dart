@@ -10,14 +10,14 @@ import 'package:project_bekery/model/export_product_detail.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/widgets/adminAppbar.dart';
 
-class admin_orderlist extends StatefulWidget {
-  const admin_orderlist({Key? key}) : super(key: key);
+class adminpackagesubmit extends StatefulWidget {
+  const adminpackagesubmit({Key? key}) : super(key: key);
 
   @override
-  State<admin_orderlist> createState() => _admin_orderlistState();
+  State<adminpackagesubmit> createState() => _admin_orderlistState();
 }
 
-class _admin_orderlistState extends State<admin_orderlist> {
+class _admin_orderlistState extends State<adminpackagesubmit> {
   List<Export_product>? _Export_product;
   List<Export_product>? _filterImport_product;
   List<int> datalength = [];
@@ -46,12 +46,11 @@ class _admin_orderlistState extends State<admin_orderlist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color(0xFFba181b),
-        title: Text('ออเดอร์'),
+        backgroundColor: Color(0xFF571089),
+        title: Text('data'),
       ),
-      drawer: /*AdminAppBar(),*/
-          ComplexDrawer(), 
+      drawer: AdminAppBar(),
+      /*ComplexDrawer(),*/
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -75,44 +74,37 @@ class _admin_orderlistState extends State<admin_orderlist> {
                     ? (_Export_product?.length ?? 0)
                     : 0,
                 itemBuilder: (_, index) => Center(
-                      child: Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            right: 8.0, left: 8.0, bottom: 8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
-                      child: Card( elevation: 20,
-                      color: Colors.yellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                          child: Column(
-                            children: [ ListTile(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              title: Text(
-                                  'รหัสออเดอร์ : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
-                              subtitle: Text(
-                                  'ที่มา : ${_Export_product![index].order_by}'),
-                              tileColor: Colors.yellow,
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return admin_oderlist_detail(
-                                      _Export_product![index].order_id.toString(),
-                                      _Export_product![index]
-                                          .total_price
-                                          .toString(),
-                                      _Export_product![index]
-                                          .order_responsible_person
-                                          .toString());
-                                }));
-                              },
-                            ),
-                          ]),
+                          color: Colors.orangeAccent,
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            title: Text(
+                                'รหัสออเดอร์ : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
+                            subtitle: Text(
+                                'ที่มา : ${_Export_product![index].order_by}'),
+                            tileColor: Colors.orangeAccent,
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return admin_oderlist_detail(
+                                    _Export_product![index].order_id.toString(),
+                                    _Export_product![index]
+                                        .total_price
+                                        .toString(),
+                                    _Export_product![index]
+                                        .order_responsible_person
+                                        .toString());
+                              }));
+                            },
+                          ),
                         ),
                       ),
                     )),
-            ))));
+      ),
+    );
   }
 }
 
@@ -170,13 +162,13 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
                             fontSize: 16.0),
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return admin_orderlist();
+                          return adminpackagesubmit();
                         }))
                       });
                 },
                 label: Text("รับออเดอร์"),
                 icon: Icon(Icons.near_me),
-                backgroundColor: Color(0xFFba181b),
+                backgroundColor: Colors.orangeAccent,
               ),
               FloatingActionButton.extended(
                 heroTag: 2,
@@ -192,21 +184,20 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
                             fontSize: 16.0),
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return admin_orderlist();
+                          return adminpackagesubmit();
                         }))
                       });
                 },
                 label: Text("ยกเลิกออเดอร์"),
                 icon: Icon(Icons.near_me),
-                backgroundColor: Color(0xFFba181b),
+                backgroundColor: Colors.orangeAccent,
               ),
             ],
           ),
         ),
         appBar: AppBar(
-          centerTitle: true,
           title: Text('รายละเอียดการขาย'),
-          backgroundColor: Color(0xFFba181b),
+          backgroundColor: Colors.blueAccent,
         ),
         backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(

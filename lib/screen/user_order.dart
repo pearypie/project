@@ -10,6 +10,7 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
 import 'package:project_bekery/login/login.dart';
 import 'package:project_bekery/model/product_model.dart';
+import 'package:project_bekery/model/producttype.dart';
 import 'package:project_bekery/model/user_basket.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/mysql/user.dart';
@@ -31,12 +32,15 @@ class _OrderpageState extends State<Orderpage> {
   List<User_Basket>? userbasket;
   int? length;
   int totalprice = 0;
+  List<Producttype>? _producttype;
+  int? datalength;
   @override
   void initState() {
     length ??= 0;
     super.initState();
     userbasket = [];
     _getBasket();
+    _getproducttype();
   }
 
   _getBasket() async {
@@ -48,6 +52,18 @@ class _OrderpageState extends State<Orderpage> {
         length = basket.length;
       });
       print("Length ${basket.length}");
+    });
+  }
+
+  _getproducttype() {
+    print("function working");
+    Art_Services().getall_producttype().then((producttype) {
+      setState(() {
+        _producttype = producttype;
+        datalength = producttype.length;
+      });
+
+      print('จำนวข้อมูล : ${producttype.length}');
     });
   }
 
@@ -126,73 +142,40 @@ class _OrderpageState extends State<Orderpage> {
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
                     )),
-                /*Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("ข้าวสาร"), Text("ทั้งหมด")],
-                  ),
-                ),*/
                 Container(
                   height: 50.0,
-                  child: ListView(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.orangeAccent),
-                            ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return data_product_sql_more('1');
-                              }));
-                            },
-                            child: Text('ข้าวสาร'),
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.orangeAccent),
-                            ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return data_product_sql_more('2');
-                              }));
-                            },
-                            child: Text('อุปกรณ์เครื่องใช้ในครัว'),
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.orangeAccent),
-                            ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return data_product_sql_more('3');
-                              }));
-                            },
-                            child: Text('เครื่องปรุง'),
-                          )
-                        ],
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount:
+                        _producttype != null ? (_producttype?.length ?? 0) : 0,
+                    itemBuilder: (_, index) => Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _producttype![index].product_type_id == '0'
+                            ? Container()
+                            : ElevatedButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0))),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.orangeAccent),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return data_product_sql_more(
+                                        '${_producttype![index].product_type_id}');
+                                  }));
+                                },
+                                child: Text(
+                                    '${_producttype![index].product_type_name}'),
+                              ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Container(
@@ -334,26 +317,6 @@ class data_product_sql_moreState extends State<data_product_sql_more> {
         ],
       ),
       resizeToAvoidBottomInset: false,
-      floatingActionButton: SizedBox(
-        width: 50,
-        height: 50,
-        child: FittedBox(
-          child: FloatingActionButton(
-            backgroundColor: Color.fromRGBO(30, 246, 30, 10),
-            child: Center(
-              child: Icon(
-                Icons.add_circle_rounded,
-                size: 50,
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return add_product_order();
-              }));
-            },
-          ),
-        ),
-      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,

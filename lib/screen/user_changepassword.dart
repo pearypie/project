@@ -17,7 +17,7 @@ class user_changepassword extends StatefulWidget {
 
 class _user_changepasswordState extends State<user_changepassword> {
   final fromKey = GlobalKey<FormState>();
-  String? user_email, password1, password2;
+  String? user_email, password1, password2, originpassword;
   List<User>? user = [];
   void initState() {
     super.initState();
@@ -57,20 +57,6 @@ class _user_changepasswordState extends State<user_changepassword> {
     return Scaffold(
       body: SliderDrawer(
         appBar: SliderAppBar(
-          trailing: IconButton(
-            onPressed: () {
-              if (fromKey.currentState!.validate()) {
-                fromKey.currentState!.save();
-                if (password1 == password2) {
-                  print('สามารถเปลี่ยนได้}');
-                  _changepassword(password1);
-                } else {
-                  print('ไม่สามารถเปลี่ยนได้}');
-                }
-              }
-            },
-            icon: Icon(Icons.save),
-          ),
           appBarHeight: 85,
           appBarColor: Color.fromARGB(255, 255, 222, 178),
           title: Container(
@@ -95,6 +81,7 @@ class _user_changepasswordState extends State<user_changepassword> {
               child: Column(
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         child: Column(
@@ -107,6 +94,29 @@ class _user_changepasswordState extends State<user_changepassword> {
                             Form(
                                 key: fromKey,
                                 child: Column(children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextFormField(
+                                    validator: RequiredValidator(
+                                        errorText: "กรุณาป้อนข้อมูล"),
+                                    onSaved: (password) {
+                                      setState(() {
+                                        originpassword = password;
+                                      });
+                                    },
+                                    autofocus: false,
+                                    decoration: InputDecoration(
+                                      label: Text('ใส่หรัสเดิม'),
+                                      prefixIcon: const Icon(
+                                        Icons.key,
+                                        color: Colors.black,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  ),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -160,6 +170,46 @@ class _user_changepasswordState extends State<user_changepassword> {
                           ],
                         ),
                       ),
+                      SizedBox(
+                          width: 300,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.orangeAccent),
+                              onPressed: () async {
+                                if (fromKey.currentState!.validate()) {
+                                  fromKey.currentState!.save();
+                                  user_email =
+                                      await SessionManager().get("email");
+                                  await Art_Services()
+                                      .Loginuser(user_email, originpassword)
+                                      .then((value) {
+                                    if (value.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg: "กรอกรหัสเดิมผิด",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    } else {
+                                      if (password1 == password2) {
+                                        _changepassword(password1);
+                                      } else {
+                                        Fluttertoast.showToast(
+                                            msg: "รหัสผ่านที่กรอกไม่เหมือนกัน",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      }
+                                    }
+                                  });
+                                }
+                              },
+                              child: Text('ยืนยันการเปลี่ยนหรัส')))
                     ],
                   ),
                 ],

@@ -33,6 +33,7 @@ class _user_orderState extends State<user_order> {
   List<Export_product>? user_order;
   String? user_email;
   String _selectedMenu = '';
+  String title = 'ประวัติการซื้อขาย';
 
   void initState() {
     Intl.defaultLocale = 'th';
@@ -70,6 +71,9 @@ class _user_orderState extends State<user_order> {
           onSelected: (value) {
             print('สถานะ : ${value.toString()}');
             _getImport_product(value);
+            setState(() {
+              title = value.toString();
+            });
           },
           itemBuilder: (BuildContext bc) {
             return const [
@@ -96,8 +100,8 @@ class _user_orderState extends State<user_order> {
         appBarColor: Color.fromARGB(255, 255, 222, 178),
         title: Container(
           child: Center(
-              child: const Text(
-            'รายการของฉัน',
+              child: Text(
+            title,
             style: TextStyle(
                 color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
           )),
@@ -115,7 +119,87 @@ class _user_orderState extends State<user_order> {
             itemBuilder: (_, index) => Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    child: Card(
+                      elevation: 20,
+                      color: Colors.yellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: user_order![index].order_status ==
+                                    'ยังไม่มีใครรับ'
+                                ? Icon(
+                                    Icons.timelapse,
+                                    color: Color.fromARGB(255, 255, 166, 0),
+                                  )
+                                : user_order![index].order_status ==
+                                        'ส่งเรียบร้อย'
+                                    ? Icon(
+                                        Icons.check,
+                                        color: Colors.lightGreen,
+                                      )
+                                    : user_order![index].order_status ==
+                                            'รายการที่ยกเลิก'
+                                        ? Icon(
+                                            Icons.cancel,
+                                            color:
+                                                Color.fromARGB(255, 255, 0, 0),
+                                          )
+                                        : user_order![index].order_status ==
+                                                'ของกำลังส่ง'
+                                            ? Icon(
+                                                Icons.motorcycle,
+                                                color: Colors.lightGreen,
+                                              )
+                                            : Container(),
+                            title: Text(
+                                'รหัสการสั่ง : ${user_order![index].order_id}'),
+                            subtitle: Text(
+                                'จำนวนรายการ : ${user_order![index].product_amount}'),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Text(
+                                  'วันที่สั่ง ${user_order![index].date}',
+                                  style: TextStyle(
+                                      color: Colors.black.withOpacity(0.6)),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.discount_rounded,
+                                    color: Colors.red,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                      '${user_order![index].total_price} .-  '),
+                                ],
+                              )
+                            ],
+                          ),
+                          ButtonBar(
+                            alignment: MainAxisAlignment.end,
+                            children: [
+                              FlatButton(
+                                textColor: const Color(0xFF6200EE),
+                                onPressed: () {},
+                                child: const Text('รายละเอียด >'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /*Container(
                       color: Colors.orangeAccent,
                       child: ListTile(
                         trailing: IconButton(
@@ -159,7 +243,7 @@ class _user_orderState extends State<user_order> {
                         subtitle: Text(
                             'สถานะของรายการ : ${user_order![index].order_status.toString()}'),
                       ),
-                    ),
+                    ),*/
                   ),
                 )),
       ),

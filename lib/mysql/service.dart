@@ -129,8 +129,13 @@ class Art_Services {
     }
   }
 
-  Future<String> add_importproduct_detail(Import_order_id, basket_product_id,
-      basket_product_quantity, basket_product_pricetotal, DateTime) async {
+  Future<String> add_importproduct_detail(
+    Import_order_id,
+    basket_product_id,
+    basket_product_quantity,
+    basket_product_pricetotal,
+    DateTime,
+  ) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = "_ADD_IMPORTPRODUCT_DETAIL";
@@ -158,7 +163,8 @@ class Art_Services {
       total_price,
       order_status,
       date,
-      product_amount) async {
+      product_amount,
+      total) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = _ADD_USER_ORDER_ACTION;
@@ -167,10 +173,10 @@ class Art_Services {
       map["user_latitude"] = user_latitude;
       map["user_longitude"] = user_longitude;
       map["order_responsible_person"] = order_responsible_person;
-      map["total_price"] = total_price;
       map["order_status"] = order_status;
       map["date"] = date;
       map["product_amount"] = product_amount;
+      map["total"] = total;
       final response = await http.post(url, body: map);
       print("add_order >> Response:: ${response.body}");
       return response.body;
@@ -1082,6 +1088,20 @@ class Art_Services {
       // orderid
       final response = await http.post(url, body: map);
       print("accept_order >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return '${e}';
+    }
+  }
+
+  Future<String> acceptpackge_order(where1) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "ACCEPTPACKET_ORDER";
+      map["where"] = where1; // rideremail // status
+      // orderid
+      final response = await http.post(url, body: map);
+      print("acceptpackge_order >> Response:: ${response.body}");
       return response.body;
     } catch (e) {
       return '${e}';

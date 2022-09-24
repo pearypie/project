@@ -377,11 +377,15 @@
 
     if("GET_ORDER_DETAIL" == $action){
         $db_data = array();
-        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date FROM user_order
-        INNER JOIN user_order_detail 
-        ON user_order.order_id = user_order_detail.order_id
-        INNER JOIN product 
-        ON user_order_detail.product_id = product.product_id where user_order.order_id = '$where'";
+        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date,user_order_detail.product_promotion_name,user_order_detail.product_promotion_value,
+        CAST(user_order_detail.product_amount * user_order_detail.product_per_price AS int) AS simpletotal,
+        CAST(user_order_detail.product_amount * user_order_detail.product_per_price * user_order_detail.product_promotion_value / 100 AS int) AS discount,
+        CAST((user_order_detail.product_amount * user_order_detail.product_per_price) - (user_order_detail.product_amount * user_order_detail.product_per_price) * (user_order_detail.product_promotion_value / 100) AS int) AS total
+        FROM user_order
+                INNER JOIN user_order_detail 
+                ON user_order.order_id = user_order_detail.order_id
+                INNER JOIN product 
+                ON user_order_detail.product_id = product.product_id where user_order.order_id = '$where'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -574,12 +578,12 @@
         $user_latitude = $_POST['user_latitude'];
         $user_longitude = $_POST['user_longitude'];
         $order_responsible_person = $_POST['order_responsible_person'];
-        $total_price = $_POST['total_price'];
         $order_status = $_POST['order_status'];
         $date = $_POST['date'];
+        $total = $_POST['total'];
         $product_amount = $_POST['product_amount'];
 
-        $sql = "INSERT INTO user_order(order_id,order_by,user_latitude,user_longitude,order_responsible_person,total_price,order_status,order_date,product_amount) VALUES ('$order_id','$order_by','$user_latitude','$user_longitude','$order_responsible_person','$total_price','$order_status','$date','$product_amount')";
+        $sql = "INSERT INTO user_order(order_id,order_by,user_latitude,user_longitude,order_responsible_person,total_price,order_status,order_date,product_amount) VALUES ('$order_id','$order_by','$user_latitude','$user_longitude','$order_responsible_person','$total','$order_status','$date','$product_amount')";
         $result = $conn->query($sql);
         echo "success";
         $conn->close();

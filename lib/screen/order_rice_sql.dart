@@ -137,12 +137,14 @@ class _order_rice_sqlState extends State<order_rice_sql> {
             ),
           ),
           Center(
-            child: Image.network(
-              widget.product_image,
-              width: 100,
-              height: 100,
-              fit: BoxFit.fitWidth,
-            ),
+            child: widget.product_image == "null"
+                ? CircularProgressIndicator()
+                : Image.network(
+                    widget.product_image,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fitWidth,
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.only(

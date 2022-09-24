@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:project_bekery/drawer/Constants/Constants.dart';
+import 'package:project_bekery/drawer/UI/ComplexDrawerPage.dart';
 import 'package:project_bekery/model/promotion_model.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/admin_import_order.dart';
@@ -60,25 +62,28 @@ class _addpromotionState extends State<addpromotion> {
                   status = 'เพิ่มข้อมูล';
                 });
               },
-              icon: Icon(Icons.add)),
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              )),
           appBarHeight: 85,
-          appBarColor: Color.fromARGB(255, 255, 222, 178),
+          appBarColor: Color(0xFF6d23b6),
           title: Container(
             child: Center(
                 child: const Text(
-              'รายการนำเข้าสินค้า',
+              'เพิ่มโปรโมชั่น',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             )),
           ),
         ),
-        slider: AdminAppBar(),
+        slider: ComplexDrawer(),
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.orangeAccent.withOpacity(0.5),
+          color: Colorz.complexDrawerBlack,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -100,7 +105,17 @@ class _addpromotionState extends State<addpromotion> {
                                 },
                                 autofocus: false,
                                 decoration: InputDecoration(
-                                  label: Text('ชื่อโปรโมชั่น'),
+                                  enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  label: Text(
+                                    'ชื่อโปรโมชั่น',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   fillColor: Colors.white,
                                   border: OutlineInputBorder(
                                     borderSide:
@@ -121,7 +136,17 @@ class _addpromotionState extends State<addpromotion> {
                                 },
                                 autofocus: false,
                                 decoration: InputDecoration(
-                                  label: Text('ปริมาการลด %'),
+                                  enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  label: Text(
+                                    'ปริมาการลด %',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   fillColor: Colors.white,
                                   border: OutlineInputBorder(
                                     borderSide:
@@ -145,7 +170,7 @@ class _addpromotionState extends State<addpromotion> {
                                   height: 40,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.orangeAccent,
+                                        primary: Color(0xFF6d23b6),
                                         elevation: 3,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -241,6 +266,7 @@ class _addpromotionState extends State<addpromotion> {
                                   SizedBox(height: 20),
                                   TextFormField(
                                     initialValue: current_promotionname,
+                                    style: TextStyle(color: Colors.white),
                                     validator: RequiredValidator(
                                         errorText: "กรุณาป้อนข้อมูล"),
                                     onSaved: (name) {
@@ -250,11 +276,21 @@ class _addpromotionState extends State<addpromotion> {
                                     },
                                     autofocus: false,
                                     decoration: InputDecoration(
-                                      label: Text('ชื่อโปรโมชั่น'),
+                                      enabledBorder: const OutlineInputBorder(
+                                        // width: 0.0 produces a thin "hairline" border
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: const BorderSide(
+                                            color: Colors.white),
+                                      ),
+                                      label: Text(
+                                        'ชื่อโปรโมชั่น',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderSide: const BorderSide(
-                                            color: Colors.black),
+                                            color: Colors.white),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                     ),
@@ -262,6 +298,7 @@ class _addpromotionState extends State<addpromotion> {
                                   SizedBox(height: 20),
                                   TextFormField(
                                     initialValue: current_promotionvalue,
+                                    style: TextStyle(color: Colors.white),
                                     keyboardType: TextInputType.number,
                                     validator: RequiredValidator(
                                         errorText: "กรุณาป้อนข้อมูล"),
@@ -272,11 +309,21 @@ class _addpromotionState extends State<addpromotion> {
                                     },
                                     autofocus: false,
                                     decoration: InputDecoration(
-                                      label: Text('ปริมาการลด %'),
+                                      enabledBorder: const OutlineInputBorder(
+                                        // width: 0.0 produces a thin "hairline" border
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: const BorderSide(
+                                            color: Colors.white),
+                                      ),
+                                      label: Text(
+                                        'ปริมาการลด %',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderSide: const BorderSide(
-                                            color: Colors.black),
+                                            color: Colors.white),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                     ),
@@ -380,7 +427,7 @@ class _addpromotionState extends State<addpromotion> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Divider(
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
 
@@ -398,26 +445,49 @@ class _addpromotionState extends State<addpromotion> {
                                   child: DataTable(
                                       columns: [
                                         DataColumn(
-                                            label: Text('ชื่อโปรมโมชั่น')),
-                                        DataColumn(label: Text('ส่วนลด %')),
-                                        DataColumn(label: Text('ลบ')),
-                                        DataColumn(label: Text('แก้ไข')),
+                                            label: Text(
+                                          'ชื่อโปรมโมชั่น',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        DataColumn(
+                                            label: Text(
+                                          'ส่วนลด %',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        DataColumn(
+                                            label: Text(
+                                          'ลบ',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        DataColumn(
+                                            label: Text(
+                                          'แก้ไข',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
                                       ],
                                       rows: _promotion!
                                           .map(
                                             (Promotion) => DataRow(cells: [
-                                              DataCell(Text(Promotion
-                                                  .promotion_name
-                                                  .toString())),
-                                              DataCell(Text(Promotion
-                                                  .promotion_value
-                                                  .toString())),
+                                              DataCell(Text(
+                                                Promotion.promotion_name
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )),
+                                              DataCell(Text(
+                                                Promotion.promotion_value
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )),
                                               DataCell(
                                                   Promotion.promotion_id == "0"
                                                       ? Container()
                                                       : IconButton(
                                                           icon: Icon(
-                                                              Icons.delete),
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                          ),
                                                           onPressed: () {
                                                             showDialog<bool>(
                                                                 context:
@@ -462,8 +532,10 @@ class _addpromotionState extends State<addpromotion> {
                                                   Promotion.promotion_id == "0"
                                                       ? Container()
                                                       : IconButton(
-                                                          icon:
-                                                              Icon(Icons.edit),
+                                                          icon: Icon(
+                                                            Icons.edit,
+                                                            color: Colors.white,
+                                                          ),
                                                           onPressed: () {
                                                             setState(() {
                                                               current_promotionid =

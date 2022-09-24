@@ -101,7 +101,8 @@ class _cart_order_addState extends State<cart_order_add> {
         Import_totalprice.toString(),
         'รอการยืนยันจาก Admin',
         DateTime.now().toString(),
-        length.toString());
+        length.toString(),
+        (simpletotal - disconttotal).toString());
     print('-----------จบการส่งข้อมูล-------------');
     setState(() {
       Import_totalprice = 0;
