@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
+import 'package:project_bekery/drawer/Constants/Constants.dart';
+import 'package:project_bekery/drawer/UI/ComplexDrawerPage.dart';
 import 'package:project_bekery/login/login.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/mysql/user.dart';
@@ -40,85 +42,98 @@ class _admin_UserlistState extends State<admin_Userlist> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SliderDrawer(
-      appBar: SliderAppBar(
-        trailing: PopupMenuButton(
-          icon: Icon(
-            Icons.filter_alt_outlined,
-            color: Colors.black,
-          ),
-          onSelected: (value) {
-            print('สถานะ : ${value.toString()}');
-            _getuserdata(value.toString());
-          },
-          itemBuilder: (BuildContext bc) {
-            return const [
-              PopupMenuItem(
-                child: Text("แสดงข้อมูลลูกค้า"),
-                value: 'customer',
-              ),
-              PopupMenuItem(
-                child: Text("แสดงข้อมูลคนส่ง"),
-                value: 'rider',
-              )
-            ];
-          },
-        ),
-        appBarHeight: 85,
-        appBarColor: Color.fromARGB(255, 255, 222, 178),
-        title: Container(
-          child: Center(
-              child: const Text(
-            'รายการนำเข้าสินค้า',
-            style: TextStyle(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
-          )),
-        ),
-      ),
-      slider: AdminAppBar(),
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.orangeAccent.withOpacity(0.5),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: user != null ? (user?.length ?? 0) : 0,
-              itemBuilder: (_, index) => Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        color: Colors.orangeAccent,
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          title: Text(
-                              'ชื่อสมาชิก : ${user?[index].user_name}  ${user?[index].user_surname}'),
-                          subtitle: Text('ตำแหน่ง : ${user?[index].user_role}'),
-                          tileColor: Colors.orangeAccent,
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return admin_userdetail(
-                                  user?[index].user_id,
-                                  user?[index].user_name,
-                                  user?[index].user_surname,
-                                  user?[index].user_phone,
-                                  user?[index].user_email,
-                                  user?[index].user_password,
-                                  user?[index].user_latitude,
-                                  user?[index].user_longitude,
-                                  user?[index].user_role);
-                            }));
-                          },
-                        ),
-                      ),
+            appBar: SliderAppBar(
+              trailing: PopupMenuButton(
+                icon: Icon(
+                  Icons.filter_alt_outlined,
+                  color: Colors.white,
+                ),
+                onSelected: (value) {
+                  print('สถานะ : ${value.toString()}');
+                  _getuserdata(value.toString());
+                },
+                itemBuilder: (BuildContext bc) {
+                  return const [
+                    PopupMenuItem(
+                      child: Text("แสดงข้อมูลลูกค้า"),
+                      value: 'customer',
                     ),
-                  )),
-        ),
-      ),
-    ));
+                    PopupMenuItem(
+                      child: Text("แสดงข้อมูลคนส่ง"),
+                      value: 'rider',
+                    )
+                  ];
+                },
+              ),
+              appBarHeight: 85,
+              appBarColor: Color(0xFF072ac8),
+              title: Container(
+                child: Center(
+                    child: const Text(
+                  'รายชื่อผู้ใช้',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                )),
+              ),
+            ),
+            slider: ComplexDrawer(),
+            child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(0),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: user != null ? (user?.length ?? 0) : 0,
+                    itemBuilder: (_, index) => Center(
+                      child: Container(
+                          child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0, left: 8.0, bottom: 8.0),
+                        child: Container(
+                          child: Card(
+                            elevation: 20,
+                            color: Colors.yellow,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(children: [
+                              ListTile(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                title: Text(
+                                    'ชื่อสมาชิก : ${user?[index].user_name}  ${user?[index].user_surname}'),
+                                subtitle:
+                                    Text('ตำแหน่ง : ${user?[index].user_role}'),
+                                tileColor: Colors.yellow,
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return admin_userdetail(
+                                        user?[index].user_id,
+                                        user?[index].user_name,
+                                        user?[index].user_surname,
+                                        user?[index].user_phone,
+                                        user?[index].user_email,
+                                        user?[index].user_password,
+                                        user?[index].user_latitude,
+                                        user?[index].user_longitude,
+                                        user?[index].user_role);
+                                  }));
+                                },
+                              ),
+                            ]),
+                          ),
+                        ),
+                      )),
+                    ),
+                  ),
+                ))));
   }
 }
 
@@ -229,26 +244,26 @@ class _admin_userdetailState extends State<admin_userdetail> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Colors.white.withOpacity(0.1),
+        backgroundColor: Color(0xFF072ac8),
         elevation: 0,
         title: Center(
             child: const Text(
           'รายชื่อสมาชิก',
           style: TextStyle(
-              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         )),
         actions: <Widget>[],
       ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.orangeAccent.withOpacity(0.5),
+        color: Colorz.complexDrawerBlack,
         child: Padding(
           padding: const EdgeInsets.only(top: 100),
           child: Padding(
@@ -276,15 +291,23 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                       },
                                       autofocus: false,
                                       initialValue: "${widget.user_name}",
+                                      style: TextStyle(color: Colors.white),
                                       decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(30)),
+                                          borderSide: const BorderSide(
+                                              color: Colors.white),
+                                        ),
                                         fillColor: Colors.white,
                                         prefixIcon: const Icon(
                                           Icons.person,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                         ),
                                         border: OutlineInputBorder(
                                           borderSide: const BorderSide(
-                                              color: Colors.black),
+                                              color: Colors.white),
                                           borderRadius:
                                               BorderRadius.circular(30),
                                         ),
@@ -301,11 +324,22 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                       },
                                       autofocus: false,
                                       initialValue: "${widget.user_surname}",
+                                      style: TextStyle(color: Colors.white),
                                       decoration: InputDecoration(
-                                        label: Text('นามสกุล'),
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(30)),
+                                          borderSide: const BorderSide(
+                                              color: Colors.white),
+                                        ),
+                                        label: Text(
+                                          'นามสกุล',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                         prefixIcon: const Icon(
                                           Icons.person,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -325,11 +359,22 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                 },
                                 autofocus: false,
                                 initialValue: "${widget.user_email}",
+                                style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-                                  label: Text('อีเมล์'),
+                                  enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  label: Text(
+                                    'อีเมล์',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   prefixIcon: const Icon(
                                     Icons.email,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -345,11 +390,22 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                 },
                                 autofocus: false,
                                 initialValue: "${widget.user_phone}",
+                                style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-                                  label: Text('เบอร์โทรศัพท์'),
+                                  enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                  label: Text(
+                                    'เบอร์โทรศัพท์',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   prefixIcon: const Icon(
                                     Icons.local_phone,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -363,7 +419,7 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                   decoration: BoxDecoration(
                                     //background color of dropdown button
                                     border: Border.all(
-                                        color: Colors.black38,
+                                        color: Colors.white,
                                         width: 1), //border of dropdown button
                                     borderRadius: BorderRadius.circular(
                                         30), //border raiuds of dropdown button
@@ -372,7 +428,8 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                       padding:
                                           EdgeInsets.only(left: 30, right: 30),
                                       child: DropdownButton(
-                                        dropdownColor: Colors.orangeAccent,
+                                        dropdownColor:
+                                            Colorz.complexDrawerBlack,
                                         value: dropdownValue,
                                         onChanged: (String? newValue) {
                                           setState(() {
@@ -388,15 +445,19 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                             (String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
-                                            child: Text(value),
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
                                           );
                                         }).toList(),
                                         icon: Padding(
                                             //Icon at tail, arrow bottom is default icon
                                             padding: EdgeInsets.only(left: 20),
                                             child: Icon(Icons.arrow_downward)),
-                                        iconEnabledColor: Color.fromARGB(
-                                            255, 0, 0, 0), //Icon color
+                                        iconEnabledColor:
+                                            Colors.white, //Icon color
 
                                         //dropdown background color
                                         underline:

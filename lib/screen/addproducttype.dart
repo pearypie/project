@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:project_bekery/drawer/Constants/Constants.dart';
+import 'package:project_bekery/drawer/UI/ComplexDrawerPage.dart';
 import 'package:project_bekery/model/producttype.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/admin_import_order.dart';
@@ -59,24 +61,27 @@ class _addproducttypeState extends State<addproducttype> {
                     status = 'เพิ่มข้อมูล';
                   });
                 },
-                icon: Icon(Icons.add)),
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                )),
             appBarHeight: 85,
-            appBarColor: Color.fromARGB(255, 255, 222, 178),
+            appBarColor: Color(0xFF822faf),
             title: Container(
               child: Center(
                   child: const Text(
                 'เพิ่มประเภทสินค้า',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               )),
             ),
           ),
-          slider: AdminAppBar(),
+          slider: ComplexDrawer(),
           child: Container(
             width: double.infinity,
-            color: Colors.orangeAccent.withOpacity(0.5),
+            color: Colorz.complexDrawerBlack,
             child: Column(
               children: [
                 Container(
@@ -98,7 +103,17 @@ class _addproducttypeState extends State<addproducttype> {
                                     },
                                     autofocus: false,
                                     decoration: InputDecoration(
-                                      label: Text('ชื่อประเภทสินค้า'),
+                                      enabledBorder: const OutlineInputBorder(
+                                        // width: 0.0 produces a thin "hairline" border
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: const BorderSide(
+                                            color: Colors.white),
+                                      ),
+                                      label: Text(
+                                        'ชื่อประเภทสินค้า',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderSide: const BorderSide(
@@ -112,7 +127,7 @@ class _addproducttypeState extends State<addproducttype> {
                                     decoration: BoxDecoration(
                                       //background color of dropdown button
                                       border: Border.all(
-                                          color: Colors.black38,
+                                          color: Colors.white,
                                           width: 1), //border of dropdown button
                                       borderRadius: BorderRadius.circular(
                                           30), //border raiuds of dropdown button
@@ -122,7 +137,7 @@ class _addproducttypeState extends State<addproducttype> {
                                       height: 40,
                                       child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Colors.orangeAccent,
+                                            primary: Color(0xFF822faf),
                                             elevation: 3,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -205,6 +220,7 @@ class _addproducttypeState extends State<addproducttype> {
                                 children: [
                                   SizedBox(height: 20),
                                   TextFormField(
+                                    style: TextStyle(color: Colors.white),
                                     initialValue: current_producttypename,
                                     validator: RequiredValidator(
                                         errorText: "กรุณาป้อนข้อมูล"),
@@ -215,7 +231,18 @@ class _addproducttypeState extends State<addproducttype> {
                                     },
                                     autofocus: false,
                                     decoration: InputDecoration(
-                                      label: Text('ชื่อประเภทสินค้า'),
+                                      enabledBorder: const OutlineInputBorder(
+                                        // width: 0.0 produces a thin "hairline" border
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: const BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      label: Text(
+                                        'ชื่อประเภทสินค้า',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       fillColor: Colors.white,
                                       border: OutlineInputBorder(
                                         borderSide: const BorderSide(
@@ -229,7 +256,7 @@ class _addproducttypeState extends State<addproducttype> {
                                     decoration: BoxDecoration(
                                       //background color of dropdown button
                                       border: Border.all(
-                                          color: Colors.black38,
+                                          color: Colors.white,
                                           width: 1), //border of dropdown button
                                       borderRadius: BorderRadius.circular(
                                           30), //border raiuds of dropdown button
@@ -239,7 +266,7 @@ class _addproducttypeState extends State<addproducttype> {
                                       height: 40,
                                       child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Colors.orangeAccent,
+                                            primary: Colors.yellow,
                                             elevation: 3,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -247,7 +274,11 @@ class _addproducttypeState extends State<addproducttype> {
                                                         32.0)),
                                             //////// HERE
                                           ),
-                                          child: Text('แก้ไขข้อมูล'),
+                                          child: Text(
+                                            'แก้ไขข้อมูล',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
                                           onPressed: () async {
                                             print(
                                                 'ID producttype : ${current_producttypeid}');
@@ -324,7 +355,7 @@ class _addproducttypeState extends State<addproducttype> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Divider(
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
                 Expanded(
@@ -338,84 +369,111 @@ class _addproducttypeState extends State<addproducttype> {
                                 child: Container(
                                   child: DataTable(
                                       columns: [
-                                        DataColumn(label: Text('ID')),
-                                        DataColumn(label: Text('ชื่อสินค้า')),
-                                        DataColumn(label: Text('ลบ')),
-                                        DataColumn(label: Text('แก้ไข')),
+                                        DataColumn(
+                                            label: Text(
+                                          'ID',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        DataColumn(
+                                            label: Text(
+                                          'ชื่อสินค้า',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        DataColumn(
+                                            label: Text(
+                                          'ลบ',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                        DataColumn(
+                                            label: Text(
+                                          'แก้ไข',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
                                       ],
                                       rows: _producttype!
                                           .map(
                                             (importorder) => DataRow(cells: [
-                                              DataCell(Text(importorder
-                                                  .product_type_id
-                                                  .toString())),
-                                              DataCell(Text(importorder
-                                                  .product_type_name
-                                                  .toString())),
-                                              DataCell(importorder
-                                                          .product_type_id ==
-                                                      "0"
-                                                  ? Container()
-                                                  : IconButton(
-                                                      icon: Icon(Icons.delete),
-                                                      onPressed: () {
-                                                        showDialog<bool>(
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    'ลบข้อมูล'),
-                                                                content: const Text(
-                                                                    'ต้องการที่จะลบประเภทสินค้านี้ใช้ไหม?'),
-                                                                actions: <
-                                                                    Widget>[
-                                                                  ElevatedButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.of(context)
-                                                                            .pop(),
-                                                                    child: const Text(
-                                                                        "ไม่"),
-                                                                  ),
-                                                                  ElevatedButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Art_Services()
-                                                                          .deleteproducttype(importorder
-                                                                              .product_type_id
-                                                                              .toString())
-                                                                          .then((value) =>
+                                              DataCell(Text(
+                                                importorder.product_type_id
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )),
+                                              DataCell(Text(
+                                                importorder.product_type_name
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )),
+                                              DataCell(
+                                                  importorder.product_type_id ==
+                                                          "0"
+                                                      ? Container()
+                                                      : IconButton(
+                                                          icon: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                          ),
+                                                          onPressed: () {
+                                                            showDialog<bool>(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: const Text(
+                                                                        'ลบข้อมูล'),
+                                                                    content:
+                                                                        const Text(
+                                                                            'ต้องการที่จะลบประเภทสินค้านี้ใช้ไหม?'),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      ElevatedButton(
+                                                                        onPressed:
+                                                                            () =>
+                                                                                Navigator.of(context).pop(),
+                                                                        child: const Text(
+                                                                            "ไม่"),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Art_Services().deleteproducttype(importorder.product_type_id.toString()).then((value) =>
                                                                               {
                                                                                 Fluttertoast.showToast(msg: "ลบ ${importorder.product_type_name.toString()} เรียบร้อย", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: Color.fromARGB(255, 255, 0, 0), textColor: Colors.white, fontSize: 16.0),
                                                                                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                                                                                   return addproducttype();
                                                                                 }))
                                                                               });
-                                                                    },
-                                                                    child: const Text(
-                                                                        "ใช่"),
-                                                                  ),
-                                                                ],
-                                                              );
+                                                                        },
+                                                                        child: const Text(
+                                                                            "ใช่"),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                });
+                                                          },
+                                                        )),
+                                              DataCell(
+                                                  importorder.product_type_id ==
+                                                          "0"
+                                                      ? Container()
+                                                      : IconButton(
+                                                          icon: Icon(
+                                                            Icons.edit,
+                                                            color: Colors.white,
+                                                          ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              current_producttypeid =
+                                                                  '${importorder.product_type_id}';
+                                                              current_producttypename =
+                                                                  '${importorder.product_type_name}';
+                                                              status =
+                                                                  'แก้ไขข้อมูล';
                                                             });
-                                                      },
-                                                    )),
-                                              DataCell(importorder
-                                                          .product_type_id ==
-                                                      "0"
-                                                  ? Container()
-                                                  : IconButton(
-                                                      icon: Icon(Icons.edit),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          current_producttypeid =
-                                                              '${importorder.product_type_id}';
-                                                          current_producttypename =
-                                                              '${importorder.product_type_name}';
-                                                          status =
-                                                              'แก้ไขข้อมูล';
-                                                        });
-                                                      },
-                                                    )),
+                                                          },
+                                                        )),
                                             ]),
                                           )
                                           .toList()),
