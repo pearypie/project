@@ -524,14 +524,16 @@ class _admin_addproductpromotionState extends State<admin_addproductpromotion> {
                                                         title: const Text(
                                                           'ลบข้อมูล',
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0)),
                                                         ),
                                                         content: const Text(
                                                           'ต้องการที่จะลบประเภทสินค้านี้ใช้ไหม?',
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                              color: Color
+                                                                  .fromARGB(255,
+                                                                      0, 0, 0)),
                                                         ),
                                                         actions: <Widget>[
                                                           ElevatedButton(

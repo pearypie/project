@@ -152,7 +152,7 @@ class _admin_orderallState extends State<admin_orderall> {
                                               )
                                             : Container(),
                             title: Text(
-                                'รหัสการสั่ง : ${_Export_product![index].order_id}'),
+                                'สั่งซื้อโดย : ${_Export_product![index].user_name} ${_Export_product![index].user_surname}'),
                             subtitle: Text(
                                 'จำนวนรายการ : ${_Export_product![index].product_amount}'),
                           ),

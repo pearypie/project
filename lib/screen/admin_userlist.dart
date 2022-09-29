@@ -66,7 +66,7 @@ class _admin_UserlistState extends State<admin_Userlist> {
                 },
               ),
               appBarHeight: 85,
-              appBarColor: Color(0xFF072ac8),
+              appBarColor: Color(0xFF6d2e46),
               title: Container(
                 child: Center(
                     child: const Text(
@@ -250,7 +250,7 @@ class _admin_userdetailState extends State<admin_userdetail> {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Color(0xFF072ac8),
+        backgroundColor: Color(0xFF6d2e46),
         elevation: 0,
         title: Center(
             child: const Text(
