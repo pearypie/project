@@ -60,6 +60,7 @@ class _admin_orderallState extends State<admin_orderall> {
     return Scaffold(
         body: SliderDrawer(
       appBar: SliderAppBar(
+        drawerIconColor: Colors.white,
         trailing: PopupMenuButton(
           icon: Icon(
             Icons.filter_alt_outlined,
@@ -91,7 +92,7 @@ class _admin_orderallState extends State<admin_orderall> {
           },
         ),
         appBarHeight: 85,
-        appBarColor: Color(0xFF036666),
+        appBarColor: Color(0xFFbe95c4),
         title: Container(
           child: Center(
               child: const Text(
@@ -115,98 +116,111 @@ class _admin_orderallState extends State<admin_orderall> {
               itemCount:
                   _Export_product != null ? (_Export_product?.length ?? 0) : 0,
               itemBuilder: (_, index) => Center(
-                    child: Card(
-                      elevation: 20,
-                      color: Colors.yellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            leading: _Export_product![index].order_status ==
-                                    'ยังไม่มีใครรับ'
-                                ? Icon(
-                                    Icons.timelapse,
-                                    color: Color.fromARGB(255, 255, 166, 0),
-                                  )
-                                : _Export_product![index].order_status ==
-                                        'ส่งเรียบร้อย'
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0, left: 8.0, bottom: 8.0),
+                        child: Container(
+                            child: Card(
+                          elevation: 20,
+                          color: Colors.yellow,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: _Export_product![index].order_status ==
+                                        'ยังไม่มีใครรับ'
                                     ? Icon(
-                                        Icons.check,
-                                        color: Colors.lightGreen,
+                                        Icons.timelapse,
+                                        color: Color.fromARGB(255, 255, 166, 0),
                                       )
                                     : _Export_product![index].order_status ==
-                                            'รายการที่ยกเลิก'
+                                            'ส่งเรียบร้อย'
                                         ? Icon(
-                                            Icons.cancel,
-                                            color:
-                                                Color.fromARGB(255, 255, 0, 0),
+                                            Icons.check,
+                                            color: Colors.lightGreen,
                                           )
                                         : _Export_product![index]
                                                     .order_status ==
-                                                'ของกำลังส่ง'
+                                                'รายการที่ยกเลิก'
                                             ? Icon(
-                                                Icons.motorcycle,
-                                                color: Colors.lightGreen,
+                                                Icons.cancel,
+                                                color: Color.fromARGB(
+                                                    255, 255, 0, 0),
                                               )
-                                            : Container(),
-                            title: Text(
-                                'สั่งซื้อโดย : ${_Export_product![index].user_name} ${_Export_product![index].user_surname}'),
-                            subtitle: Text(
-                                'จำนวนรายการ : ${_Export_product![index].product_amount}'),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Text(
-                                  'วันที่สั่ง ${_Export_product![index].date}',
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(0.6)),
-                                ),
+                                            : _Export_product![index]
+                                                        .order_status ==
+                                                    'ของกำลังส่ง'
+                                                ? Icon(
+                                                    Icons.motorcycle,
+                                                    color: Colors.lightGreen,
+                                                  )
+                                                : Container(),
+                                title: Text(
+                                    'สั่งซื้อโดย : ${_Export_product![index].user_name} ${_Export_product![index].user_surname}'),
+                                subtitle: Text(
+                                    'จำนวนรายการ : ${_Export_product![index].product_amount}'),
                               ),
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
-                                    Icons.discount_rounded,
-                                    color: Colors.lightGreen,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      'วันที่สั่ง ${_Export_product![index].date}',
+                                      style: TextStyle(
+                                          color: Colors.black.withOpacity(0.6)),
+                                    ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                      '${_Export_product![index].total_price} .-  '),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.discount_rounded,
+                                        color: Colors.lightGreen,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                          '${_Export_product![index].total_price} .-  '),
+                                    ],
+                                  )
                                 ],
-                              )
-                            ],
-                          ),
-                          ButtonBar(
-                            alignment: MainAxisAlignment.end,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              admin_oderall_detail(
-                                                  _Export_product![index]
-                                                      .order_id
-                                                      .toString(),
-                                                  _Export_product![index]
-                                                      .total_price
-                                                      .toString(),
-                                                  _Export_product![index]
-                                                      .order_responsible_person
-                                                      .toString())));
-                                },
-                                child: const Text('รายละเอียด >'),
                               ),
+                              ButtonBar(
+                                  alignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    admin_oderall_detail(
+                                                        _Export_product![index]
+                                                            .order_id
+                                                            .toString(),
+                                                        _Export_product![index]
+                                                            .total_price
+                                                            .toString(),
+                                                        _Export_product![index]
+                                                            .order_responsible_person
+                                                            .toString())));
+                                      },
+                                      child: const Text('รายละเอียด >'),
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0)),
+                                          primary: Colors.red),
+                                    ),
+                                  ]),
                             ],
                           ),
-                        ],
+                        )),
                       ),
                     ),
 /*
@@ -282,7 +296,7 @@ class _admin_oderall_detailState extends State<admin_oderall_detail> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('รายละเอียดการขาย'),
-        backgroundColor: Color(0xFF036666),
+        backgroundColor: Color(0xFFbe95c4),
       ),
       backgroundColor: Colors.grey[100],
       body: Column(

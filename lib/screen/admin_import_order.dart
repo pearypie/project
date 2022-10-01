@@ -57,8 +57,9 @@ class _admin_import_orderState extends State<admin_import_order> {
         extendBodyBehindAppBar: true,
         body: SliderDrawer(
             appBar: SliderAppBar(
+              drawerIconColor: Colors.white,
               appBarHeight: 85,
-              appBarColor: Color(0xFFff9e00),
+              appBarColor: Color(0xFF9f86c0),
               title: Container(
                 child: Center(
                     child: const Text(
@@ -99,7 +100,7 @@ class _admin_import_orderState extends State<admin_import_order> {
                             child: Column(children: [
                               ListTile(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
+                                    borderRadius: BorderRadius.circular(20.0)),
                                 title: Text(
                                     '${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Import_product![index].Import_date}'))}'),
                                 subtitle: Text(
@@ -185,8 +186,9 @@ class _adminhistoryimportState extends State<adminhistoryimport> {
     return Scaffold(
         body: SliderDrawer(
             appBar: SliderAppBar(
+              drawerIconColor: Colors.white,
               appBarHeight: 85,
-              appBarColor: Color(0xFFff9100),
+              appBarColor: Color(0xFF9f86c0),
               title: Container(
                 child: Center(
                     child: const Text(
@@ -221,12 +223,12 @@ class _adminhistoryimportState extends State<adminhistoryimport> {
                             elevation: 20,
                             color: Colors.yellow,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(30),
                             ),
                             child: Column(children: [
                               ListTile(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
+                                    borderRadius: BorderRadius.circular(20.0)),
                                 title: Text(
                                     'วันที่สั่ง : ${_Import_product![index].Import_date.toString()}'),
                                 subtitle: Text(
@@ -372,7 +374,7 @@ class _import_order_detailState extends State<import_order_detail> {
         appBar: AppBar(
           centerTitle: true,
           title: Text('รายละเอียดการสั่งซื้อ'),
-          backgroundColor: Color(0xFFff9e00),
+          backgroundColor: Color(0xFF9f86c0),
         ),
         backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
@@ -481,7 +483,7 @@ class _import_history_detailState extends State<import_history_detail> {
         appBar: AppBar(
           centerTitle: true,
           title: Text('รายละเอียดการสั่งซื้อ'),
-          backgroundColor: Color(0xFFff9100),
+          backgroundColor: Color(0xFF9f86c0),
         ),
         backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(

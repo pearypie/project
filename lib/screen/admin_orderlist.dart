@@ -47,7 +47,7 @@ class _admin_orderlistState extends State<admin_orderlist> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Color(0xFF274c77),
+          backgroundColor: Color(0xFF231942),
           title: Text('ยืนยันรับออเดอร์'),
         ),
         drawer: /*AdminAppBar(),*/
@@ -84,13 +84,13 @@ class _admin_orderlistState extends State<admin_orderlist> {
                                 elevation: 20,
                                 color: Colors.yellow,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
                                 child: Column(children: [
                                   ListTile(
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10.0)),
+                                            BorderRadius.circular(30.0)),
                                     title: Text(
                                         'รหัสออเดอร์ : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
                                     subtitle: Text(
@@ -210,7 +210,7 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
         appBar: AppBar(
           centerTitle: true,
           title: Text('รายละเอียดการขาย'),
-          backgroundColor: Color(0xFF274c77),
+          backgroundColor: Color(0xFF231942),
         ),
         backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
