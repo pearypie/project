@@ -536,6 +536,20 @@
         
     }
 
+    if("UPDATE_MAP_RIDER" == $action){
+        $latitude = $_POST['latitude'];
+        $longitude = $_POST['longitude'];
+        $sql = "UPDATE rider SET rider_latitude = '$latitude',rider_longtitude = '$longitude' WHERE rider_email = '$where'";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+        
+    }
+
 
     if('DELETE_EMP' == $action){
         $user_id = $_POST['user_id'];

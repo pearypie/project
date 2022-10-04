@@ -42,6 +42,23 @@ class Art_Services {
     }
   }
 
+  Future<String> update_map_rider(latitude, longitude, where) async {
+    try {
+      print(
+          '--------------------------update_map------------------------------');
+      var map = <String, dynamic>{};
+      map["action"] = "UPDATE_MAP_RIDER";
+      map["latitude"] = latitude;
+      map["longitude"] = longitude;
+      map["where"] = where;
+      final response = await http.post(url, body: map);
+      print("update_map_rider >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
   Future<String> addOrderdtail(order_id, product_id, product_amount,
       product_per_pice, product_promotion_name, product_promotion_value) async {
     try {

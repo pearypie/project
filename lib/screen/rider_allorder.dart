@@ -52,6 +52,7 @@ class _rider_allorderState extends State<rider_allorder> {
         extendBodyBehindAppBar: true,
         body: SliderDrawer(
           appBar: SliderAppBar(
+            drawerIconColor: Colors.blue,
             appBarHeight: 85,
             appBarColor: Colors.white,
             title: Container(
@@ -73,6 +74,7 @@ class _rider_allorderState extends State<rider_allorder> {
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: ListView.builder(
+                  padding: const EdgeInsets.all(0),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: user_order != null ? (user_order?.length ?? 0) : 0,
@@ -93,7 +95,7 @@ class _rider_allorderState extends State<rider_allorder> {
                                           trailing: IconButton(
                                             icon: Icon(
                                               Icons.arrow_forward_ios,
-                                              color: Colors.black,
+                                              color: Colors.blue,
                                             ),
                                             onPressed: () {
                                               Navigator.push(context,
@@ -199,6 +201,15 @@ class _import_order_detailState extends State<user_order_detail> {
           ),
         ),
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.blue,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           centerTitle: true,
           title: Text(
             'รายละเอียดการสั่งซื้อ',

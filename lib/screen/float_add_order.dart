@@ -179,8 +179,9 @@ class _add_product_orderState extends State<add_product_order> {
       resizeToAvoidBottomInset: false,
       body: SliderDrawer(
           appBar: SliderAppBar(
+            drawerIconColor: Colors.white,
             appBarHeight: 85,
-            appBarColor: Color(0xFF6411ad),
+            appBarColor: Color(0xFF5e548e),
             title: Container(
               child: Center(
                   child: const Text(
@@ -226,7 +227,7 @@ class _add_product_orderState extends State<add_product_order> {
                           height: 35,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF6411ad),
+                              primary: Color(0xFF5e548e),
                               elevation: 3,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(32.0)),
@@ -499,7 +500,7 @@ class _add_product_orderState extends State<add_product_order> {
                                   height: 35,
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xFF6411ad),
+                                        primary: Color(0xFF5e548e),
                                         elevation: 3,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:

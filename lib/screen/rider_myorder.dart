@@ -62,6 +62,7 @@ class _rider_myorderState extends State<rider_myorder> {
         extendBodyBehindAppBar: true,
         body: SliderDrawer(
             appBar: SliderAppBar(
+              drawerIconColor: Colors.blue,
               appBarHeight: 85,
               appBarColor: Colors.white,
               title: Container(
@@ -81,6 +82,7 @@ class _rider_myorderState extends State<rider_myorder> {
                 height: double.infinity,
                 color: Color.fromARGB(255, 238, 238, 238),
                 child: ListView.builder(
+                  padding: const EdgeInsets.all(5),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: user_order != null ? (user_order?.length ?? 0) : 0,
@@ -99,11 +101,11 @@ class _rider_myorderState extends State<rider_myorder> {
                             child: Column(children: [
                               ListTile(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
+                                    borderRadius: BorderRadius.circular(20.0)),
                                 trailing: IconButton(
                                   icon: Icon(
                                     Icons.arrow_forward_ios,
-                                    color: Colors.black,
+                                    color: Colors.blue,
                                   ),
                                   onPressed: () {
                                     Navigator.push(context,
@@ -401,6 +403,7 @@ class _rider_historyState extends State<rider_history> {
     return Scaffold(
         body: SliderDrawer(
             appBar: SliderAppBar(
+              drawerIconColor: Colors.blue,
               appBarHeight: 85,
               appBarColor: Colors.white,
               title: Container(
@@ -422,6 +425,7 @@ class _rider_historyState extends State<rider_history> {
                 child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ListView.builder(
+                      padding: const EdgeInsets.all(5),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount:
@@ -436,17 +440,17 @@ class _rider_historyState extends State<rider_history> {
                                   elevation: 20,
                                   color: Colors.white,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: Column(children: [
                                     ListTile(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10.0)),
+                                              BorderRadius.circular(30.0)),
                                       trailing: IconButton(
                                         icon: Icon(
                                           Icons.arrow_forward_ios,
-                                          color: Colors.black,
+                                          color: Colors.blue,
                                         ),
                                         onPressed: () {
                                           Navigator.push(context,
@@ -520,7 +524,7 @@ class user_order_history_detailState extends State<user_order_history_detail> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
+              color: Colors.blue,
             ),
             onPressed: () {
               Navigator.pop(context);
