@@ -153,23 +153,6 @@ class _user_orderState extends State<user_order> {
                                 user_order![index].date.toString(),
                               );
                             }));
-                          } else if (user_order![index].order_status ==
-                                  'รอการยืนยันการเเพ็คของ' ||
-                              user_order![index].order_status ==
-                                  'ยังไม่มีใครรับ' ||
-                              user_order![index].order_status ==
-                                  'ของกำลังส่ง') {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return user_order_detail_waitcancel(
-                                user_order![index].order_id.toString(),
-                                user_order![index].total_price.toString(),
-                                user_order![index]
-                                    .order_responsible_person
-                                    .toString(),
-                                user_order![index].date.toString(),
-                              );
-                            }));
                           } else {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
@@ -578,7 +561,7 @@ class user_order_detaill_waitcancelState
                 heroTag: '1',
                 onPressed: () {
                   Art_Services()
-                      .waitcancel_order(widget.import_order_id)
+                      .waitcancel_order(widget.import_order_id, 'ยกเลิกโดยuser')
                       .then((value) => {
                             Fluttertoast.showToast(
                                 msg: "ขอยกเลิกการสั่งเรียบร้อย",
@@ -588,7 +571,10 @@ class user_order_detaill_waitcancelState
                                 backgroundColor: Color.fromARGB(255, 255, 0, 0),
                                 textColor: Colors.white,
                                 fontSize: 16.0),
-                            Navigator.pop(context),
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return user_order();
+                            })),
                           });
                 },
                 label: Text('ยกเลิกการสั่งสินค้า'),
