@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
@@ -169,11 +170,15 @@ class _order_rice_sqlState extends State<order_rice_sql> {
                     ),
                   ),
                   Center(
-                    child: Image.network(
-                      widget.product_image,
+                    child: CachedNetworkImage(
                       width: 80,
                       height: 80,
-                      fit: BoxFit.fitWidth,
+                      imageUrl: widget.product_image,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                   Padding(

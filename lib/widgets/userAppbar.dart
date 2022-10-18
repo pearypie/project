@@ -7,6 +7,7 @@ import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/mysql/user.dart';
 import 'package:project_bekery/screen/user_changepassword.dart';
 import 'package:project_bekery/screen/user_map.dart';
+import 'package:project_bekery/screen/user_mymaps.dart';
 import 'package:project_bekery/screen/user_myorder.dart';
 import 'package:project_bekery/screen/user_order.dart';
 import 'package:project_bekery/screen/user_profire.dart';
@@ -94,6 +95,22 @@ class _UserAppBarState extends State<UserAppBar> {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return user_MapsPage();
+                  }));
+                },
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'แผนที่ของฉัน',
+                  style: TextStyle(color: Colors.black),
+                ),
+                leading: Icon(
+                  Icons.maps_home_work,
+                  color: Colors.black,
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return user_mymapspage();
                   }));
                 },
               ),

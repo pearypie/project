@@ -23,9 +23,25 @@
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
+
     if($conn->connect_error){
         die("Connection Failed:" . $conn->connect_error);
         return;
+    }
+
+    if("ADD_USER_MAPS" == $action){
+        $user_email = $_POST['user_email'];
+        $user_maps_name = $_POST['user_maps_name'];
+        $user_maps_detail = $_POST['user_maps_detail'];
+        $user_latitude = $_POST['user_latitude'];
+        $user_longitude = $_POST['user_longitude'];
+
+        $sql = "INSERT INTO user_maps(user_email, user_maps_name, user_maps_detail, user_latitude, user_longitude) VALUES ('$user_email','$user_maps_name','$user_maps_detail','$user_latitude','$user_longitude')";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+
     }
 
     if("CREATE_TABLE" == $action){
@@ -54,6 +70,23 @@
     if("GET_ALL" == $action){
         $db_data = array();
         $sql = "SELECT * from $table where user_role = '$where'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if("GET_USER_MAPS" == $action){
+        $db_data = array();
+        $sql = "SELECT * FROM `user_maps` WHERE user_email = '$where'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -554,6 +587,31 @@
     if('DELETE_EMP' == $action){
         $user_id = $_POST['user_id'];
         $sql = "DELETE FROM $table WHERE id = $user_id ";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if('DELETEUSERMAP' == $action){
+        $where = $_POST['where'];
+        $sql = "DELETE FROM `user_maps` WHERE user_maps_id = '$where'";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+    if('EDITUSERMAP' == $action){
+        $where = $_POST['where'];
+        $user_maps_name = $_POST['user_maps_name'];
+        $user_maps_detail = $_POST['user_maps_detail'];
+        $sql = "UPDATE user_maps SET user_maps_name ='$user_maps_name',user_maps_detail ='$user_maps_detail' WHERE user_maps_id = '$where'";
         if($conn->query($sql) === TRUE){
             echo "success";
         }else{

@@ -12,6 +12,7 @@ import 'package:project_bekery/model/promotion_model.dart';
 import 'package:project_bekery/model/user_basket.dart';
 import 'package:project_bekery/mysql/rider.dart';
 import '../model/source_model.dart';
+import '../model/user_maps.dart';
 import 'user.dart';
 
 class Art_Services {
@@ -536,6 +537,34 @@ class Art_Services {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
         .map<User_Basket>((json) => User_Basket.fromJson(json))
+        .toList();
+  }
+
+  Future<List<User_mymaps>> getusermaps(where) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "GET_USER_MAPS";
+      map["where"] = where;
+      final response = await http.post(url, body: map);
+      print("getusermaps >> Response:: ${response.body}");
+      if (response.statusCode == 200) {
+        List<User_mymaps> list = parseResponseusermaps(response.body);
+        print("---------------------------------------------");
+        return list;
+      } else {
+        print("statusCode >> Response:: ${response.statusCode}");
+        throw <User_mymaps>[];
+      }
+    } catch (e) {
+      print(e);
+      return <User_mymaps>[];
+    }
+  }
+
+  static List<User_mymaps> parseResponseusermaps(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<User_mymaps>((json) => User_mymaps.fromJson(json))
         .toList();
   }
 
@@ -1077,6 +1106,25 @@ class Art_Services {
     }
   }
 
+  Future<String> add_user_maps(user_email, user_maps_name, user_maps_detail,
+      user_latitude, user_longitude) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "ADD_USER_MAPS";
+      map["user_email"] = user_email; // rideremail
+      map["user_maps_name"] = user_maps_name;
+      map["user_maps_detail"] = user_maps_detail;
+      map["user_latitude"] = user_latitude;
+      map["user_longitude"] = user_longitude; // status
+      // orderid
+      final response = await http.post(url, body: map);
+      print("add_user_maps >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
   Future<String> cancel_order(where1) async {
     try {
       var map = <String, dynamic>{};
@@ -1474,5 +1522,36 @@ class Art_Services {
     return parsed
         .map<Product_promotion>((json) => Product_promotion.fromJson(json))
         .toList();
+  }
+
+  Future<String> deleteusermap(usermapsid) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "DELETEUSERMAP";
+      map["where"] = usermapsid; // rideremail // status
+      // orderid
+      final response = await http.post(url, body: map);
+      print("deleteusermap >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  Future<String> editusermap(
+      usermapsid, user_maps_name, user_maps_detail) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "EDITUSERMAP";
+      map["where"] = usermapsid;
+      map["user_maps_name"] = user_maps_name;
+      map["user_maps_detail"] = user_maps_detail; // rideremail // status
+      // orderid
+      final response = await http.post(url, body: map);
+      print("editusermap >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
   }
 }
