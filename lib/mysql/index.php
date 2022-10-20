@@ -44,6 +44,19 @@
 
     }
 
+    if("ADD_USER_LOGS" == $action){
+        $log_status = $_POST['log_status'];
+        $log_userid = $_POST['log_userid'];
+        $log_date = $_POST['log_date'];
+
+        $sql = "INSERT INTO `logstatus`(`log_status`, `log_userid`, `log_date`) VALUES ('$log_status','$log_userid','$log_date')";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+    }
+    
+
     if("CREATE_TABLE" == $action){
         $sql = "CREATE TABLE IF NOT EXISTE $table(
             user_id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

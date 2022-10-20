@@ -153,7 +153,7 @@ class _ComplexDrawerState extends State<ComplexDrawer> {
                               }));
                             },
                             title: Text(
-                              'หน้าออเดอร์ถูกตีกลับ',
+                              'หน้าต่างรอการยกเลิก',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),

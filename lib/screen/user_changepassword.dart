@@ -8,6 +8,8 @@ import 'package:project_bekery/mysql/user.dart';
 import 'package:project_bekery/screen/user_profire.dart';
 import 'package:project_bekery/widgets/userAppbar.dart';
 
+import '../drawer/Constants/Constants.dart';
+
 class user_changepassword extends StatefulWidget {
   const user_changepassword({Key? key}) : super(key: key);
 
@@ -74,7 +76,7 @@ class _user_changepasswordState extends State<user_changepassword> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.orangeAccent.withOpacity(0.5),
+          color: Colorz.complexDrawerBlack,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -102,11 +104,19 @@ class _user_changepasswordState extends State<user_changepassword> {
                               },
                               autofocus: false,
                               decoration: InputDecoration(
-                                label: Text('ใส่รหัสเดิม'),
+                                fillColor: Colors.white,
+                                label: Text(
+                                  'ใส่รหัสเดิม',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 prefixIcon: const Icon(
                                   Icons.key,
+                                  color: Colors.white,
                                 ),
                                 border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          Color.fromARGB(255, 255, 255, 255)),
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
@@ -124,13 +134,20 @@ class _user_changepasswordState extends State<user_changepassword> {
                               },
                               autofocus: false,
                               decoration: InputDecoration(
-                                label: Text('ใส่รหัสผ่านใหม่'),
+                                fillColor: Colors.white,
+                                label: Text(
+                                  'ใส่รหัสผ่านใหม่',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 prefixIcon: const Icon(
                                   Icons.key,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -147,13 +164,20 @@ class _user_changepasswordState extends State<user_changepassword> {
                               },
                               autofocus: false,
                               decoration: InputDecoration(
-                                label: Text('ยืนยันรหัสผ่าน'),
+                                fillColor: Colors.white,
+                                label: Text(
+                                  'ยืนยันรหัสผ่าน',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 prefixIcon: const Icon(
                                   Icons.key,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
+                                  borderSide: const BorderSide(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),

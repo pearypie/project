@@ -1362,6 +1362,22 @@ class Art_Services {
     }
   }
 
+  Future<String> adduserlog(log_status, log_userid, log_date) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "ADD_USER_LOGS";
+      map["log_status"] = log_status;
+      map["log_userid"] = log_userid;
+      map["log_date"] = log_date; // rideremail // status
+      // orderid
+      final response = await http.post(url, body: map);
+      print("adduserlog >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
   Future<String> editproducttype(where1, where2) async {
     try {
       var map = <String, dynamic>{};

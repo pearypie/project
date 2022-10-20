@@ -19,6 +19,7 @@ import 'package:project_bekery/model/export_product_detail.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/user_myorderdetail.dart';
 import 'package:project_bekery/widgets/userAppbar.dart';
+import 'package:http/http.dart' as http;
 
 enum Menu { itemOne, itemTwo, itemThree }
 
@@ -145,6 +146,19 @@ class _user_orderState extends State<user_order> {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return user_order_detail_cancel(
+                                user_order![index].order_id.toString(),
+                                user_order![index].total_price.toString(),
+                                user_order![index]
+                                    .order_responsible_person
+                                    .toString(),
+                                user_order![index].date.toString(),
+                              );
+                            }));
+                          } else if (user_order![index].order_status ==
+                              'รอการยืนยันการเเพ็คของ') {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return user_order_detail_waitcancel(
                                 user_order![index].order_id.toString(),
                                 user_order![index].total_price.toString(),
                                 user_order![index]
@@ -351,6 +365,7 @@ class user_order_detail_cancel extends StatefulWidget {
 
 class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
   List<Export_product_detail>? _Import_product;
+  int? datalength;
   @override
   void initState() {
     super.initState();
@@ -365,10 +380,30 @@ class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
         .then((Import_detail) {
       setState(() {
         _Import_product = Import_detail;
+        datalength = Import_detail.length;
       });
 
       print('จำนวข้อมูล : ${Import_detail.length}');
     });
+  }
+
+  _updateImport(product_name, import_product) async {
+    print('UPDATE ACTIVATION');
+    print('ชื่อสินค้า : ${product_name}');
+    print('จำนวนการคืน : ${import_product}');
+    try {
+      var url = Uri.parse('https://projectart434.000webhostapp.com/');
+      print('funtion working....');
+      var map = <String, dynamic>{};
+      map["action"] = "ADD_PRODUCT";
+      map['sql'] =
+          "UPDATE product SET  product_quantity = product_quantity + ${import_product} WHERE product_name = '${product_name}'";
+      final response = await http.post(url, body: map);
+      print("AddProduct >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
   }
 
   @override
@@ -385,6 +420,12 @@ class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
                 backgroundColor: Colors.redAccent,
                 heroTag: '1',
                 onPressed: () {
+                  for (var i = 0; i < datalength!; i++) {
+                    _updateImport(
+                      _Import_product![i].product_name.toString(),
+                      int.parse(_Import_product![i].product_amount.toString()),
+                    );
+                  }
                   Art_Services()
                       .cancel_order(widget.import_order_id)
                       .then((value) => {
@@ -561,7 +602,8 @@ class user_order_detaill_waitcancelState
                 heroTag: '1',
                 onPressed: () {
                   Art_Services()
-                      .waitcancel_order(widget.import_order_id, 'ยกเลิกโดยuser')
+                      .waitcancel_order(
+                          widget.import_order_id, 'รอการยืนยันจาก Admin')
                       .then((value) => {
                             Fluttertoast.showToast(
                                 msg: "ขอยกเลิกการสั่งเรียบร้อย",

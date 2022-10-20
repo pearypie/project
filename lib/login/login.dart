@@ -44,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Container(
-               
                 width: 500,
                 height: 325,
                 child: SizedBox(
@@ -105,7 +104,10 @@ class _LoginPageState extends State<LoginPage> {
                               maxLines: 1,
                               obscureText: true,
                               decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.lock,color: Colors.blue,),
+                                prefixIcon: const Icon(
+                                  Icons.lock,
+                                  color: Colors.blue,
+                                ),
                                 hintText: 'โปรดใส่พาสเวิร์ด',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -115,7 +117,9 @@ class _LoginPageState extends State<LoginPage> {
                                 customer.password = password!;
                               },
                             ),
-                            SizedBox(height: 20,),
+                            SizedBox(
+                              height: 20,
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Row(
@@ -199,7 +203,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Container(
                               width: 340,
                               height: 50,
@@ -218,11 +224,18 @@ class _LoginPageState extends State<LoginPage> {
                                                 if (value.isNotEmpty)
                                                   {
                                                     await SessionManager().set(
+                                                        "id", '${customer.id}'),
+                                                    await SessionManager().set(
                                                         "email",
                                                         '${customer.email}'),
-                                                    print(value[0].user_role),
-                                                    print(
-                                                        'Sesion : ${await SessionManager().get("email")}'),
+                                                    await Art_Services()
+                                                        .adduserlog(
+                                                            'ล็อคอิน',
+                                                            value[0]
+                                                                .user_id
+                                                                .toString(),
+                                                            DateTime.now()
+                                                                .toString()),
                                                     Navigator.push(context,
                                                         MaterialPageRoute(
                                                             builder: (context) {
@@ -336,12 +349,13 @@ class _LoginPageState extends State<LoginPage> {
       
                                   */
                                 },
-                                 style: OutlinedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-         borderRadius: BorderRadius.circular(30.0),
-      ),
-      side: BorderSide(width: 2, color: Colors.blue),
-   ),
+                                style: OutlinedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  side:
+                                      BorderSide(width: 2, color: Colors.blue),
+                                ),
                                 child: const Text(
                                   'เข้าสู่ระบบ',
                                   style: TextStyle(

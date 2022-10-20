@@ -20,7 +20,7 @@ class UserAppBar extends StatefulWidget {
 }
 
 class _UserAppBarState extends State<UserAppBar> {
-  String? user_email;
+  String? user_email, user_id;
   List<User>? user = [];
   void initState() {
     super.initState();
@@ -165,6 +165,22 @@ class _UserAppBarState extends State<UserAppBar> {
               Divider(),
               ListTile(
                 title: Text(
+                  'ประวัติการเข้าใช้งาน',
+                  style: TextStyle(color: Colors.black),
+                ),
+                leading: Icon(
+                  Icons.work_history_outlined,
+                  color: Colors.black,
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return user_changepassword();
+                  }));
+                },
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
                   'ออกจากระบบ',
                   style: TextStyle(color: Colors.black),
                 ),
@@ -185,7 +201,14 @@ class _UserAppBarState extends State<UserAppBar> {
                               child: const Text("ไม่"),
                             ),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                user_id =
+                                    await SessionManager().get("id").toString();
+                                print('----> ล็อคเอาท์');
+                                print('----> ${user_id}');
+                                print('----> ${DateTime.now().toString()}');
+                                await Art_Services().adduserlog('ล็อคเอาท์',
+                                    user_id, DateTime.now().toString());
                                 Navigator.of(context).pushAndRemoveUntil(
                                   CupertinoPageRoute(
                                       builder: (context) => LoginPage()),

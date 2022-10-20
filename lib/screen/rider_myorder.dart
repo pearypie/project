@@ -198,7 +198,6 @@ class _import_order_detailState extends State<user_order_detail> {
                           });
                 },
                 label: Text("ยืนยันการสั่งซื้อ"),
-                icon: Icon(Icons.near_me),
               ),
             ),
             SizedBox(
@@ -228,8 +227,7 @@ class _import_order_detailState extends State<user_order_detail> {
                             })),
                           });
                 },
-                label: Text("ยกเลิก"),
-                icon: Icon(Icons.near_me),
+                label: Text("ขอยกเลิกจากแอดมิน"),
               ),
             ),
           ],

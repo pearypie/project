@@ -66,7 +66,6 @@ class data_product_sqlState extends State<data_product_sql> {
         _filterproduct = product;
       });
       print("Length ${product.length}");
-      print(_product![0].import_price);
     });
   }
 
@@ -318,11 +317,15 @@ class _order_rice_sqlState extends State<order_rice_sql> {
                       ),
                     ),
                     Center(
-                      child: Image.network(
-                        widget.product_image,
+                      child: CachedNetworkImage(
                         width: 80,
                         height: 80,
-                        fit: BoxFit.fitWidth,
+                        imageUrl: widget.product_image,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                     Padding(
@@ -493,12 +496,12 @@ class _product_detail_sqlState extends State<product_detail_sql> {
         .then((promotion) {
       setState(() {
         _product_promotion = promotion;
-        promotionname = promotion[0].promotion_name;
       });
-
-      print('จำนวข้อมูล : ${promotion.length}');
-      print('ชื่อโปรโมชั้น : ${promotion[0].promotion_name}');
-      return promotion[0].promotion_name.toString();
+      if (promotion.isEmpty) {
+        promotionname = null;
+      } else {
+        promotionname = _product_promotion![0].promotion_name.toString();
+      }
     });
   }
 
@@ -518,10 +521,16 @@ class _product_detail_sqlState extends State<product_detail_sql> {
                 child: Container(
                   width: double.maxFinite,
                   height: height / 2.4,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(widget.product_image))),
+                  child: CachedNetworkImage(
+                    width: 80,
+                    height: 80,
+                    imageUrl: widget.product_image,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 )),
             Positioned(
                 top: height / 18.76,
@@ -638,14 +647,18 @@ class _Import_quantityState extends State<Import_quantity> {
             DateFormat('yyyy-MM-d').format(DateTime.now()).toString())
         .then((promotion) {
       setState(() {
-        _product_promotion = promotion;
-        promotionname = promotion[0].promotion_name;
-        promotionvalue = int.parse(promotion[0].promotion_value.toString());
+        if (promotion.isEmpty) {
+          _product_promotion = promotion;
+          promotionname = null;
+          promotionvalue = 0;
+        } else {
+          _product_promotion = promotion;
+          promotionname = promotion[0].promotion_name;
+          promotionvalue = int.parse(promotion[0].promotion_value.toString());
+        }
       });
-
-      print('จำนวข้อมูล : ${promotion.length}');
-      print('ชื่อโปรโมชั้น : ${promotion[0].promotion_name}');
-      return promotion[0].promotion_name.toString();
+      print('----------> ${promotionname}');
+      return promotionname.toString();
     });
   }
 

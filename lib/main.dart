@@ -13,14 +13,14 @@ import 'login/login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // Replace with actual values
-    options: const FirebaseOptions(
+      // Replace with actual values
+      /*options: const FirebaseOptions(
       apiKey: "AIzaSyAj4GhdAQFlNLhNLv5DpvR6vCDUiaxFBWM",
       appId: "1:139664672802:web:1f61439e6d98a839d1a27b",
       messagingSenderId: "139664672802",
       projectId: "bakery203",
-    ),
-  );
+    ),*/
+      );
   runApp(const MyApp());
 }
 

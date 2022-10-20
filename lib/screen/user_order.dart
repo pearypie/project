@@ -10,6 +10,8 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
 import 'package:project_bekery/login/login.dart';
 import 'package:project_bekery/model/product_model.dart';
+import 'package:project_bekery/model/producttype.dart';
+import 'package:project_bekery/model/promotion_model.dart';
 import 'package:project_bekery/model/user_basket.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/mysql/user.dart';
@@ -29,14 +31,17 @@ class Orderpage extends StatefulWidget {
 
 class _OrderpageState extends State<Orderpage> {
   List<User_Basket>? userbasket;
-  int? length;
+  List<Producttype>? producttype;
+  int? length, producttypelenght;
   int totalprice = 0;
   @override
   void initState() {
     length ??= 0;
     super.initState();
     userbasket = [];
+    producttype = [];
     _getBasket();
+    _getallproducttype();
   }
 
   _getBasket() async {
@@ -48,6 +53,15 @@ class _OrderpageState extends State<Orderpage> {
         length = basket.length;
       });
       print("Length ${basket.length}");
+    });
+  }
+
+  _getallproducttype() {
+    Art_Services().getall_producttype().then((value) {
+      setState(() {
+        producttype = value;
+        producttypelenght = value.length;
+      });
     });
   }
 
@@ -127,12 +141,6 @@ class _OrderpageState extends State<Orderpage> {
                       scrollDirection: Axis.horizontal,
                     )),
                 /*Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("ข้าวสาร"), Text("ทั้งหมด")],
-                  ),
-                ),*/
-                Container(
                   height: 50.0,
                   child: ListView(
                     children: [
@@ -194,7 +202,60 @@ class _OrderpageState extends State<Orderpage> {
                       ),
                     ],
                   ),
+                ),*/
+
+                Container(
+                  height: 55.0,
+                  child: ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount:
+                          producttype != null ? (producttype?.length ?? 0) : 0,
+                      itemBuilder: (_, index) => Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: producttype![index].product_type_id == '0'
+                                  ? Container()
+                                  : ElevatedButton(
+                                      style: ButtonStyle(
+                                        shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        30.0))),
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.greenAccent),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return data_product_sql_more(
+                                              producttype![index]
+                                                  .product_type_id
+                                                  .toString());
+                                        }));
+                                      },
+                                      child: Text(producttype![index]
+                                          .product_type_name
+                                          .toString()),
+                                    ),
+                            ),
+                          )),
                 ),
+                /*
+                Container(
+                  height: 230,
+                  child: ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount:
+                          producttype != null ? (producttype?.length ?? 0) : 0,
+                      itemBuilder: ((_, index) => data_product_sql('1'))),
+                ),*/
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   height: 225.0,
