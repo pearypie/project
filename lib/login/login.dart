@@ -15,6 +15,7 @@ import 'package:project_bekery/screen/user_order.dart';
 import 'package:project_bekery/screen/user_welcome.dart';
 import 'package:project_bekery/screen/admin_orderlist.dart';
 import 'package:project_bekery/widgets/adminAppbar.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -212,6 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: OutlinedButton(
                                 onPressed: () {
                                   if (fromKey.currentState!.validate()) {
+                                    Utils(context).startLoading();
                                     fromKey.currentState!.save();
                                     if (UserSelected == true) {
                                       print('เข้าใช้ในถานะUser');
@@ -244,6 +246,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   }
                                                 else
                                                   {
+                                                    Utils(context)
+                                                        .stopLoading(),
                                                     Fluttertoast.showToast(
                                                         msg:
                                                             "ไม่มีข้อมูลผู้ใช้ในระบบของUser",
@@ -298,6 +302,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   }
                                                 else
                                                   {
+                                                    Utils(context)
+                                                        .stopLoading(),
                                                     Fluttertoast.showToast(
                                                         msg:
                                                             "ไม่มีข้อมูลผู้ใช้ในระบบของStaff",

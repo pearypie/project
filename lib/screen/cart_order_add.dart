@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:project_bekery/model/user_basket.dart';
 import 'package:project_bekery/mysql/user.dart';
 import 'package:project_bekery/screen/user_order.dart';
 import 'package:project_bekery/screen/user_welcome.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 import 'package:uuid/uuid.dart';
 import 'package:project_bekery/mysql/service.dart';
 
@@ -60,6 +62,7 @@ class _cart_order_addState extends State<cart_order_add> {
   }
 
   _getImportorder(length) {
+    Utils(context).startLoading();
     int Import_totalprice = 0;
     var Import_order_id = Uuid().v1();
     print('length data for loop === ${length}');
@@ -169,11 +172,6 @@ class _cart_order_addState extends State<cart_order_add> {
                           content: Text('ยืนยันการสั่งซื้อใช้ไหม?'),
                           actions: <Widget>[
                             ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.orangeAccent),
-                              ),
                               onPressed: () => Navigator.of(context).pop(),
                               child: const Text(
                                 "ไม่",
@@ -181,11 +179,6 @@ class _cart_order_addState extends State<cart_order_add> {
                               ),
                             ),
                             ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.orangeAccent),
-                              ),
                               onPressed: () {
                                 _getImportorder(length);
                                 Navigator.push(context,
@@ -260,12 +253,24 @@ class _cart_order_addState extends State<cart_order_add> {
                       child: ListTile(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
-                        leading: Image(
+                        leading: CachedNetworkImage(
+                          width: 50,
+                          height: 50,
+                          imageUrl: userbasket![index].product_image.toString(),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+
+                        /*Image(
                           image: NetworkImage(
                               userbasket![index].product_image.toString()),
                           width: 50,
                           height: 50,
-                        ),
+                        ),*/
                         title: Text(userbasket![index].product_name.toString()),
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -296,6 +301,7 @@ class _cart_order_addState extends State<cart_order_add> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
+                                            Utils(context).startLoading();
                                             Art_Services()
                                                 .deleteonlybasket(
                                                     userbasket![index]
@@ -319,7 +325,13 @@ class _cart_order_addState extends State<cart_order_add> {
                                                               Colors.white,
                                                           fontSize: 16.0),
                                                       _getBasket(),
-                                                      Navigator.pop(context),
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) {
+                                                        return cart_order_add(
+                                                            widget.email);
+                                                      }))
                                                     });
                                           },
                                           child: const Text("ใช่",

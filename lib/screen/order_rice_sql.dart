@@ -13,6 +13,7 @@ import 'package:project_bekery/widgets/app_icon.dart';
 import 'package:project_bekery/widgets/big_text.dart';
 import 'package:project_bekery/widgets/colors.dart';
 import 'package:project_bekery/widgets/exandable_text_widget.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 import 'dart:async';
 
 import '../login/profire_model/customer_model.dart';
@@ -711,12 +712,13 @@ class _Import_quantityState extends State<Import_quantity> {
         ),
         InkWell(
           onTap: () async {
+            Utils(context).startLoading();
             print('promotionของครั้งนี้ : ${promotionname}');
             print('valuepromotionของครั้งนี้ : ${promotionvalue}');
-
             String email = await SessionManager().get("email");
             Art_Services().checkuserbasket(widget.product_id).then((value) {
               if (value.isNotEmpty) {
+                Utils(context).stopLoading();
                 Fluttertoast.showToast(
                     msg: "มีสิ้นค้าในตระกร้าแล้ว",
                     toastLength: Toast.LENGTH_SHORT,
