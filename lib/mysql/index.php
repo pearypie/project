@@ -36,7 +36,7 @@
         $user_latitude = $_POST['user_latitude'];
         $user_longitude = $_POST['user_longitude'];
 
-        $sql = "INSERT INTO user_maps(user_email, user_maps_name, user_maps_detail, user_latitude, user_longitude) VALUES ('$user_email','$user_maps_name','$user_maps_detail','$user_latitude','$user_longitude')";
+        $sql = "INSERT INTO user_maps(user_email, user_maps_name, user_maps_detail, user_latitude, user_longitude, usermap_status) VALUES ('$user_email','$user_maps_name','$user_maps_detail','$user_latitude','$user_longitude','ยังไม่ถูกใช้งาน')";
         $result = $conn->query($sql);
         echo "success";
         $conn->close();
@@ -113,8 +113,61 @@
         $conn->close();
         return;
     }
+    
+
+    if("GET_USER_LOCATION" == $action){
+        $db_data = array();
+        $sql = "SELECT * FROM user_maps WHERE user_email = '$where' AND usermap_status = 'ใช้งานอยู่'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
 
     if("GET_ONLY_USER" == $action){
+        $db_data = array();
+        $sql = "SELECT * from $table where user_email = '$where'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if("GET_ONLY_USER_MAP" == $action){
+        $db_data = array();
+        $sql = "SELECT * from $table where user_email = '$where'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+    
+
+    if("GET_ONLY_USER_MAP" == $action){
         $db_data = array();
         $sql = "SELECT * from $table where user_email = '$where'";
         $result = $conn->query($sql);
@@ -147,6 +200,26 @@
         $conn->close();
         return;
     }
+
+    
+
+    if("GET_ALL_RIDER" == $action){
+        $db_data = array();
+        $sql = "SELECT * from rider WHERE rider_role = 'rider'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
 
 
     if("GET_ALL_PRODUCT" == $action){
@@ -467,7 +540,7 @@
     if("GET_ORDER_ONLY_DETAIL" == $action){
         $db_data = array();
         $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date,SUM(user_order_detail.product_amount),user_order_detail.product_promotion_name,user_order_detail.product_promotion_value,
-        CAST((user_basket_quantity * user_basket_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100) AS int) AS totalprice,SUM((user_basket_quantity * user_basket_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100)) AS alltotalprice
+        CAST((user_order_detail.product_amount * user_order_detail.product_per_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100) AS int) AS totalprice,SUM((user_order_detail.product_amount * user_order_detail.product_per_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100)) AS alltotalprice
         FROM user_order
         INNER JOIN user_order_detail 
         ON user_order.order_id = user_order_detail.order_id
@@ -645,6 +718,45 @@
         $user_maps_name = $_POST['user_maps_name'];
         $user_maps_detail = $_POST['user_maps_detail'];
         $sql = "UPDATE user_maps SET user_maps_name ='$user_maps_name',user_maps_detail ='$user_maps_detail' WHERE user_maps_id = '$where'";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if('UPDATE_STATUS_USERMAP' == $action){
+        $where = $_POST['where'];
+        $usermap_status = $_POST['usermap_status'];
+        $sql = "UPDATE user_maps SET usermap_status ='$usermap_status' WHERE user_maps_id = '$where'";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if('UPDATE_STATUS_USERMAP' == $action){
+        $where = $_POST['where'];
+        $usermap_status = $_POST['usermap_status'];
+        $sql = "UPDATE user_maps SET usermap_status ='$usermap_status' WHERE user_maps_id = '$where'";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if('UPDATE_STATUS_USERMAPALL' == $action){
+        $where = $_POST['where'];
+        $usermap_status = $_POST['usermap_status'];
+        $sql = "UPDATE user_maps SET usermap_status ='$usermap_status' WHERE user_email = '$where'";
         if($conn->query($sql) === TRUE){
             echo "success";
         }else{

@@ -95,12 +95,14 @@ class _user_mymapspageState extends State<user_mymapspage> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () async {
+                                      Utils(context).startLoading();
                                       String user_email =
                                           await SessionManager().get("email");
-                                      Art_Services().update_map_user(
-                                          user_mymaps![index].user_latitude,
-                                          user_mymaps![index].user_longitude,
-                                          user_email);
+                                      await Art_Services()
+                                          .updatestatususermapall(user_email);
+                                      await Art_Services().updatestatususermap(
+                                          user_mymaps![index].user_maps_id,
+                                          'ใช้งานอยู่');
                                       Fluttertoast.showToast(
                                           msg: "เปลี่ยนตำแหน่งเรียบร้อย",
                                           toastLength: Toast.LENGTH_SHORT,
@@ -110,7 +112,10 @@ class _user_mymapspageState extends State<user_mymapspage> {
                                               Color.fromARGB(255, 60, 255, 0),
                                           textColor: Colors.white,
                                           fontSize: 16.0);
-                                      Navigator.of(context).pop();
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return user_mymapspage();
+                                      }));
                                     },
                                     child: const Text("ใช่"),
                                   ),

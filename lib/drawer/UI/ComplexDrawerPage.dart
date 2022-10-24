@@ -174,6 +174,17 @@ class _ComplexDrawerState extends State<ComplexDrawer> {
                           color: Color(0xFF5e548e),
                           child: ListTile(
                             leading: Icon(Icons.add, color: Colors.white),
+                            onTap: () {},
+                            title: Text(
+                              'เพิ่มแหล่งที่มาของสินค้า',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: Color(0xFF5e548e),
+                          child: ListTile(
+                            leading: Icon(Icons.add, color: Colors.white),
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {

@@ -35,11 +35,13 @@ class _user_profileState extends State<user_profile> {
 
   _getuserdata() async {
     user_email = await SessionManager().get("email");
-    Art_Services().getonlyUser(user_email.toString()).then((datauser) => {
+    await Art_Services().getonlyUser(user_email.toString()).then((datauser) => {
           setState(() {
             user = datauser;
           }),
         });
+    print('user-lat ==> ${user![0].user_latitude}');
+    print('user-long ==> ${user![0].user_longitude}');
   }
 
   bool _isObscure = true;

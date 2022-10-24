@@ -20,6 +20,7 @@ import 'package:path/path.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:project_bekery/widgets/adminAppbar.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 
 class admin_allproduct extends StatefulWidget {
   const admin_allproduct({Key? key}) : super(key: key);
@@ -254,14 +255,14 @@ class admin_productdetail extends StatefulWidget {
 _UpdateProduct(product_id, product_name, product_detail, product_img,
     product_price, product_quantity, promotion) async {
   try {
-    var url = Uri.parse('http://119.59.97.4/~web5/user_actions.php');
+    var url = Uri.parse('https://projectart434.000webhostapp.com/');
     print('funtion working....');
     var map = <String, dynamic>{};
     map["action"] = "ADD_PRODUCT";
     map['sql'] =
-        "UPDATE product SET product_name='${product_name}',product_detail='${product_detail}',product_image='${product_img}',product_price='${product_price}',product_quantity='${product_quantity}',product_promotion='${promotion}' WHERE product_id = '${product_id}'";
+        "UPDATE product SET product_name='${product_name}',product_detail='${product_detail}',product_image='${product_img}',product_price='${product_price}',product_quantity='${product_quantity}' WHERE product_id = '${product_id}'";
     final response = await http.post(url, body: map);
-    print("AddProduct >> Response:: ${response.body}");
+    print("UpdateProduct >> Response:: ${response.body}");
     return response.body;
   } catch (e) {
     return 'error';
@@ -270,7 +271,7 @@ _UpdateProduct(product_id, product_name, product_detail, product_img,
 
 _DeleteProduct(product_id) async {
   try {
-    var url = Uri.parse('http://119.59.97.4/~web5/user_actions.php');
+    var url = Uri.parse('https://projectart434.000webhostapp.com/');
     print('funtion working....');
     var map = <String, dynamic>{};
     map["action"] = "ADD_PRODUCT";
@@ -409,61 +410,85 @@ class _admin_productdetailState extends State<admin_productdetail> {
                           borderRadius: BorderRadius.circular(32.0)),
                       minimumSize: Size(100, 40), //////// HERE
                     ),
-                    child: Text('อัปโหลดข้อมูล'),
+                    child: Text('แก้ไขข้อมูล'),
                     onPressed: () async {
                       if (fromKey.currentState!.validate()) {
                         fromKey.currentState!.save();
-                        print('Product_id : ${widget.product_id}');
-                        print('Product_name : ${product_name}');
-                        print('Product_detail : ${product_detail}');
-                        print('Product_price : ${product_price}');
-                        print('Product_quantity : ${product_quantity}');
-                        print('Promotion : ${promotion}');
-                        print('Promotion : ${image}');
-
-                        if (image != null) {
-                          uploadimage().then((value) => {
-                                _UpdateProduct(
-                                    widget.product_id,
-                                    product_name,
-                                    product_detail,
-                                    product_img,
-                                    product_price,
-                                    product_quantity,
-                                    promotion),
-                                Fluttertoast.showToast(
-                                    msg: "อัพเดตสำเร็จ",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 13, 255, 0),
-                                    textColor: Colors.white,
-                                    fontSize: 16.0),
-                                Navigator.pop(context),
-                              });
-                        } else {
-                          _UpdateProduct(
-                              widget.product_id,
-                              product_name,
-                              product_detail,
-                              widget.product_image,
-                              product_price,
-                              product_quantity,
-                              promotion);
-                          Fluttertoast.showToast(
-                              msg: "อัพเดตสำเร็จ",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Color.fromARGB(255, 13, 255, 0),
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return admin_allproduct();
-                          }));
-                        }
+                        showDialog<bool>(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('แก้ไขข้อมูล'),
+                                content:
+                                    const Text('ต้องการที่จะแก้ไข้ข้อมูลไหม?'),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text("ไม่"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      if (fromKey.currentState!.validate()) {
+                                        fromKey.currentState!.save();
+                                        print(product_name);
+                                        Utils(context).startLoading();
+                                        if (image != null) {
+                                          await uploadimage();
+                                          await _UpdateProduct(
+                                              widget.product_id,
+                                              product_name,
+                                              product_detail,
+                                              product_img,
+                                              product_price,
+                                              product_quantity,
+                                              promotion);
+                                          Fluttertoast.showToast(
+                                              msg: "อัพเดตสำเร็จ",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 13, 255, 0),
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return admin_allproduct();
+                                          }));
+                                        } else {
+                                          Utils(context).startLoading();
+                                          await _UpdateProduct(
+                                              widget.product_id,
+                                              product_name,
+                                              product_detail,
+                                              widget.product_image,
+                                              product_price,
+                                              product_quantity,
+                                              promotion);
+                                          Fluttertoast.showToast(
+                                              msg: "อัพเดตสำเร็จ",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 13, 255, 0),
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return admin_allproduct();
+                                          }));
+                                        }
+                                      }
+                                    },
+                                    child: const Text("ใช่"),
+                                  ),
+                                ],
+                              );
+                            });
                       }
                     }),
               ),
@@ -489,7 +514,7 @@ class _admin_productdetailState extends State<admin_productdetail> {
                     ),
                     child: Text('ลบข้อมูลนี้'),
                     onPressed: () async {
-                      _DeleteProduct(widget.product_id);
+                      await _DeleteProduct(widget.product_id);
                       Fluttertoast.showToast(
                           msg: "ลบข้อมูลนี้สำเร็จ",
                           toastLength: Toast.LENGTH_SHORT,

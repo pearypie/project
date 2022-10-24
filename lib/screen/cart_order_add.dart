@@ -4,9 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:project_bekery/model/user_basket.dart';
+import 'package:project_bekery/model/user_maps.dart';
 import 'package:project_bekery/mysql/user.dart';
 import 'package:project_bekery/screen/user_order.dart';
 import 'package:project_bekery/screen/user_welcome.dart';
@@ -25,6 +27,7 @@ class cart_order_add extends StatefulWidget {
 class _cart_order_addState extends State<cart_order_add> {
   List<User>? _user;
   List<User_Basket>? userbasket;
+  List<User_mymaps>? usermap;
   late int length;
   int simpletotal = 0;
   int disconttotal = 0;
@@ -34,6 +37,7 @@ class _cart_order_addState extends State<cart_order_add> {
     userbasket = [];
     _getBasket();
     _getonlyuser();
+    _getlocationuser();
   }
 
   _getBasket() {
@@ -55,9 +59,6 @@ class _cart_order_addState extends State<cart_order_add> {
       setState(() {
         _user = user;
       });
-      print("Length ${user.length}");
-      print(_user![0].user_latitude);
-      print(_user![0].user_longitude);
     });
   }
 
@@ -98,8 +99,8 @@ class _cart_order_addState extends State<cart_order_add> {
     Art_Services().add_order(
         Import_order_id.toString(),
         widget.email.toString(),
-        _user![0].user_latitude.toString(),
-        _user![0].user_longitude.toString(),
+        usermap![0].user_latitude.toString(),
+        usermap![0].user_longitude.toString(),
         'ยังไม่มีคนรับผิดชอบ'.toString(),
         Import_totalprice.toString(),
         'รอการยืนยันจาก Admin',
@@ -143,6 +144,19 @@ class _cart_order_addState extends State<cart_order_add> {
     }
   }
 
+  _getlocationuser() async {
+    String user_email = await SessionManager().get("email");
+    await Art_Services().getlocation(user_email).then((value) {
+      setState(() {
+        if (value == null) {
+          usermap = null;
+        } else {
+          usermap = value;
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,8 +167,7 @@ class _cart_order_addState extends State<cart_order_add> {
             width: 250,
             child: FloatingActionButton.extended(
               onPressed: () {
-                if (_user![0].user_latitude == '0' ||
-                    _user![0].user_longitude == '0') {
+                if (usermap?.length == 0) {
                   Fluttertoast.showToast(
                       msg: "กรุณายืนยันตำแหน่งของคุณก่อน",
                       toastLength: Toast.LENGTH_SHORT,
@@ -180,11 +193,25 @@ class _cart_order_addState extends State<cart_order_add> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                _getImportorder(length);
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Orderpage();
-                                }));
+                                print('USERMAP ==> ${usermap!.length}');
+                                if (usermap?.length == 0) {
+                                  Navigator.pop(context);
+                                  Fluttertoast.showToast(
+                                      msg: "โปรดยืนยันตำแหน่งก่อน",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 0, 0),
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else {
+                                  _getImportorder(length);
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return Orderpage();
+                                  }));
+                                }
                               },
                               child: const Text("ใช่",
                                   style: TextStyle(color: Colors.black)),

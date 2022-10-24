@@ -5,6 +5,7 @@ class User_mymaps {
   String? user_maps_detail;
   String? user_latitude;
   String? user_longitude;
+  String? usermap_status;
 
   User_mymaps({
     required this.user_maps_id,
@@ -13,6 +14,7 @@ class User_mymaps {
     required this.user_maps_detail,
     required this.user_latitude,
     required this.user_longitude,
+    required this.usermap_status,
   });
 
   factory User_mymaps.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class User_mymaps {
       user_maps_detail: json['user_maps_detail'],
       user_latitude: json['user_latitude'],
       user_longitude: json['user_longitude'],
+      usermap_status: json['usermap_status'],
     );
   }
 
@@ -33,5 +36,6 @@ class User_mymaps {
         'user_maps_detail': user_maps_detail,
         'user_latitude': user_latitude,
         'user_longitude': user_longitude,
+        'usermap_status': usermap_status,
       };
 }
