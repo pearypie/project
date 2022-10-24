@@ -6,11 +6,13 @@ import 'package:project_bekery/login/login.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/mysql/user.dart';
 import 'package:project_bekery/screen/user_changepassword.dart';
+import 'package:project_bekery/screen/user_logstatus.dart';
 import 'package:project_bekery/screen/user_map.dart';
 import 'package:project_bekery/screen/user_mymaps.dart';
 import 'package:project_bekery/screen/user_myorder.dart';
 import 'package:project_bekery/screen/user_order.dart';
 import 'package:project_bekery/screen/user_profire.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 
 class UserAppBar extends StatefulWidget {
   const UserAppBar({Key? key}) : super(key: key);
@@ -174,7 +176,7 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return user_changepassword();
+                    return user_logstatus();
                   }));
                 },
               ),
@@ -202,13 +204,11 @@ class _UserAppBarState extends State<UserAppBar> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                user_id =
-                                    await SessionManager().get("id").toString();
-                                print('----> ล็อคเอาท์');
-                                print('----> ${user_id}');
-                                print('----> ${DateTime.now().toString()}');
-                                await Art_Services().adduserlog('ล็อคเอาท์',
-                                    user_id, DateTime.now().toString());
+                                Utils(context).startLoading();
+                                await Art_Services().adduserlog(
+                                    'ล็อคเอาท์',
+                                    user?[0].user_id,
+                                    DateTime.now().toString());
                                 Navigator.of(context).pushAndRemoveUntil(
                                   CupertinoPageRoute(
                                       builder: (context) => LoginPage()),

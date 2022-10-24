@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:project_bekery/model/user_maps.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/user_map.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 import 'package:project_bekery/widgets/userAppbar.dart';
 
 class user_mymapspage extends StatefulWidget {
@@ -240,6 +241,7 @@ class _user_mymapspageState extends State<user_mymapspage> {
                                               onPressed: () async {
                                                 if (fromKey.currentState!
                                                     .validate()) {
+                                                  Utils(context).startLoading();
                                                   fromKey.currentState!.save();
                                                   print(user_maps_name);
                                                   print(user_maps_detail);

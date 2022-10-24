@@ -18,6 +18,7 @@ import 'package:project_bekery/model/export_product.dart';
 import 'package:project_bekery/model/export_product_detail.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/user_myorderdetail.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 import 'package:project_bekery/widgets/userAppbar.dart';
 import 'package:http/http.dart' as http;
 
@@ -317,8 +318,10 @@ class user_order_detail_onlyseeState extends State<user_order_detail_onlysee> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('โปรโมชั่น : '),
-                                      Text('ราคารวม : '),
+                                      Text(
+                                          '${_Import_product![index].product_promotion_name}'),
+                                      Text(
+                                          'ราคารวม : ${_Import_product![index].totalprice}'),
                                     ],
                                   ),
                                   SizedBox(height: 5),
@@ -409,42 +412,6 @@ class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 250,
-              child: FloatingActionButton.extended(
-                icon: Icon(Icons.cancel),
-                backgroundColor: Colors.redAccent,
-                heroTag: '1',
-                onPressed: () {
-                  for (var i = 0; i < datalength!; i++) {
-                    _updateImport(
-                      _Import_product![i].product_name.toString(),
-                      int.parse(_Import_product![i].product_amount.toString()),
-                    );
-                  }
-                  Art_Services()
-                      .cancel_order(widget.import_order_id)
-                      .then((value) => {
-                            Fluttertoast.showToast(
-                                msg: "ยกเลิกการสั่งเรียบร้อย",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Color.fromARGB(255, 255, 0, 0),
-                                textColor: Colors.white,
-                                fontSize: 16.0),
-                            Navigator.pop(context),
-                          });
-                },
-                label: Text('ยกเลิกการสั่งสินค้า'),
-              ),
-            ),
-          ],
-        ),
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
@@ -480,21 +447,18 @@ class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
                   ),
                   child: Column(children: [
                     Container(
-                      height: 600,
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            Text('${widget.import_order_id}'),
-                            SizedBox(height: 20),
                             Text('สั่งในวันที่ : ${widget.orderdate}'),
                             SizedBox(height: 20),
                             Text(
                                 'รับผิดชอบโดย :${widget.order_responsible_person}'),
                             SizedBox(height: 20),
                             ListView.builder(
-                              scrollDirection: Axis.vertical,
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: _Import_product != null
                                   ? (_Import_product?.length ?? 0)
@@ -523,17 +487,110 @@ class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
                                       ],
                                     ),
                                     SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            '${_Import_product![index].product_promotion_name}'),
+                                        Text(
+                                            'ราคารวม : ${_Import_product![index].totalprice}'),
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    Divider(color: Colors.black)
                                   ],
                                 ),
                               ),
                             ),
-                            SizedBox(height: 30),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
                                     'ราคารวม : ${widget.Import_product_pricetotal}'),
                               ],
+                            ),
+                            SizedBox(height: 5),
+                            Divider(color: Colors.black),
+                            SizedBox(height: 5),
+                            SizedBox(
+                              width: 250,
+                              child: FloatingActionButton.extended(
+                                icon: Icon(Icons.cancel),
+                                backgroundColor: Colors.redAccent,
+                                heroTag: '1',
+                                onPressed: () {
+                                  showDialog<bool>(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text('ยกเลิกการซื้อสินค้า'),
+                                          content: const Text(
+                                              'ต้องการยกเลิกรายการนี้ใช้ไหม?'),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                              child: const Text("ไม่"),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                Utils(context).startLoading();
+                                                for (var i = 0;
+                                                    i < datalength!;
+                                                    i++) {
+                                                  _updateImport(
+                                                    _Import_product![i]
+                                                        .product_name
+                                                        .toString(),
+                                                    int.parse(
+                                                        _Import_product![i]
+                                                            .product_amount
+                                                            .toString()),
+                                                  );
+                                                }
+                                                Art_Services()
+                                                    .cancel_order(
+                                                        widget.import_order_id)
+                                                    .then((value) => {
+                                                          Fluttertoast.showToast(
+                                                              msg:
+                                                                  "ยกเลิกการสั่งเรียบร้อย",
+                                                              toastLength: Toast
+                                                                  .LENGTH_SHORT,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .BOTTOM,
+                                                              timeInSecForIosWeb:
+                                                                  1,
+                                                              backgroundColor:
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          0,
+                                                                          0),
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0),
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                            return user_order();
+                                                          }))
+                                                        });
+                                              },
+                                              child: const Text("ใช่"),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                                label: Text('ยกเลิกการสั่งสินค้า'),
+                              ),
                             ),
                           ],
                         ),
@@ -648,78 +705,74 @@ class user_order_detaill_waitcancelState
             width: double.infinity,
             height: double.infinity,
             color: Colors.white,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                    child: Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(children: [
-                    Container(
-                      height: 600,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text('${widget.import_order_id}'),
-                            SizedBox(height: 20),
-                            Text('สั่งในวันที่ : ${widget.orderdate}'),
-                            SizedBox(height: 20),
-                            Text(
-                                'รับผิดชอบโดย :${widget.order_responsible_person}'),
-                            SizedBox(height: 20),
-                            ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: _Import_product != null
-                                  ? (_Import_product?.length ?? 0)
-                                  : 0,
-                              itemBuilder: (_, index) => Container(
-                                margin: EdgeInsets.all(5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                            'ชื่อสินค้า : ${_Import_product![index].product_name}'),
-                                        Text(
-                                            'จำนวน : ${_Import_product![index].product_amount}'),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                            'ราคาต่อชิ้น : ${_Import_product![index].product_price}'),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Card(
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(children: [
+                  Container(
+                    height: double.infinity,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text('${widget.import_order_id}'),
+                          SizedBox(height: 20),
+                          Text('สั่งในวันที่ : ${widget.orderdate}'),
+                          SizedBox(height: 20),
+                          Text(
+                              'รับผิดชอบโดย :${widget.order_responsible_person}'),
+                          SizedBox(height: 20),
+                          ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: _Import_product != null
+                                ? (_Import_product?.length ?? 0)
+                                : 0,
+                            itemBuilder: (_, index) => Container(
+                              margin: EdgeInsets.all(5),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          'ชื่อสินค้า : ${_Import_product![index].product_name}'),
+                                      Text(
+                                          'จำนวน : ${_Import_product![index].product_amount}'),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                          'ราคาต่อชิ้น : ${_Import_product![index].product_price}'),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
                               ),
                             ),
-                            SizedBox(height: 30),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                    'ราคารวม : ${widget.Import_product_pricetotal}'),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                  'ราคารวม : ${widget.Import_product_pricetotal}'),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ]),
-                )),
+                  ),
+                ]),
               ),
             )));
   }

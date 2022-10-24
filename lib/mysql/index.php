@@ -241,7 +241,9 @@
 
     if("GET_USER_PRODUCTDETAI" == $action){
         $db_data = array();
-        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price FROM user_order 
+        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order_detail.product_promotion_name,user_order_detail.product_promotion_value,
+        CAST((user_order_detail.product_amount * product.product_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100) AS int) AS totalprice
+        FROM user_order 
         INNER JOIN user_order_detail 
         ON user_order.order_id = user_order_detail.order_id
         INNER JOIN product
@@ -253,6 +255,22 @@
                 $db_data[] = $row;
             }
 
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if("GET_USER_LOG" == $action){
+        $db_data = array();
+        $sql = "SELECT * FROM `logstatus` WHERE log_userid = '$where'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
             echo json_encode($db_data);
         }else{
             echo "error";
@@ -448,7 +466,9 @@
     }
     if("GET_ORDER_ONLY_DETAIL" == $action){
         $db_data = array();
-        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date,SUM(user_order_detail.product_amount) FROM user_order
+        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date,SUM(user_order_detail.product_amount),user_order_detail.product_promotion_name,user_order_detail.product_promotion_value,
+        CAST((user_basket_quantity * user_basket_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100) AS int) AS totalprice,SUM((user_basket_quantity * user_basket_price) - ((user_order_detail.product_amount * product.product_price) * user_order_detail.product_promotion_value / 100)) AS alltotalprice
+        FROM user_order
         INNER JOIN user_order_detail 
         ON user_order.order_id = user_order_detail.order_id
         INNER JOIN product 

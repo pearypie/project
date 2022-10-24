@@ -10,6 +10,7 @@ import 'package:project_bekery/model/product_promotion.dart';
 import 'package:project_bekery/model/producttype.dart';
 import 'package:project_bekery/model/promotion_model.dart';
 import 'package:project_bekery/model/user_basket.dart';
+import 'package:project_bekery/model/userlog.dart';
 import 'package:project_bekery/mysql/rider.dart';
 import '../model/source_model.dart';
 import '../model/user_maps.dart';
@@ -641,6 +642,32 @@ class Art_Services {
         .map<Export_product_detail>(
             (json) => Export_product_detail.fromJson(json))
         .toList();
+  }
+
+  Future<List<Logstatus>> getuserlog(String where) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "GET_USER_LOG";
+      map["where"] = where;
+      final response = await http.post(url, body: map);
+      print("getuserlog >> Response:: ${response.body}");
+      if (response.statusCode == 200) {
+        List<Logstatus> list = parseResponseuseruserlog(response.body);
+        print("---------------------------------------------");
+        return list;
+      } else {
+        print("statusCode >> Response:: ${response.statusCode}");
+        throw <Logstatus>[];
+      }
+    } catch (e) {
+      print(e);
+      return <Logstatus>[];
+    }
+  }
+
+  static List<Logstatus> parseResponseuseruserlog(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Logstatus>((json) => Logstatus.fromJson(json)).toList();
   }
 
   Future<List<Export_product>> gatallExport_product(where) async {

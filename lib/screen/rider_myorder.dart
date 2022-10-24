@@ -21,6 +21,7 @@ import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/rider_myorderdetail.dart';
 import 'package:project_bekery/screen/rider_orderdetail.dart';
 import 'package:project_bekery/screen/rider_target_map.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 import 'package:project_bekery/widgets/riderAppbar.dart';
 
 class rider_myorder extends StatefulWidget {
@@ -181,12 +182,16 @@ class _import_order_detailState extends State<user_order_detail> {
                 backgroundColor: Colors.green,
                 heroTag: '1',
                 onPressed: () async {
+                  Utils(context).startLoading();
                   String email = await SessionManager().get("email");
                   Art_Services()
                       .rider_update_order(email.toString(), 'ส่งเรียบร้อย',
                           widget.import_order_id.toString())
                       .then((value) => {
-                            Navigator.pop(context),
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return rider_myorder();
+                            })),
                             Fluttertoast.showToast(
                                 msg: "ยืนยันการส่งเรียบร้อย",
                                 toastLength: Toast.LENGTH_SHORT,
@@ -209,6 +214,7 @@ class _import_order_detailState extends State<user_order_detail> {
                 backgroundColor: Colors.red,
                 heroTag: '2',
                 onPressed: () {
+                  Utils(context).startLoading();
                   Art_Services()
                       .waitcancel_order(
                           widget.import_order_id, 'ยกเลิกโดยrider')
