@@ -275,6 +275,26 @@
     }
 
     if("GET_ONLY_SOURCE" == $action){
+        $sourcename = $_POST["sourcename"];
+        $sourceaddress = $_POST["sourceaddress"];
+        $sourcephone = $_POST["sourcephone"];
+        $db_data = array();
+        $sql = "SELECT * FROM `source` WHERE source_name = '$sourcename' OR source_number = '$sourcephone' OR source_address = '$sourceaddress'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if("GET_ONLY_SOURCE" == $action){
         $db_data = array();
         $sql = "SELECT * from source WHERE source_id = '$where'";
         $result = $conn->query($sql);
@@ -627,6 +647,22 @@
 
     }
 
+
+    if("ADD_RIDER" == $action){
+        $user_name = $_POST['user_name'];
+        $user_surname = $_POST['user_surname'];
+        $user_phone = $_POST['user_phone'];
+        $user_email = $_POST['user_email'];
+        $user_password = $_POST['user_password'];
+        $user_role = "rider";
+        $sql = "INSERT INTO rider(rider_name, rider_surname, rider_phone, rider_email, rider_password, rider_latitude, rider_longtitude, rider_role) VALUES ('$user_name','$user_surname','$user_phone','$user_email','$user_password','0','0','$user_role')";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+
+    }
+
     if("UPDATE_EMP" == $action){
         $user_id = $_POST['user_id'];
         $user_name = $_POST['user_name'];
@@ -736,6 +772,21 @@
         $user_maps_name = $_POST['user_maps_name'];
         $user_maps_detail = $_POST['user_maps_detail'];
         $sql = "UPDATE user_maps SET user_maps_name ='$user_maps_name',user_maps_detail ='$user_maps_detail' WHERE user_maps_id = '$where'";
+        if($conn->query($sql) === TRUE){
+            echo "success";
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if('EDITSOURCE' == $action){
+        $where = $_POST['where'];
+        $sourcename = $_POST['sourcename'];
+        $sourceaddress = $_POST['sourceaddress'];
+        $sourcephone = $_POST['sourcephone'];
+        $sql = "UPDATE source SET source_name='$sourcename',source_number='$sourcephone',source_address='$sourceaddress' WHERE source_id = '$where'";
         if($conn->query($sql) === TRUE){
             echo "success";
         }else{

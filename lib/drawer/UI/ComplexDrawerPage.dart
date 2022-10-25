@@ -17,6 +17,7 @@ import 'package:project_bekery/screen/admin_orderpackgelist.dart';
 import 'package:project_bekery/screen/admin_productall.dart';
 import 'package:project_bekery/screen/admin_report_order.dart';
 import 'package:project_bekery/screen/admin_userlist.dart';
+import 'package:project_bekery/screen/adminaddrider.dart';
 import 'package:project_bekery/screen/float_add_order.dart';
 
 class ComplexDrawerPage extends StatefulWidget {
@@ -171,6 +172,22 @@ class _ComplexDrawerState extends State<ComplexDrawer> {
                         color: Colors.white,
                       ),
                       children: [
+                        Container(
+                          color: Color(0xFF5e548e),
+                          child: ListTile(
+                            leading: Icon(Icons.add, color: Colors.white),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return adminaddrider();
+                              }));
+                            },
+                            title: Text(
+                              'เพิ่มข้อมูลพนักงาน',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                         Container(
                           color: Color(0xFF5e548e),
                           child: ListTile(

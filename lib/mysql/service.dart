@@ -530,11 +530,15 @@ class Art_Services {
     }
   }
 
-  Future<List<source>> getonlySource(source_id) async {
+  Future<List<source>> getonlySource(
+      sourcename, sourceaddress, sourcephone) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = "GET_ONLY_SOURCE";
-      map["where"] = source_id;
+      map["sourcename"] = sourcename;
+      map["sourceaddress"] = sourceaddress;
+      map["sourcephone"] = sourcephone;
+
       final response = await http.post(url, body: map);
       print("getonlySource >> Response:: ${response.body}");
       if (response.statusCode == 200) {
@@ -998,6 +1002,24 @@ class Art_Services {
       map["user_password"] = user_password;
       final response = await http.post(url, body: map);
       print("addUser >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  Future<String> addrider(String user_name, String user_surname,
+      String user_phone, String user_email, String user_password) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = 'ADD_RIDER';
+      map["user_name"] = user_name;
+      map["user_surname"] = user_surname;
+      map["user_phone"] = user_phone;
+      map["user_email"] = user_email;
+      map["user_password"] = user_password;
+      final response = await http.post(url, body: map);
+      print("addrider >> Response:: ${response.body}");
       return response.body;
     } catch (e) {
       return 'error';
@@ -1555,12 +1577,16 @@ class Art_Services {
     }
   }
 
-  Future<String> editsource(where1, where2) async {
+  Future<String> editsource(
+      where1, sourcename, sourceaddress, sourcephone) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = "EDITSOURCE";
       map["where"] = where1;
-      map["where2"] = where2; // rideremail // status
+      map["sourcename"] = sourcename;
+      map["sourceaddress"] = sourceaddress;
+      map["sourcephone"] = sourcephone;
+      // rideremail // status
       // orderid
       final response = await http.post(url, body: map);
       print("editproducttype >> Response:: ${response.body}");

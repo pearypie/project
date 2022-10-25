@@ -244,37 +244,76 @@ class _addpromotionState extends State<addsource> {
                                                         fromKey.currentState!
                                                             .save();
                                                         await Art_Services()
-                                                            .add_source(
+                                                            .getonlySource(
+                                                                sourcename,
+                                                                sourceaddress,
+                                                                sourcephone)
+                                                            .then((val) {
+                                                          print(val.length);
+                                                          if (val.length == 0) {
+                                                            Art_Services().add_source(
                                                                 sourcename
                                                                     .toString(),
                                                                 sourceaddress
                                                                     .toString(),
                                                                 sourcephone
                                                                     .toString());
-                                                        Fluttertoast.showToast(
-                                                            msg: "อัพเดตสำเร็จ",
-                                                            toastLength: Toast
-                                                                .LENGTH_SHORT,
-                                                            gravity:
-                                                                ToastGravity
-                                                                    .BOTTOM,
-                                                            timeInSecForIosWeb:
-                                                                1,
-                                                            backgroundColor:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    13,
-                                                                    255,
-                                                                    0),
-                                                            textColor:
-                                                                Colors.white,
-                                                            fontSize: 16.0);
-                                                        Navigator.push(context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) {
-                                                          return addsource();
-                                                        }));
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    "เพิ่มข้อมูลสำเร็จ",
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                gravity:
+                                                                    ToastGravity
+                                                                        .BOTTOM,
+                                                                timeInSecForIosWeb:
+                                                                    1,
+                                                                backgroundColor:
+                                                                    Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            13,
+                                                                            255,
+                                                                            0),
+                                                                textColor:
+                                                                    Colors
+                                                                        .white,
+                                                                fontSize: 16.0);
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                              return addsource();
+                                                            }));
+                                                          } else {
+                                                            Utils(context)
+                                                                .stopLoading();
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    "ข้อมูลที่กรอกซ้ำ",
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                gravity:
+                                                                    ToastGravity
+                                                                        .BOTTOM,
+                                                                timeInSecForIosWeb:
+                                                                    1,
+                                                                backgroundColor:
+                                                                    Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            0,
+                                                                            0),
+                                                                textColor:
+                                                                    Colors
+                                                                        .white,
+                                                                fontSize: 16.0);
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
+                                                        });
                                                       }
                                                     },
                                                     child: const Text("ใช่"),
@@ -328,7 +367,6 @@ class _addpromotionState extends State<addsource> {
                                   TextFormField(
                                     initialValue: current_sourceaddress,
                                     style: TextStyle(color: Colors.white),
-                                    keyboardType: TextInputType.number,
                                     validator: RequiredValidator(
                                         errorText: "กรุณาป้อนข้อมูล"),
                                     onSaved: (value) {
@@ -413,7 +451,7 @@ class _addpromotionState extends State<addsource> {
                                                         32.0)),
                                             //////// HERE
                                           ),
-                                          child: Text('แก้ไขโปรโมชั่น'),
+                                          child: Text('แก้ไขแหล่งที่มา'),
                                           onPressed: () async {
                                             showDialog<bool>(
                                                 context: context,
@@ -440,10 +478,78 @@ class _addpromotionState extends State<addsource> {
                                                             fromKey
                                                                 .currentState!
                                                                 .save();
-                                                            print(sourcename);
-                                                            print(
-                                                                sourceaddress);
-                                                            print(sourcephone);
+                                                            Utils(context)
+                                                                .startLoading();
+                                                            await Art_Services()
+                                                                .getonlySource(
+                                                                    sourcename,
+                                                                    sourceaddress,
+                                                                    sourcephone)
+                                                                .then((val) {
+                                                              print(val.length);
+                                                              if (val.length ==
+                                                                  0) {
+                                                                Art_Services().editsource(
+                                                                    current_sourceid,
+                                                                    sourcename,
+                                                                    sourceaddress,
+                                                                    sourcephone);
+                                                                Fluttertoast.showToast(
+                                                                    msg:
+                                                                        "แก้ไขข้อมูลสำเร็จ",
+                                                                    toastLength:
+                                                                        Toast
+                                                                            .LENGTH_SHORT,
+                                                                    gravity: ToastGravity
+                                                                        .BOTTOM,
+                                                                    timeInSecForIosWeb:
+                                                                        1,
+                                                                    backgroundColor:
+                                                                        Color.fromARGB(
+                                                                            255,
+                                                                            13,
+                                                                            255,
+                                                                            0),
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    fontSize:
+                                                                        16.0);
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) {
+                                                                  return addsource();
+                                                                }));
+                                                              } else {
+                                                                Utils(context)
+                                                                    .stopLoading();
+                                                                Fluttertoast.showToast(
+                                                                    msg:
+                                                                        "ข้อมูลที่กรอกซ้ำ",
+                                                                    toastLength:
+                                                                        Toast
+                                                                            .LENGTH_SHORT,
+                                                                    gravity: ToastGravity
+                                                                        .BOTTOM,
+                                                                    timeInSecForIosWeb:
+                                                                        1,
+                                                                    backgroundColor:
+                                                                        Color.fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            0,
+                                                                            0),
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    fontSize:
+                                                                        16.0);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            });
                                                           }
                                                         },
                                                         child:
@@ -600,6 +706,8 @@ class _addpromotionState extends State<addsource> {
                                                 ),
                                                 onPressed: () async {
                                                   setState(() {
+                                                    current_sourceid =
+                                                        Source.source_id;
                                                     current_sourcename =
                                                         Source.source_name;
                                                     current_sourceaddress =
