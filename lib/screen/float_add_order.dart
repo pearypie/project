@@ -156,7 +156,6 @@ class _add_product_orderState extends State<add_product_order> {
     setState(() {
       if (producttypelist?.length == 0) {
       } else {
-        print(producttypeidlist[0].product_type_id);
         producttype = producttypeidlist[0].product_type_id;
       }
     });
@@ -277,6 +276,8 @@ class _add_product_orderState extends State<add_product_order> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                 validator: RequiredValidator(
                                     errorText: "กรุณาป้อนข้อมูล"),
                                 onSaved: (name) {
@@ -303,6 +304,8 @@ class _add_product_orderState extends State<add_product_order> {
                               ),
                               SizedBox(height: 10),
                               TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                 keyboardType: TextInputType.text,
                                 validator: RequiredValidator(
                                     errorText: "กรุณาป้อนข้อมูล"),
@@ -336,6 +339,8 @@ class _add_product_orderState extends State<add_product_order> {
                                   Container(
                                     width: 150,
                                     child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
+                                      cursorColor: Colors.white,
                                       validator: RequiredValidator(
                                           errorText: "กรุณาป้อนข้อมูล"),
                                       keyboardType: TextInputType.number,
@@ -368,6 +373,8 @@ class _add_product_orderState extends State<add_product_order> {
                                   Container(
                                     width: 150,
                                     child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
+                                      cursorColor: Colors.white,
                                       validator: RequiredValidator(
                                           errorText: "กรุณาป้อนข้อมูล"),
                                       keyboardType: TextInputType.number,
@@ -406,6 +413,8 @@ class _add_product_orderState extends State<add_product_order> {
                                   Container(
                                     width: 150,
                                     child: TextFormField(
+                                      style: TextStyle(color: Colors.white),
+                                      cursorColor: Colors.white,
                                       validator: RequiredValidator(
                                           errorText: "กรุณาป้อนข้อมูล"),
                                       keyboardType: TextInputType.number,
@@ -530,7 +539,7 @@ class _add_product_orderState extends State<add_product_order> {
                                                 fontSize: 16.0);
                                           } else {
                                             fromKey.currentState!.save();
-                                            await uploadimage(
+                                            uploadimage(
                                                     product_name,
                                                     product_detail,
                                                     product_price,

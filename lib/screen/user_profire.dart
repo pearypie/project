@@ -212,6 +212,7 @@ class _user_profileState extends State<user_profile> {
                                 onSaved: (email) {
                                   useremail = email!;
                                 },
+                                enabled: false,
                                 autofocus: false,
                                 initialValue: "${user![0].user_email}",
                                 style: TextStyle(color: Colors.white),

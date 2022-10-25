@@ -14,6 +14,7 @@ import 'package:project_bekery/mysql/rider.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/mysql/user.dart';
 import 'package:project_bekery/widgets/adminAppbar.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 
 class admin_Userlist extends StatefulWidget {
   const admin_Userlist({Key? key}) : super(key: key);
@@ -25,12 +26,11 @@ class admin_Userlist extends StatefulWidget {
 class _admin_UserlistState extends State<admin_Userlist> {
   List<User>? user;
   List<Rider>? rider;
-  String? status;
+  String status = 'customer';
   @override
   void initState() {
-    super.initState();
-    user = [];
     _getuserdata('customer');
+    super.initState();
   }
 
   _getuserdata(where) {
@@ -186,7 +186,7 @@ class _admin_UserlistState extends State<admin_Userlist> {
                                           Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return admin_userdetail(
+                                            return admin_riderdetail(
                                                 rider?[index].rider_id,
                                                 rider?[index].rider_name,
                                                 rider?[index].rider_surname,
@@ -257,38 +257,65 @@ class _admin_userdetailState extends State<admin_userdetail> {
               backgroundColor: Colors.green,
               heroTag: '1',
               onPressed: () {
-                if (fromKey.currentState!.validate()) {
-                  fromKey.currentState!.save();
-                  print(
-                      'ID : ${widget.user_id}\n Name : ${username}\n Surname : ${usersurname} \n Email : ${useremail}\n Role : ${dropdownValue}\n Phone : ${userphone}');
-                  Art_Services()
-                      .update_user(widget.user_id, username, usersurname,
-                          useremail, dropdownValue, userphone)
-                      .then((value) => {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return admin_Userlist();
-                            })),
-                            Fluttertoast.showToast(
-                                msg: "แก้ไขข้อมูลเรียบร้อย",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Color.fromARGB(255, 9, 255, 0),
-                                textColor: Colors.white,
-                                fontSize: 16.0),
-                          });
-                  // ignore: avoid_print
-                } else {
-                  Fluttertoast.showToast(
-                      msg: "error",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                }
+                showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('ออกจากระบบ'),
+                        content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text("ไม่"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              Utils(context).startLoading();
+                              if (fromKey.currentState!.validate()) {
+                                fromKey.currentState!.save();
+                                print(
+                                    'ID : ${widget.user_id}\n Name : ${username}\n Surname : ${usersurname} \n Email : ${useremail}\n Role : ${dropdownValue}\n Phone : ${userphone}');
+                                Art_Services()
+                                    .update_user(
+                                        widget.user_id,
+                                        username,
+                                        usersurname,
+                                        useremail,
+                                        dropdownValue,
+                                        userphone)
+                                    .then((value) => {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return admin_Userlist();
+                                          })),
+                                          Fluttertoast.showToast(
+                                              msg: "แก้ไขข้อมูลเรียบร้อย",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 9, 255, 0),
+                                              textColor: Colors.white,
+                                              fontSize: 16.0),
+                                        });
+                                // ignore: avoid_print
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "error",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              }
+                            },
+                            child: const Text("ใช่"),
+                          ),
+                        ],
+                      );
+                    });
               },
               label: Text("แก้ไขข้อมูลผู้ใช้"),
               icon: Icon(Icons.settings),
@@ -303,7 +330,32 @@ class _admin_userdetailState extends State<admin_userdetail> {
               backgroundColor: Colors.red,
               heroTag: '2',
               onPressed: () {
-                Navigator.of(context).pop();
+                showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('ออกจากระบบ'),
+                        content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text("ไม่"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              Utils(context).startLoading();
+                              await Art_Services()
+                                  .deleteUser(widget.user_id.toString());
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return admin_Userlist();
+                              }));
+                            },
+                            child: const Text("ใช่"),
+                          ),
+                        ],
+                      );
+                    });
               },
               label: Text("ลบข้อมูลผู้ใช้"),
               icon: Icon(Icons.delete),
@@ -428,6 +480,7 @@ class _admin_userdetailState extends State<admin_userdetail> {
                                 onSaved: (email) {
                                   useremail = email!;
                                 },
+                                enabled: false,
                                 autofocus: false,
                                 initialValue: "${widget.user_email}",
                                 style: TextStyle(color: Colors.white),
@@ -544,33 +597,61 @@ class _admin_riderdetailState extends State<admin_riderdetail> {
             child: FloatingActionButton.extended(
               backgroundColor: Colors.green,
               heroTag: '1',
-              onPressed: () {
-                if (fromKey.currentState!.validate()) {
-                  fromKey.currentState!.save();
+              onPressed: () async {
+                showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('ออกจากระบบ'),
+                        content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text("ไม่"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (fromKey.currentState!.validate()) {
+                                Utils(context).startLoading();
+                                fromKey.currentState!.save();
+                                await Art_Services().update_rider(
+                                    widget.user_id,
+                                    username,
+                                    usersurname,
+                                    widget.user_email,
+                                    widget.user_role,
+                                    userphone);
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return admin_Userlist();
+                                }));
+                                Fluttertoast.showToast(
+                                    msg: "แก้ไขข้อมูลเรียบร้อย",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 9, 255, 0),
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
 
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return admin_Userlist();
-                  }));
-                  Fluttertoast.showToast(
-                      msg: "แก้ไขข้อมูลเรียบร้อย",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Color.fromARGB(255, 9, 255, 0),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-
-                  // ignore: avoid_print
-                } else {
-                  Fluttertoast.showToast(
-                      msg: "error",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                }
+                                // ignore: avoid_print
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "error",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              }
+                            },
+                            child: const Text("ใช่"),
+                          ),
+                        ],
+                      );
+                    });
               },
               label: Text("แก้ไขข้อมูลผู้ใช้"),
               icon: Icon(Icons.settings),
@@ -710,6 +791,7 @@ class _admin_riderdetailState extends State<admin_riderdetail> {
                                 onSaved: (email) {
                                   useremail = email!;
                                 },
+                                enabled: false,
                                 autofocus: false,
                                 initialValue: "${widget.user_email}",
                                 style: TextStyle(color: Colors.white),

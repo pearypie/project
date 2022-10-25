@@ -274,6 +274,23 @@
         return;
     }
 
+    if("GET_ONLY_SOURCE" == $action){
+        $db_data = array();
+        $sql = "SELECT * from source WHERE source_id = '$where'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
     if("GET_IMPORT_PRODUCT" == $action){
         $db_data = array();
         $sql = "SELECT *
@@ -358,7 +375,8 @@
         $sql = "SELECT *
         FROM basket
         INNER JOIN product
-        ON basket.basket_product_id = product.product_id;";
+        ON basket.basket_product_id = product.product_id
+        WHERE basket_product_source = '$where'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -692,7 +710,7 @@
 
     if('DELETE_EMP' == $action){
         $user_id = $_POST['user_id'];
-        $sql = "DELETE FROM $table WHERE id = $user_id ";
+        $sql = "DELETE FROM $table WHERE user_id = $user_id ";
         if($conn->query($sql) === TRUE){
             echo "success";
         }else{
@@ -893,6 +911,19 @@
 
     }
 
+    if("_ADD_SOURCE" == $action){
+        $sourcename = $_POST['sourcename'];
+        $sourceaddress = $_POST['sourceaddress'];
+        $sourcephone = $_POST['sourcephone'];
+
+        $sql = "INSERT INTO source(source_name, source_number, source_address) VALUES ('$sourcename','$sourcephone','$sourceaddress')";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+
+    }
+
     if("_ADD_PROMPTION" == $action){
         $promotion_name = $_POST['promotion_name'];
         $promotion_value = $_POST['promotion_value'];
@@ -952,6 +983,14 @@
 
     if("DELETE_USER_BASKET" == $action){ 
         $sql = "DELETE FROM user_basket WHERE user_basket.user_basket_email = '$where'";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+    }
+
+    if("DELETE_SOURCE" == $action){ 
+        $sql = "DELETE FROM `source` WHERE source_id = '$where'";
         $result = $conn->query($sql);
         echo "success";
         $conn->close();
@@ -1276,6 +1315,21 @@
 
     if("GETONLY_PRODUCTTYPE_1" == $action){ 
         $sql = "SELECT * FROM `product_type` WHERE product_type_name = '$where'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if("GETONLY_PRODUCTTYPE_2" == $action){ 
+        $sql = "SELECT * FROM `product_type` WHERE product_type_id = '$where'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){

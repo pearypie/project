@@ -152,6 +152,9 @@ class _admin_allproductState extends State<admin_allproduct> {
                                             .product_price
                                             .toString(),
                                         _product![index]
+                                            .import_price
+                                            .toString(),
+                                        _product![index]
                                             .product_quantity
                                             .toString(),
                                         _product![index]
@@ -227,6 +230,7 @@ class admin_productdetail extends StatefulWidget {
       product_name,
       product_detail,
       product_price,
+      import_price,
       product_quantity,
       export_product,
       import_product,
@@ -239,6 +243,7 @@ class admin_productdetail extends StatefulWidget {
       this.product_name,
       this.product_detail,
       this.product_price,
+      this.import_price,
       this.product_quantity,
       this.export_product,
       this.import_product,
@@ -252,15 +257,23 @@ class admin_productdetail extends StatefulWidget {
   State<admin_productdetail> createState() => _admin_productdetailState();
 }
 
-_UpdateProduct(product_id, product_name, product_detail, product_img,
-    product_price, product_quantity, promotion) async {
+_UpdateProduct(
+    product_id,
+    product_name,
+    product_detail,
+    product_img,
+    product_price,
+    product_quantity,
+    product_importprice,
+    product_type_id) async {
   try {
     var url = Uri.parse('https://projectart434.000webhostapp.com/');
     print('funtion working....');
+    print(product_type_id);
     var map = <String, dynamic>{};
     map["action"] = "ADD_PRODUCT";
     map['sql'] =
-        "UPDATE product SET product_name='${product_name}',product_detail='${product_detail}',product_image='${product_img}',product_price='${product_price}',product_quantity='${product_quantity}' WHERE product_id = '${product_id}'";
+        "UPDATE product SET product_name='${product_name}',product_detail='${product_detail}',product_image='${product_img}',product_price='${product_price}',product_quantity='${product_quantity}',import_price='${product_importprice}',product_type_id='${product_type_id}' WHERE product_id = '${product_id}'";
     final response = await http.post(url, body: map);
     print("UpdateProduct >> Response:: ${response.body}");
     return response.body;
@@ -291,25 +304,26 @@ class _admin_productdetailState extends State<admin_productdetail> {
   File? image;
   String? product_name;
   String? product_detail;
-  String? product_img;
-  int? product_price;
+  String? product_img, product_type_id;
+  int? product_price, product_importprice;
   int? product_quantity;
   String selecttype = '';
-  String dropdownValue = 'ประเภทข้าวสาร';
+  String dropdownValue = 'ไม่ได้ระบุ';
   String promotion = 'ไม่มีโปรโมชั่น';
   List<Promotion>? promotionlist;
   List<String> promotionnamelist = [];
   List<Producttype>? producttypelist;
   List<String> producttypenamelist = [];
+  List<Producttype>? producttypelist1;
 
   void initState() {
     super.initState();
     _getProduct();
   }
 
-  _getProduct() {
+  _getProduct() async {
     print("function working");
-    Art_Services().getall_promotion().then((promotion) {
+    await Art_Services().getall_promotion().then((promotion) {
       setState(() {
         promotionlist = promotion;
       });
@@ -322,7 +336,8 @@ class _admin_productdetailState extends State<admin_productdetail> {
       }
       print('promotionnamelist : ${promotionnamelist}');
     });
-    Art_Services().getall_producttype().then((producttype) {
+
+    await Art_Services().getall_producttype().then((producttype) {
       setState(() {
         producttypelist = producttype;
       });
@@ -334,6 +349,27 @@ class _admin_productdetailState extends State<admin_productdetail> {
       }
       print('promotionnamelist : ${producttypenamelist}');
     });
+
+    await Art_Services()
+        .getonly_producttypename(widget.product_type_id)
+        .then((value) {
+      setState(() {
+        dropdownValue = value[0].product_type_name.toString();
+      });
+    });
+  }
+
+  _getidproducttypeid(dropdownValue) async {
+    print('producttypename : ${dropdownValue}');
+    await Art_Services().getonly_producttype(dropdownValue).then((value) {
+      setState(() {
+        producttypelist1 = value;
+      });
+    });
+    setState(() {
+      product_type_id = producttypelist1![0].product_type_id;
+    });
+    print('producttypeid : ${product_type_id}');
   }
 
   Future pickImage_carmera() async {
@@ -431,10 +467,12 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                     onPressed: () async {
                                       if (fromKey.currentState!.validate()) {
                                         fromKey.currentState!.save();
-                                        print(product_name);
+                                        print(product_importprice);
                                         Utils(context).startLoading();
                                         if (image != null) {
                                           await uploadimage();
+                                          await _getidproducttypeid(
+                                              dropdownValue);
                                           await _UpdateProduct(
                                               widget.product_id,
                                               product_name,
@@ -442,7 +480,8 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                               product_img,
                                               product_price,
                                               product_quantity,
-                                              promotion);
+                                              product_importprice,
+                                              product_type_id);
                                           Fluttertoast.showToast(
                                               msg: "อัพเดตสำเร็จ",
                                               toastLength: Toast.LENGTH_SHORT,
@@ -459,6 +498,8 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                           }));
                                         } else {
                                           Utils(context).startLoading();
+                                          await _getidproducttypeid(
+                                              dropdownValue);
                                           await _UpdateProduct(
                                               widget.product_id,
                                               product_name,
@@ -466,7 +507,8 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                               widget.product_image,
                                               product_price,
                                               product_quantity,
-                                              promotion);
+                                              product_importprice,
+                                              product_type_id);
                                           Fluttertoast.showToast(
                                               msg: "อัพเดตสำเร็จ",
                                               toastLength: Toast.LENGTH_SHORT,
@@ -514,19 +556,41 @@ class _admin_productdetailState extends State<admin_productdetail> {
                     ),
                     child: Text('ลบข้อมูลนี้'),
                     onPressed: () async {
-                      await _DeleteProduct(widget.product_id);
-                      Fluttertoast.showToast(
-                          msg: "ลบข้อมูลนี้สำเร็จ",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Color.fromARGB(255, 255, 0, 0),
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return admin_allproduct();
-                      }));
+                      showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('ออกจากระบบ'),
+                              content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: const Text("ไม่"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Utils(context).startLoading();
+                                    await _DeleteProduct(widget.product_id);
+                                    Fluttertoast.showToast(
+                                        msg: "ลบข้อมูลนี้สำเร็จ",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor:
+                                            Color.fromARGB(255, 255, 0, 0),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return admin_allproduct();
+                                    }));
+                                  },
+                                  child: const Text("ใช่"),
+                                ),
+                              ],
+                            );
+                          });
+
                       /*uploadimage()*/
                     }),
               ),
@@ -710,7 +774,7 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                         const BorderSide(color: Colors.white),
                                   ),
                                   label: Text(
-                                    'ราคา',
+                                    'ราคาซื้อ',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   fillColor: Colors.white,
@@ -725,17 +789,16 @@ class _admin_productdetailState extends State<admin_productdetail> {
                             Container(
                               width: 150,
                               child: TextFormField(
+                                initialValue: widget.import_price.toString(),
+                                style: TextStyle(color: Colors.white),
                                 validator: RequiredValidator(
                                     errorText: "กรุณาป้อนข้อมูล"),
                                 keyboardType: TextInputType.number,
-                                onSaved: (quantity) {
-                                  product_quantity =
-                                      int.parse(quantity.toString());
+                                onSaved: (price) {
+                                  product_importprice =
+                                      int.parse(price.toString());
                                 },
                                 autofocus: false,
-                                initialValue:
-                                    widget.product_quantity.toString(),
-                                style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
                                     // width: 0.0 produces a thin "hairline" border
@@ -745,7 +808,7 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                         const BorderSide(color: Colors.white),
                                   ),
                                   label: Text(
-                                    'จำนวน',
+                                    'ราคาขาย',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   fillColor: Colors.white,
@@ -756,11 +819,90 @@ class _admin_productdetailState extends State<admin_productdetail> {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         SizedBox(height: 10),
                       ],
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: TextFormField(
+                      validator:
+                          RequiredValidator(errorText: "กรุณาป้อนข้อมูล"),
+                      keyboardType: TextInputType.number,
+                      onSaved: (quantity) {
+                        product_quantity = int.parse(quantity.toString());
+                      },
+                      autofocus: false,
+                      initialValue: widget.product_quantity.toString(),
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          // width: 0.0 produces a thin "hairline" border
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                          borderSide: const BorderSide(color: Colors.white),
+                        ),
+                        label: Text(
+                          'จำนวน',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      //background color of dropdown button
+                      border: Border.all(
+                        color: Colors.white,
+                      ), //border of dropdown button
+                      borderRadius: BorderRadius.circular(
+                          30), //border raiuds of dropdown button
+                    ),
+                    child: DropdownButton(
+                      dropdownColor: Colorz.complexDrawerBlack,
+                      value: dropdownValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      // ignore: prefer_const_literals_to_create_immutables
+
+                      items: producttypenamelist
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: SizedBox(
+                            width: 200, // for example
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Text(value,
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      icon: Padding(
+                          //Icon at tail, arrow bottom is default icon
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.arrow_downward)),
+                      iconEnabledColor:
+                          Color.fromARGB(255, 255, 253, 253), //Icon color
+
+                      //dropdown background color
+                      underline: Container(), //remove underline
+                      isExpanded: true, //make true to make width 100%
                     ),
                   ),
                 ],

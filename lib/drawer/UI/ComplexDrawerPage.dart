@@ -6,6 +6,7 @@ import 'package:project_bekery/drawer/Widgets/Widgets.dart';
 import 'package:project_bekery/login/login.dart';
 import 'package:project_bekery/screen/addproducttype.dart';
 import 'package:project_bekery/screen/addpromotion.dart';
+import 'package:project_bekery/screen/addsource.dart';
 import 'package:project_bekery/screen/admin_addproduct_promotion.dart';
 import 'package:project_bekery/screen/admin_import_order.dart';
 import 'package:project_bekery/screen/admin_import_product.dart';
@@ -174,7 +175,12 @@ class _ComplexDrawerState extends State<ComplexDrawer> {
                           color: Color(0xFF5e548e),
                           child: ListTile(
                             leading: Icon(Icons.add, color: Colors.white),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return addsource();
+                              }));
+                            },
                             title: Text(
                               'เพิ่มแหล่งที่มาของสินค้า',
                               style: TextStyle(color: Colors.white),

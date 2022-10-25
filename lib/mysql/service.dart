@@ -101,6 +101,23 @@ class Art_Services {
     }
   }
 
+  Future<String> add_source(sourcename, sourceaddress, sourcephone) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "_ADD_SOURCE";
+      map["sourcename"] = sourcename;
+      map["sourceaddress"] = sourceaddress;
+      map["sourcephone"] = sourcephone;
+
+      final response = await http.post(url, body: map);
+      print("add_source >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      print('error ${e}');
+      return 'error';
+    }
+  }
+
   Future<String> add_promotion(promotion_name, promotion_value) async {
     try {
       var map = <String, dynamic>{};
@@ -513,10 +530,32 @@ class Art_Services {
     }
   }
 
-  Future<List<Basket>> getadminbasket() async {
+  Future<List<source>> getonlySource(source_id) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "GET_ONLY_SOURCE";
+      map["where"] = source_id;
+      final response = await http.post(url, body: map);
+      print("getonlySource >> Response:: ${response.body}");
+      if (response.statusCode == 200) {
+        List<source> list = parseResponsesource(response.body);
+        print("---------------------------------------------");
+        return list;
+      } else {
+        print("statusCode >> Response:: ${response.statusCode}");
+        throw <source>[];
+      }
+    } catch (e) {
+      print(e);
+      return <source>[];
+    }
+  }
+
+  Future<List<Basket>> getadminbasket(source_id) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = "GET_ADMIN_BASKET";
+      map["where"] = source_id;
       final response = await http.post(url, body: map);
       print("getadminbasket >> Response:: ${response.body}");
       if (response.statusCode == 200) {
@@ -1015,7 +1054,7 @@ class Art_Services {
       map["user_email"] = user_email;
       map["user_password"] = user_password;
       final response = await http.post(url, body: map);
-      print("deleteUser >> Response:: ${response.body}");
+      print("updateUser >> Response:: ${response.body}");
       return response.body;
     } catch (e) {
       return 'error';
@@ -1027,6 +1066,19 @@ class Art_Services {
       var map = <String, dynamic>{};
       map["action"] = _DELETE_EMP_ACTION;
       map["user_id"] = user_id;
+      final response = await http.post(url, body: map);
+      print("deleteUser >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  Future<String> deletesource(String source_id) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = 'DELETE_SOURCE';
+      map["where"] = source_id;
       final response = await http.post(url, body: map);
       print("deleteUser >> Response:: ${response.body}");
       return response.body;
@@ -1400,6 +1452,27 @@ class Art_Services {
     }
   }
 
+  Future<List<Producttype>> getonly_producttypename(where1) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "GETONLY_PRODUCTTYPE_2";
+      map["where"] = where1;
+      final response = await http.post(url, body: map);
+      print("getonly_producttypename >> Response:: ${response.body}");
+      if (response.statusCode == 200) {
+        List<Producttype> list = parseResponseall_producttype(response.body);
+        print("---------------------------------------------");
+        return list;
+      } else {
+        print("statusCode >> Response:: ${response.statusCode}");
+        throw <Producttype>[];
+      }
+    } catch (e) {
+      print(e);
+      return <Producttype>[];
+    }
+  }
+
   static List<Producttype> parseResponseall_producttype(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
@@ -1471,6 +1544,21 @@ class Art_Services {
     try {
       var map = <String, dynamic>{};
       map["action"] = "EDITPRODUCTTYPE";
+      map["where"] = where1;
+      map["where2"] = where2; // rideremail // status
+      // orderid
+      final response = await http.post(url, body: map);
+      print("editproducttype >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  Future<String> editsource(where1, where2) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "EDITSOURCE";
       map["where"] = where1;
       map["where2"] = where2; // rideremail // status
       // orderid
