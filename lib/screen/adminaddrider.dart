@@ -12,6 +12,8 @@ import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/screen/admin_userlist.dart';
 import 'package:project_bekery/widgets/loadingscreen.dart';
 
+import '../drawer/Constants/Constants.dart';
+
 class adminaddrider extends StatefulWidget {
   const adminaddrider({Key? key}) : super(key: key);
 
@@ -74,7 +76,7 @@ class _adminaddriderState extends State<adminaddrider> {
                   child: Container(
                     width: double.infinity,
                     height: double.infinity,
-                    color: Colors.white,
+                    color: Colorz.complexDrawerBlack,
                     child: SingleChildScrollView(
                       child: Container(
                         padding: const EdgeInsets.all(8),
@@ -92,21 +94,30 @@ class _adminaddriderState extends State<adminaddrider> {
                                     children: [
                                       Expanded(
                                         child: TextFormField(
+                                          style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                           validator: RequiredValidator(
                                               errorText: "กรุณาป้อนข้อมูล"),
                                           onSaved: (name) {
                                             customer.name = name!;
                                           },
                                           decoration: InputDecoration(
-                                            hintText: 'ชื่อจริง',
+                                            enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                            label : Text( 'ชื่อจริง', style: TextStyle(color: Colors.white),),
                                             fillColor: Colors.white,
                                             prefixIcon: const Icon(
                                               Icons.person,
-                                              color: Colors.blue,
+                                              color: Colors.white,
                                             ),
                                             border: OutlineInputBorder(
                                               borderSide: const BorderSide(
-                                                  color: Colors.black),
+                                                  color: Colors.white),
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                             ),
@@ -118,16 +129,25 @@ class _adminaddriderState extends State<adminaddrider> {
                                       ),
                                       Expanded(
                                         child: TextFormField(
+                                          style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                           validator: RequiredValidator(
                                               errorText: "กรุณาป้อนข้อมูล"),
                                           onSaved: (surname) {
                                             customer.surname = surname!;
                                           },
                                           decoration: InputDecoration(
-                                            hintText: 'นามสกุล',
+                                            enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                            label : Text( 'นามสกุล', style: TextStyle(color: Colors.white),),
                                             prefixIcon: const Icon(
                                               Icons.person,
-                                              color: Colors.blue,
+                                              color: Colors.white,
                                             ),
                                             border: OutlineInputBorder(
                                               borderRadius:
@@ -142,6 +162,8 @@ class _adminaddriderState extends State<adminaddrider> {
                                     height: 20,
                                   ),
                                   TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                     validator: MultiValidator([
                                       RequiredValidator(
                                           errorText: "โปรดใส่ข้อมูลด้วย"),
@@ -154,10 +176,17 @@ class _adminaddriderState extends State<adminaddrider> {
                                     },
                                     maxLines: 1,
                                     decoration: InputDecoration(
-                                      hintText: 'โปรดใส่อีเมลล์',
+                                      enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                      label : Text( 'โปรดใส่อีเมลล์', style: TextStyle(color: Colors.white),),
                                       prefixIcon: const Icon(
                                         Icons.email,
-                                        color: Colors.blue,
+                                        color: Colors.white,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
@@ -168,16 +197,25 @@ class _adminaddriderState extends State<adminaddrider> {
                                     height: 20,
                                   ),
                                   TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                     keyboardType: TextInputType.emailAddress,
                                     onSaved: (phone) {
                                       customer.phone = phone!;
                                     },
                                     maxLines: 1,
                                     decoration: InputDecoration(
-                                      hintText: 'โปรดใส่เบอร์โทร',
+                                      enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
+                                      label :Text ( 'โปรดใส่เบอร์โทร', style: TextStyle(color: Colors.white),),
                                       prefixIcon: const Icon(
-                                        Icons.local_phone,
-                                        color: Colors.blue,
+                                        Icons.local_phone, 
+                                        color: Colors.white,
                                       ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
@@ -188,6 +226,8 @@ class _adminaddriderState extends State<adminaddrider> {
                                     height: 20,
                                   ),
                                   TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                     controller: _pass,
                                     validator: RequiredValidator(
                                         errorText: "กรุณาป้อนข้อมูล"),
@@ -197,11 +237,18 @@ class _adminaddriderState extends State<adminaddrider> {
                                     },
                                     maxLines: 1,
                                     decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
                                       prefixIcon: const Icon(
                                         Icons.lock,
-                                        color: Colors.blue,
+                                        color: Colors.white,
                                       ),
-                                      hintText: 'โปรดใส่พาสเวิร์ด',
+                                      label : Text( 'โปรดใส่พาสเวิร์ด', style: TextStyle(color: Colors.white),),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
                                       ),
@@ -211,6 +258,8 @@ class _adminaddriderState extends State<adminaddrider> {
                                     height: 20,
                                   ),
                                   TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
                                     validator: (val) {
                                       if (val!.isEmpty) {
                                         return "โปรดใส่ข้อมูล";
@@ -222,11 +271,18 @@ class _adminaddriderState extends State<adminaddrider> {
                                     maxLines: 1,
                                     obscureText: true,
                                     decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                  ),
                                       prefixIcon: const Icon(
                                         Icons.lock,
-                                        color: Colors.blue,
+                                        color: Colors.white,
                                       ),
-                                      hintText: 'ยืนยันพาสเวิร์ด',
+                                      label : Text( 'ยืนยันพาสเวิร์ด', style: TextStyle(color: Colors.white),),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
                                       ),
@@ -238,7 +294,15 @@ class _adminaddriderState extends State<adminaddrider> {
                                   SizedBox(
                                     width: 340,
                                     height: 50,
-                                    child: OutlinedButton(
+                                     child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xFF5e548e),
+                                        elevation: 3,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(32.0)),
+                                        //////// HERE
+                                      ),
                                       onPressed: () async {
                                         showDialog<bool>(
                                             context: context,
@@ -452,18 +516,12 @@ class _adminaddriderState extends State<adminaddrider> {
                                               );
                                             });
                                       },
-                                      style: OutlinedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                        side: BorderSide(
-                                            width: 2, color: Colors.blue),
-                                      ),
+                                     
                                       child: const Text(
                                         'เพิ่มข้อมูลพนักงาน',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          color: Colors.white
                                         ),
                                       ),
                                     ),

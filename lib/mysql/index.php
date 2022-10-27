@@ -279,7 +279,7 @@
         $sourceaddress = $_POST["sourceaddress"];
         $sourcephone = $_POST["sourcephone"];
         $db_data = array();
-        $sql = "SELECT * FROM `source` WHERE source_name = '$sourcename' OR source_number = '$sourcephone' OR source_address = '$sourceaddress'";
+        $sql = "SELECT * FROM `source` WHERE source_name = '$sourcename' AND source_number = '$sourcephone' AND source_address = '$sourceaddress'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -443,11 +443,12 @@
 
 
     if("CHECK_USER_BASKET" == $action){
+        $email = $_POST['email'];
         $db_data = array();
         $sql = "SELECT * FROM user_basket
         INNER JOIN product
         ON user_basket.user_basket_product_id = product.product_id
-        WHERE product.product_id = '$where'";
+        WHERE product.product_id = '$where' AND user_basket_email = '$email'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -1032,6 +1033,14 @@
         return;
     }
 
+    if("DELETE_RIDER" == $action){ 
+        $sql = "DELETE FROM rider WHERE rider.rider_id = $where";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+    }
+
     if("DELETE_USER_BASKET" == $action){ 
         $sql = "DELETE FROM user_basket WHERE user_basket.user_basket_email = '$where'";
         $result = $conn->query($sql);
@@ -1189,7 +1198,7 @@
 
     if("GETONLY_PROMOTION" == $action){ 
         $where2 = $_POST['where2'];
-        $sql = "SELECT * FROM promotion WHERE promotion_name = '$where' OR promotion_value = $where2";
+        $sql = "SELECT * FROM promotion WHERE promotion_name = '$where' AND promotion_value = $where2";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){

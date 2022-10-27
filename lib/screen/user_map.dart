@@ -188,6 +188,7 @@ class _MapsPageState extends State<user_MapsPage> {
       extendBodyBehindAppBar: true,
       body: SliderDrawer(
         appBar: SliderAppBar(
+          drawerIconColor: Colors.blue,
           trailing: IconButton(
               onPressed: () async {
                 await mapController.animateCamera(CameraUpdate.newLatLngZoom(
@@ -197,15 +198,15 @@ class _MapsPageState extends State<user_MapsPage> {
                 print(Address);
                 showInFrom(context);
               },
-              icon: Icon(Icons.near_me)),
+              icon: Icon(Icons.near_me,color: Colors.blue,)),
           appBarHeight: 85,
-          appBarColor: Colors.greenAccent,
+          appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: const Text(
               'แผนที่ยืนยันตำแหน่ง',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.blue,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             )),

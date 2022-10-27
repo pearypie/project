@@ -46,14 +46,15 @@ class _user_mymapspageState extends State<user_mymapspage> {
     return Scaffold(
       body: SliderDrawer(
         appBar: SliderAppBar(
+          drawerIconColor: Colors.blue,
           appBarHeight: 85,
-          appBarColor: Colors.greenAccent,
+          appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: Text(
               'แผนที่ของฉัน',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.blue,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             )),
@@ -61,22 +62,28 @@ class _user_mymapspageState extends State<user_mymapspage> {
         ),
         slider: UserAppBar(),
         child: Container(
+          padding: const EdgeInsets.all(10),
             width: double.infinity,
             height: double.infinity,
-            color: Colors.white,
+            color: Color.fromARGB(255, 238, 238, 238),
             child: ListView.builder(
               padding: const EdgeInsets.all(0),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemCount: user_mymaps != null ? (user_mymaps?.length ?? 0) : 0,
               itemBuilder: (_, index) => Center(
-                child: Card(
-                  elevation: 20,
-                  color: Colors.yellow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(children: [
+                child: Container(
+                          child: Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 8.0, left: 8.0, bottom: 8.0),
+                              child: Container(
+                                  child: Card(
+                                      elevation: 20,
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Column(children: [
                     ListTile(
                       onTap: () {
                         showDialog<bool>(
@@ -123,11 +130,11 @@ class _user_mymapspageState extends State<user_mymapspage> {
                               );
                             });
                       },
-                      leading: Icon(Icons.location_on),
+                      leading: Icon(Icons.location_on,color: Colors.blue,),
                       trailing: IconButton(
                         icon: Icon(
                           Icons.edit,
-                          color: Colors.black,
+                          color: Colors.blue,
                         ),
                         onPressed: () {
                           showDialog(
@@ -334,6 +341,6 @@ class _user_mymapspageState extends State<user_mymapspage> {
               ),
             )),
       ),
-    );
+    ))));
   }
 }

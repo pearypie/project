@@ -28,14 +28,11 @@ class AppColumn extends StatelessWidget {
         ),
         Row(
           children: [
-            Wrap(
-                children: List.generate(
-                    star.round(),
-                    (index) => Icon(
-                          Icons.star,
-                          color: Colors.redAccent,
-                          size: 8,
-                        ))),
+            Icon(
+              Icons.gif_box,
+              color: Colors.redAccent,
+              size: 8,
+            ),
             SizedBox(
               width: height / 42.2,
             ),

@@ -49,24 +49,29 @@ class _UserAppBarState extends State<UserAppBar> {
             children: [
               UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.greenAccent,
+                  color: Colors.white,
                 ),
                 accountName: user?.length != 0
-                    ? Text('${user?[0].user_name}')
+                    ? Text(
+                        '${user?[0].user_name}',
+                        style: TextStyle(color: Colors.black),
+                      )
                     : Text('Loadding...'),
                 accountEmail: user?.length != 0
-                    ? Text('${user?[0].user_email}')
+                    ? Text(
+                        '${user?[0].user_email}',
+                        style: TextStyle(color: Colors.black),
+                      )
                     : Text('Loadding...'),
                 currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
                   child: Icon(
                     Icons.shopping_cart,
-                    color: Colors.black,
+                    color: Colors.white,
                     size: 36.0,
                   ),
                 ),
               ),
-              Divider(),
               ListTile(
                 title: Text(
                   'ร้านค้า',
@@ -74,7 +79,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.shopping_bag,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -82,9 +92,7 @@ class _UserAppBarState extends State<UserAppBar> {
                   }));
                 },
               ),
-              Divider(
-                color: Color.fromARGB(255, 140, 140, 140),
-              ),
+              Divider(),
               ListTile(
                 title: Text(
                   'แผนที่',
@@ -92,7 +100,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.map,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -108,7 +121,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.maps_home_work,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -124,7 +142,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.history,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -140,7 +163,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.person,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -156,7 +184,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.key,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -172,7 +205,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.work_history_outlined,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -188,7 +226,12 @@ class _UserAppBarState extends State<UserAppBar> {
                 ),
                 leading: Icon(
                   Icons.logout,
-                  color: Colors.black,
+                  color: Colors.blue,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blue,
+                  size: 15,
                 ),
                 onTap: () {
                   showDialog<bool>(

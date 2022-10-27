@@ -103,14 +103,15 @@ class _user_profileState extends State<user_profile> {
     return Scaffold(
       body: SliderDrawer(
         appBar: SliderAppBar(
+          drawerIconColor: Colors.blue,
           appBarHeight: 85,
-          appBarColor: Colors.greenAccent,
+          appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: const Text(
               'แก้ไขโปรไฟล์',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.blue,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             )),
@@ -120,7 +121,7 @@ class _user_profileState extends State<user_profile> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: Colorz.complexDrawerBlack,
+          color: Color.fromARGB(255, 238, 238, 238),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -146,20 +147,20 @@ class _user_profileState extends State<user_profile> {
                                       },
                                       autofocus: false,
                                       initialValue: "${user![0].user_name}",
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: Colors.black),
                                       decoration: InputDecoration(
                                         enabledBorder: const OutlineInputBorder(
                                           // width: 0.0 produces a thin "hairline" border
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(30)),
                                           borderSide: const BorderSide(
-                                            color: Colors.white,
+                                            color: Colors.blue,
                                           ),
                                         ),
                                         fillColor: Colors.white,
                                         prefixIcon: const Icon(
                                           Icons.person,
-                                          color: Colors.white,
+                                          color: Colors.blue,
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -178,23 +179,23 @@ class _user_profileState extends State<user_profile> {
                                       },
                                       autofocus: false,
                                       initialValue: "${user![0].user_surname}",
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: Colors.black),
                                       decoration: InputDecoration(
                                         enabledBorder: const OutlineInputBorder(
                                           // width: 0.0 produces a thin "hairline" border
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(30)),
                                           borderSide: const BorderSide(
-                                            color: Colors.white,
+                                            color: Colors.blue,
                                           ),
                                         ),
                                         label: Text(
                                           'นามสกุล',
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: Colors.blue),
                                         ),
                                         prefixIcon: const Icon(
                                           Icons.person,
-                                          color: Colors.white,
+                                          color: Colors.blue,
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -212,30 +213,31 @@ class _user_profileState extends State<user_profile> {
                                 onSaved: (email) {
                                   useremail = email!;
                                 },
-                                enabled: false,
+                                enabled: true,
                                 autofocus: false,
                                 initialValue: "${user![0].user_email}",
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-                                    // width: 0.0 produces a thin "hairline" border
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(30)),
-                                    borderSide: const BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                style: TextStyle(color: Colors.black),
+                               decoration: InputDecoration(
+                                        enabledBorder: const OutlineInputBorder(
+                                          // width: 0.0 produces a thin "hairline" border
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(30)),
+                                          borderSide: const BorderSide(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
                                   label: Text(
                                     'อีเมล์',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.blue),
                                   ),
                                   prefixIcon: const Icon(
                                     Icons.email,
-                                    color: Colors.white,
+                                    color: Colors.blue,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
+                                   border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
                                 ),
                               ),
                               const SizedBox(
@@ -247,23 +249,23 @@ class _user_profileState extends State<user_profile> {
                                 },
                                 autofocus: false,
                                 initialValue: "${user![0].user_phone}",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
                                     // width: 0.0 produces a thin "hairline" border
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(30)),
                                     borderSide: const BorderSide(
-                                      color: Colors.white,
+                                      color: Colors.blue,
                                     ),
                                   ),
                                   label: Text(
                                     'เบอร์โทรศัพท์',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.blue),
                                   ),
                                   prefixIcon: const Icon(
                                     Icons.local_phone,
-                                    color: Colors.white,
+                                    color: Colors.blue,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -283,7 +285,7 @@ class _user_profileState extends State<user_profile> {
                                 ),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.greenAccent,
+                                      backgroundColor: Colors.blue,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
                                       )),
@@ -370,7 +372,7 @@ class _user_profileState extends State<user_profile> {
                                   },
                                   child: Text(
                                     'บันทึกข้อมูล',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               )

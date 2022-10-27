@@ -597,11 +597,12 @@ class Art_Services {
     }
   }
 
-  Future<List<User_Basket>> checkuserbasket(where) async {
+  Future<List<User_Basket>> checkuserbasket(where, email) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = "CHECK_USER_BASKET";
       map["where"] = where;
+      map["email"] = email;
       final response = await http.post(url, body: map);
       print("checkuserbasket >> Response:: ${response.body}");
       if (response.statusCode == 200) {
@@ -1798,6 +1799,19 @@ class Art_Services {
       // orderid
       final response = await http.post(url, body: map);
       print("updatestatususermap >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  Future<String> deleteRider(String rider_id) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = 'DELETE_RIDER';
+      map["where"] = rider_id;
+      final response = await http.post(url, body: map);
+      print("deleteRider >> Response:: ${response.body}");
       return response.body;
     } catch (e) {
       return 'error';

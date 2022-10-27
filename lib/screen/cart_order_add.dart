@@ -223,7 +223,7 @@ class _cart_order_addState extends State<cart_order_add> {
               },
               label: Text("ราคารวม : ${simpletotal.toString()}"),
               icon: Icon(Icons.shopping_bag),
-              backgroundColor: Color.fromARGB(255, 248, 146, 13),
+              backgroundColor: Colors.red,
             ),
           ),
         ),
@@ -232,7 +232,7 @@ class _cart_order_addState extends State<cart_order_add> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
+              color: Colors.blue,
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -240,19 +240,19 @@ class _cart_order_addState extends State<cart_order_add> {
               }));
             },
           ),
-          backgroundColor: Colors.greenAccent,
+          backgroundColor: Colors.white,
           elevation: 0,
           title: Center(
               child: const Text(
             'รายการสินค้า',
             style: TextStyle(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
           )),
           actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Color.fromARGB(255, 0, 0, 0),
+                color: Colors.blue,
               ),
               onPressed: () {
                 _getBasket();
@@ -306,7 +306,7 @@ class _cart_order_addState extends State<cart_order_add> {
                                 'จำนวน : ${userbasket![index].user_basket_quantity.toString()}'),
                           ],
                         ),
-                        tileColor: Color.fromARGB(255, 255, 192, 111),
+                        tileColor: Colors.yellow,
                         trailing: IconButton(
                             onPressed: () {
                               showDialog<bool>(

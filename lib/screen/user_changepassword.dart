@@ -59,14 +59,15 @@ class _user_changepasswordState extends State<user_changepassword> {
     return Scaffold(
       body: SliderDrawer(
         appBar: SliderAppBar(
+          drawerIconColor: Colors.blue,
           appBarHeight: 85,
-          appBarColor: Color.fromARGB(255, 255, 222, 178),
+          appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: const Text(
               'แก้ไข้หรัสผ่าน',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.blue,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             )),
@@ -76,7 +77,7 @@ class _user_changepasswordState extends State<user_changepassword> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colorz.complexDrawerBlack,
+          color: Color.fromARGB(255, 238, 238, 238),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -85,9 +86,6 @@ class _user_changepasswordState extends State<user_changepassword> {
                 children: [
                   Column(
                     children: <Widget>[
-                      const SizedBox(
-                        height: 20,
-                      ),
                       Form(
                           key: fromKey,
                           child: Column(children: [
@@ -104,14 +102,22 @@ class _user_changepasswordState extends State<user_changepassword> {
                               },
                               autofocus: false,
                               decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(30)),
+                                  borderSide: const BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
                                 fillColor: Colors.white,
                                 label: Text(
                                   'ใส่รหัสเดิม',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.key,
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                 ),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -134,19 +140,27 @@ class _user_changepasswordState extends State<user_changepassword> {
                               },
                               autofocus: false,
                               decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(30)),
+                                  borderSide: const BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
                                 fillColor: Colors.white,
                                 label: Text(
                                   'ใส่รหัสผ่านใหม่',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.key,
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   borderSide: const BorderSide(
-                                    color: Colors.white,
+                                    color: Colors.blue,
                                   ),
                                 ),
                               ),
@@ -164,19 +178,27 @@ class _user_changepasswordState extends State<user_changepassword> {
                               },
                               autofocus: false,
                               decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+                                  // width: 0.0 produces a thin "hairline" border
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(30)),
+                                  borderSide: const BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
                                 fillColor: Colors.white,
                                 label: Text(
                                   'ยืนยันรหัสผ่าน',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.key,
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   borderSide: const BorderSide(
-                                    color: Colors.white,
+                                    color: Colors.blue,
                                   ),
                                 ),
                               ),

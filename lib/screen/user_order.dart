@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unused_import, sized_box_for_whitespace, non_constant_identifier_names
 
+import 'dart:ui';
+
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -71,14 +73,15 @@ class _OrderpageState extends State<Orderpage> {
       extendBodyBehindAppBar: true,
       body: SliderDrawer(
         appBar: SliderAppBar(
+          drawerIconColor: Colors.blue,
           appBarHeight: 85,
-          appBarColor: Colors.greenAccent,
+          appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: const Text(
               'รายการสินค้า',
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.blue,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             )),
@@ -90,7 +93,7 @@ class _OrderpageState extends State<Orderpage> {
             child: IconButton(
               icon: Icon(
                 Icons.shopping_cart,
-                color: Colors.white,
+                color: Colors.blue,
               ),
               onPressed: () async {
                 String email = await SessionManager().get("email");
@@ -106,7 +109,7 @@ class _OrderpageState extends State<Orderpage> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Color.fromARGB(255, 209, 254, 228),
+          color: Color.fromARGB(255, 238, 238, 238),
           child: Padding(
             padding: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
             child: ListView(
@@ -226,7 +229,7 @@ class _OrderpageState extends State<Orderpage> {
                                                         30.0))),
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                Colors.greenAccent),
+                                                Colors.white),
                                       ),
                                       onPressed: () {
                                         Navigator.push(context,
@@ -240,7 +243,7 @@ class _OrderpageState extends State<Orderpage> {
                                       },
                                       child: Text(producttype![index]
                                           .product_type_name
-                                          .toString()),
+                                          .toString(),style: TextStyle(color: Colors.blue),),
                                     ),
                             ),
                           )),
@@ -364,19 +367,19 @@ class data_product_sql_moreState extends State<data_product_sql_more> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: Colors.blue,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Center(
             child: const Text(
           'รายการสินค้า',
           style: TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: Colors.blue,
               fontSize: 24,
               fontWeight: FontWeight.bold),
         )),
@@ -400,7 +403,7 @@ class data_product_sql_moreState extends State<data_product_sql_more> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Color.fromARGB(255, 209, 254, 228),
+        color: Color.fromARGB(255, 238, 238, 238),
         child: GridView.builder(
           itemCount: _filterproduct != null ? (_filterproduct?.length ?? 0) : 0,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -62,14 +62,15 @@ class _user_orderState extends State<user_logstatus> {
     return Scaffold(
       body: SliderDrawer(
         appBar: SliderAppBar(
+          drawerIconColor: Colors.blue,
           appBarHeight: 85,
-          appBarColor: Colors.greenAccent,
+          appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: Text(
               'ประวัติการเข้าใช้งาน',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.blue,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             )),
@@ -79,7 +80,7 @@ class _user_orderState extends State<user_logstatus> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.white,
+          color: Color.fromARGB(255, 238, 238, 238),
           child: ListView.builder(
             padding: const EdgeInsets.all(0),
             scrollDirection: Axis.vertical,
@@ -88,8 +89,8 @@ class _user_orderState extends State<user_logstatus> {
             itemBuilder: (_, index) => Container(
               child: ListTile(
                 leading: log![index].log_status == 'ล็อคอิน'
-                    ? Icon(Icons.login)
-                    : Icon(Icons.logout),
+                    ? Icon(Icons.login,color: Colors.blue,)
+                    : Icon(Icons.logout,color: Colors.blue,),
                 title: Text(
                     '${DateFormat('วันที่ d MMMM y เวลา HH : MM', 'th').format(DateTime.parse('${log![index].log_date}'))}'),
                 subtitle: Text(log![index].log_status),

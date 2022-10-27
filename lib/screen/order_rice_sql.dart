@@ -157,7 +157,7 @@ class _order_rice_sqlState extends State<order_rice_sql> {
             padding: const EdgeInsets.only(top: 10),
             child: Container(
               margin: EdgeInsets.only(left: 2, right: 2, top: 2),
-              height: 225,
+              height: 200,
               width: 150,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(20)),
@@ -198,7 +198,7 @@ class _order_rice_sqlState extends State<order_rice_sql> {
                           ),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,13 +223,13 @@ class _order_rice_sqlState extends State<order_rice_sql> {
                           ],
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 5, top: 5),
+                              padding: const EdgeInsets.only(bottom: 2, top: 5),
                               child: Container(
                                   height: 30,
                                   width: 145,
@@ -513,7 +513,7 @@ class _product_detail_sqlState extends State<product_detail_sql> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        color: Colors.orangeAccent.withOpacity(0.5),
+        color: Color.fromARGB(255, 220, 231, 252),
         child: Stack(
           children: [
             Positioned(
@@ -602,7 +602,7 @@ class _product_detail_sqlState extends State<product_detail_sql> {
             left: height / 42.2,
             right: height / 42.2),
         decoration: BoxDecoration(
-            color: Colors.red[50],
+            color: Color.fromARGB(255, 220, 231, 252),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(height / 42.2 * 2),
                 topRight: Radius.circular(height / 42.2 * 2))),
@@ -716,7 +716,9 @@ class _Import_quantityState extends State<Import_quantity> {
             print('promotionของครั้งนี้ : ${promotionname}');
             print('valuepromotionของครั้งนี้ : ${promotionvalue}');
             String email = await SessionManager().get("email");
-            Art_Services().checkuserbasket(widget.product_id).then((value) {
+            Art_Services()
+                .checkuserbasket(widget.product_id, email)
+                .then((value) {
               if (value.isNotEmpty) {
                 Utils(context).stopLoading();
                 Fluttertoast.showToast(
@@ -804,7 +806,7 @@ class _Import_quantityState extends State<Import_quantity> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(height / 42.2),
-                color: AppColors.MainColor,
+                color: Colors.blue,
               )),
         ),
       ],

@@ -63,139 +63,152 @@ class _user_orderState extends State<user_order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SliderDrawer(
-        appBar: SliderAppBar(
-          trailing: PopupMenuButton(
-            icon: Icon(
-              Icons.filter_alt_outlined,
-              color: Colors.black,
-            ),
-            onSelected: (value) {
-              print('สถานะ : ${value.toString()}');
-              _getImport_product(value);
-              title = value.toString();
-            },
-            itemBuilder: (BuildContext bc) {
-              return const [
-                PopupMenuItem(
-                  child: Text("ยังไม่มีใครรับ"),
-                  value: 'ยังไม่มีใครรับ',
+        body: SliderDrawer(
+            appBar: SliderAppBar(
+              drawerIconColor: Colors.blue,
+              trailing: PopupMenuButton(
+                icon: Icon(
+                  Icons.filter_alt_outlined,
+                  color: Colors.blue,
                 ),
-                PopupMenuItem(
-                  child: Text("ส่งเรียบร้อย"),
-                  value: 'ส่งเรียบร้อย',
-                ),
-                PopupMenuItem(
-                  child: Text("รายการที่ยกเลิก"),
-                  value: 'รายการที่ยกเลิก',
-                ),
-                PopupMenuItem(
-                  child: Text("ของกำลังส่ง"),
-                  value: 'ของกำลังส่ง',
-                ),
-                PopupMenuItem(
-                  child: Text("รอการยืนยันจาก Admin"),
-                  value: 'รอการยืนยันจาก Admin',
-                ),
-                PopupMenuItem(
-                  child: Text("รอการยืนยันการเเพ็คของ"),
-                  value: 'รอการยืนยันการเเพ็คของ',
-                )
-              ];
-            },
-          ),
-          appBarHeight: 85,
-          appBarColor: Colors.greenAccent,
-          title: Container(
-            child: Center(
-                child: Text(
-              title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            )),
-          ),
-        ),
-        slider: UserAppBar(),
-        child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.white,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(0),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: user_order != null ? (user_order?.length ?? 0) : 0,
-              itemBuilder: (_, index) => Center(
-                child: Card(
-                  elevation: 20,
-                  color: Colors.yellow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(children: [
-                    ListTile(
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          if (user_order![index].order_status ==
-                              'รอการยืนยันจาก Admin') {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return user_order_detail_cancel(
-                                user_order![index].order_id.toString(),
-                                user_order![index].total_price.toString(),
-                                user_order![index]
-                                    .order_responsible_person
-                                    .toString(),
-                                user_order![index].date.toString(),
-                              );
-                            }));
-                          } else if (user_order![index].order_status ==
-                              'รอการยืนยันการเเพ็คของ') {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return user_order_detail_waitcancel(
-                                user_order![index].order_id.toString(),
-                                user_order![index].total_price.toString(),
-                                user_order![index]
-                                    .order_responsible_person
-                                    .toString(),
-                                user_order![index].date.toString(),
-                              );
-                            }));
-                          } else {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return user_order_detail_onlysee(
-                                user_order![index].order_id.toString(),
-                                user_order![index].total_price.toString(),
-                                user_order![index]
-                                    .order_responsible_person
-                                    .toString(),
-                                user_order![index].date.toString(),
-                              );
-                            }));
-                          }
-                        },
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      title: Text(
-                          '${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${user_order![index].date}'))}'),
-                      subtitle: Text(
-                          'สถานะของรายการ : ${user_order![index].order_status.toString()}'),
+                onSelected: (value) {
+                  print('สถานะ : ${value.toString()}');
+                  _getImport_product(value);
+                  title = value.toString();
+                },
+                itemBuilder: (BuildContext bc) {
+                  return const [
+                    PopupMenuItem(
+                      child: Text("ยังไม่มีใครรับ"),
+                      value: 'ยังไม่มีใครรับ',
                     ),
-                  ]),
-                ),
+                    PopupMenuItem(
+                      child: Text("ส่งเรียบร้อย"),
+                      value: 'ส่งเรียบร้อย',
+                    ),
+                    PopupMenuItem(
+                      child: Text("รายการที่ยกเลิก"),
+                      value: 'รายการที่ยกเลิก',
+                    ),
+                    PopupMenuItem(
+                      child: Text("ของกำลังส่ง"),
+                      value: 'ของกำลังส่ง',
+                    ),
+                    PopupMenuItem(
+                      child: Text("รอการยืนยันจาก Admin"),
+                      value: 'รอการยืนยันจาก Admin',
+                    ),
+                    PopupMenuItem(
+                      child: Text("รอการยืนยันการเเพ็คของ"),
+                      value: 'รอการยืนยันการเเพ็คของ',
+                    )
+                  ];
+                },
               ),
-            )),
-      ),
-    );
+              appBarHeight: 85,
+              appBarColor: Colors.white,
+              title: Container(
+                child: Center(
+                    child: Text(
+                  title,
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )),
+              ),
+            ),
+            slider: UserAppBar(),
+            child: Container(
+                padding: const EdgeInsets.all(10),
+                width: double.infinity,
+                height: double.infinity,
+                color: Color.fromARGB(255, 238, 238, 238),
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(0),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: user_order != null ? (user_order?.length ?? 0) : 0,
+                  itemBuilder: (_, index) => Center(
+                    child: Container(
+                        child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 8.0, left: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          elevation: 20,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Column(children: [
+                            ListTile(
+                              trailing: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  if (user_order![index].order_status ==
+                                      'รอการยืนยันจาก Admin') {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return user_order_detail_cancel(
+                                        user_order![index].order_id.toString(),
+                                        user_order![index]
+                                            .total_price
+                                            .toString(),
+                                        user_order![index]
+                                            .order_responsible_person
+                                            .toString(),
+                                        user_order![index].date.toString(),
+                                      );
+                                    }));
+                                  } else if (user_order![index].order_status ==
+                                      'รอการยืนยันการเเพ็คของ') {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return user_order_detail_waitcancel(
+                                        user_order![index].order_id.toString(),
+                                        user_order![index]
+                                            .total_price
+                                            .toString(),
+                                        user_order![index]
+                                            .order_responsible_person
+                                            .toString(),
+                                        user_order![index].date.toString(),
+                                      );
+                                    }));
+                                  } else {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return user_order_detail_onlysee(
+                                        user_order![index].order_id.toString(),
+                                        user_order![index]
+                                            .total_price
+                                            .toString(),
+                                        user_order![index]
+                                            .order_responsible_person
+                                            .toString(),
+                                        user_order![index].date.toString(),
+                                      );
+                                    }));
+                                  }
+                                },
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              title: Text(
+                                  '${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${user_order![index].date}'))}'),
+                              subtitle: Text(
+                                  'สถานะของรายการ : ${user_order![index].order_status.toString()}'),
+                            ),
+                          ]),
+                        ),
+                      ),
+                    )),
+                  ),
+                ))));
   }
 }
 
@@ -246,26 +259,26 @@ class user_order_detail_onlyseeState extends State<user_order_detail_onlysee> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
+              color: Colors.blue,
             ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          backgroundColor: Colors.orangeAccent.withOpacity(0.5),
+          backgroundColor: Colors.white,
           elevation: 0,
           title: Center(
               child: const Text(
-            'ประวัติการนำเข้า',
+            'รายละเอียด',
             style: TextStyle(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
           )),
         ),
         backgroundColor: Colors.grey[100],
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.orangeAccent.withOpacity(0.5),
+          color: Color.fromARGB(255, 238, 238, 238),
           child: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -347,6 +360,8 @@ class user_order_detail_onlyseeState extends State<user_order_detail_onlysee> {
         ));
   }
 }
+
+//หน้าที่ยกเลิก
 
 class user_order_detail_cancel extends StatefulWidget {
   final String import_order_id,
@@ -603,6 +618,8 @@ class user_order_detaill_cancelState extends State<user_order_detail_cancel> {
   }
 }
 
+// หน้ารอยกเลิก
+
 class user_order_detail_waitcancel extends StatefulWidget {
   final String import_order_id,
       Import_product_pricetotal,
@@ -695,7 +712,7 @@ class user_order_detaill_waitcancelState
           elevation: 0,
           title: Center(
               child: const Text(
-            'ประวัติการนำเข้า',
+            'dasdas',
             style: TextStyle(
                 color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
           )),
@@ -714,7 +731,6 @@ class user_order_detaill_waitcancelState
                 ),
                 child: Column(children: [
                   Container(
-                    height: double.infinity,
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

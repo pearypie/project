@@ -665,8 +665,33 @@ class _admin_riderdetailState extends State<admin_riderdetail> {
             child: FloatingActionButton.extended(
               backgroundColor: Colors.red,
               heroTag: '2',
-              onPressed: () {
-                Navigator.of(context).pop();
+              onPressed: () async {
+                showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('ลบข้อมูลคนส่ง'),
+                        content: const Text('ต้องการที่จะลบข้อมูลคนส่งไหม?'),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text("ไม่"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              Utils(context).startLoading();
+                              await Art_Services()
+                                  .deleteRider(widget.user_id.toString());
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return admin_Userlist();
+                              }));
+                            },
+                            child: const Text("ใช่"),
+                          ),
+                        ],
+                      );
+                    });
               },
               label: Text("ลบข้อมูลผู้ใช้"),
               icon: Icon(Icons.delete),

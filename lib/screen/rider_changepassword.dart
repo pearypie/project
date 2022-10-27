@@ -99,14 +99,8 @@ class _user_changepasswordState extends State<rider_changepassword> {
                                 key: fromKey,
                                 child: Column(children: [
                                   TextFormField(
-                                    validator: (val) {
-                                      if (val!.isEmpty) {
-                                        return "โปรดใส่ข้อมูล";
-                                      }
-                                      if (val != _pass.text) {
-                                        return "รหัสไม่ถูกต้อง";
-                                      }
-                                    },
+                                    validator: RequiredValidator(
+                                        errorText: "กรุณาป้อนข้อมูล"),
                                     onSaved: (originpassword1) {
                                       setState(() {
                                         originpassword = originpassword1;
@@ -128,14 +122,8 @@ class _user_changepasswordState extends State<rider_changepassword> {
                                     height: 20,
                                   ),
                                   TextFormField(
-                                    validator: (val) {
-                                      if (val!.isEmpty) {
-                                        return "โปรดใส่ข้อมูล";
-                                      }
-                                      if (val != _pass.text) {
-                                        return "รหัสไม่ถูกต้อง";
-                                      }
-                                    },
+                                    validator: RequiredValidator(
+                                        errorText: "กรุณาป้อนข้อมูล"),
                                     onSaved: (password) {
                                       setState(() {
                                         password1 = password;
@@ -157,14 +145,8 @@ class _user_changepasswordState extends State<rider_changepassword> {
                                     height: 20,
                                   ),
                                   TextFormField(
-                                    validator: (val) {
-                                      if (val!.isEmpty) {
-                                        return "โปรดใส่ข้อมูล";
-                                      }
-                                      if (val != _pass.text) {
-                                        return "รหัสไม่ถูกต้อง";
-                                      }
-                                    },
+                                    validator: RequiredValidator(
+                                        errorText: "กรุณาป้อนข้อมูล"),
                                     onSaved: (password) {
                                       setState(() {
                                         password2 = password;
