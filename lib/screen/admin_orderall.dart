@@ -200,15 +200,19 @@ class _admin_orderallState extends State<admin_orderall> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     admin_oderall_detail(
-                                                        _Export_product![index]
-                                                            .order_id
-                                                            .toString(),
-                                                        _Export_product![index]
-                                                            .total_price
-                                                            .toString(),
-                                                        _Export_product![index]
-                                                            .order_responsible_person
-                                                            .toString())));
+                                                      _Export_product![index]
+                                                          .order_id
+                                                          .toString(),
+                                                      _Export_product![index]
+                                                          .total_price
+                                                          .toString(),
+                                                      _Export_product![index]
+                                                          .order_responsible_person
+                                                          .toString(),
+                                                      _Export_product![index]
+                                                          .date
+                                                          .toString(),
+                                                    )));
                                       },
                                       child: const Text('รายละเอียด >'),
                                       style: ElevatedButton.styleFrom(
@@ -231,9 +235,9 @@ class _admin_orderallState extends State<admin_orderall> {
 }
 
 class admin_oderall_detail extends StatefulWidget {
-  final String order_id, total_price, order_responsible_person;
+  final String order_id, total_price, order_responsible_person, date;
   const admin_oderall_detail(
-      this.order_id, this.total_price, this.order_responsible_person,
+      this.order_id, this.total_price, this.order_responsible_person, this.date,
       {Key? key})
       : super(key: key);
 
@@ -252,7 +256,7 @@ class _admin_oderall_detailState extends State<admin_oderall_detail> {
 
   _getImport_product() {
     print("function working");
-    Art_Services().getorder_detail(widget.order_id).then((value) {
+    Art_Services().getuserorder_detail(widget.order_id).then((value) {
       setState(() {
         _orderdetail = value;
       });
@@ -272,215 +276,82 @@ class _admin_oderall_detailState extends State<admin_oderall_detail> {
       backgroundColor: Colors.grey[100],
       body: Column(
         children: <Widget>[
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Card(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount:
-                      _orderdetail != null ? (_orderdetail?.length ?? 0) : 0,
-                  itemBuilder: (_, index) => Container(
-                    margin: EdgeInsets.all(5),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+          SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: 600,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20),
+                          Text('สั่งในวันที่ : ${widget.date}'),
+                          SizedBox(height: 20),
+                          Text(
+                              'รับผิดชอบโดย :${widget.order_responsible_person}'),
+                          SizedBox(height: 20),
+                          ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: _orderdetail != null
+                                ? (_orderdetail?.length ?? 0)
+                                : 0,
+                            itemBuilder: (_, index) => Container(
+                              margin: EdgeInsets.all(5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                      "${_orderdetail![index].product_amount} x"),
-                                  SizedBox(
-                                    width: 10,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          'ชื่อสินค้า : ${_orderdetail![index].product_name}'),
+                                      Text(
+                                          'จำนวน : ${_orderdetail![index].product_amount}'),
+                                    ],
                                   ),
-                                  Text(
-                                    "${_orderdetail![index].product_name}",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                          'ราคาต่อชิ้น : ${_orderdetail![index].product_price}'),
+                                    ],
                                   ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          '${_orderdetail![index].product_promotion_name}'),
+                                      Text(
+                                          'ราคารวม : ${_orderdetail![index].totalprice}'),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Divider(color: Colors.black)
                                 ],
                               ),
-                              Text(
-                                '${_orderdetail![index].product_price}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                            ),
                           ),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "ลด 20 %",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              Text(
-                                '- 20',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                /*
-                Column(
-                  children: [
-                    ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                          SizedBox(height: 30),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text("1 x"),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "ข้าวตราฉัตร",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                              Text('ราคารวม : ${widget.total_price}'),
                             ],
                           ),
-                          Text(
-                            '250',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "ลด 20 %",
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          Text(
-                            '- 20',
-                            style: TextStyle(fontSize: 15),
-                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),*/
-              ),
-            ),
-          ),
-          Container(
-            height: 90,
-            child: Card(
-              elevation: 20,
-              color: Colors.greenAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "รวมเบื้องต้น",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "ราคา ",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Text(
-                          "250",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
                   ),
-                ],
-              ),
-            ),
+                )),
           ),
-          Container(
-            height: 90,
-            child: Card(
-              elevation: 20,
-              color: Colors.yellow,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("ส่วนลด"),
-                      ],
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "ลด 20 % ",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Text(
-                          '- 20',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            height: 60,
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-                color: Colors.lightBlue,
-                borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0))),
-            child: Column(
-              children: [
-                ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "รวม",
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
-                      Text(
-                        '${widget.total_price} บาท',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
         ],
       ),
 

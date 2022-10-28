@@ -558,7 +558,7 @@
 
     if("GET_ORDER_DETAIL" == $action){
         $db_data = array();
-        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date FROM user_order
+        $sql = "SELECT user_order.order_id,user_order.order_by,user_order.order_responsible_person,user_order.total_price,user_order.order_status,user_order_detail.product_amount,product.product_name,product.product_image,product.product_price,user_order.order_date,user_order_detail.product_promotion_name,user_order_detail.product_promotion_value FROM user_order
         INNER JOIN user_order_detail 
         ON user_order.order_id = user_order_detail.order_id
         INNER JOIN product 

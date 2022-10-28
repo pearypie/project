@@ -691,8 +691,8 @@ class user_order_detaill_waitcancelState
                               onPressed: () async {
                                 Utils(context).startLoading();
                                 Art_Services()
-                                    .waitcancel_order(widget.import_order_id,
-                                        'รอการยืนยันจาก Admin')
+                                    .waitcancel_order(
+                                        widget.import_order_id, 'ยกเลิกโดยuser')
                                     .then((value) => {
                                           Fluttertoast.showToast(
                                               msg: "ขอยกเลิกการสั่งเรียบร้อย",
