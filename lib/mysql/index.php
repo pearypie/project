@@ -99,7 +99,7 @@
 
     if("GET_USER_MAPS" == $action){
         $db_data = array();
-        $sql = "SELECT * FROM `user_maps` WHERE user_email = '$where'";
+        $sql = "SELECT * FROM `user_maps` WHERE user_email = '$where' ORDER BY user_maps.usermap_status DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
