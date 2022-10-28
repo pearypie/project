@@ -223,35 +223,6 @@ class _admin_orderallState extends State<admin_orderall> {
                         )),
                       ),
                     ),
-/*
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        color: Colors.orangeAccent,
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          title: Text(
-                              'ราคารวม : ${_Export_product![index].total_price.toString()}'),
-                          subtitle: Text(
-                              'ที่มา : ${_Export_product![index].order_by.toString()}'),
-                          tileColor: Colors.orangeAccent,
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return admin_oderall_detail(
-                                  _Export_product![index].order_id.toString(),
-                                  _Export_product![index]
-                                      .total_price
-                                      .toString(),
-                                  _Export_product![index]
-                                      .order_responsible_person
-                                      .toString());
-                            }));
-                          },
-                        ),
-                      ),
-                    ),*/
                   )),
         ),
       ),

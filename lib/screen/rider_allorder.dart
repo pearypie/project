@@ -236,7 +236,6 @@ class _import_order_detailState extends State<user_order_detail> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('${widget.import_order_id}'),
                           SizedBox(height: 20),
                           Text('สั่งในวันที่ : ${widget.order_date}'),
                           SizedBox(height: 20),

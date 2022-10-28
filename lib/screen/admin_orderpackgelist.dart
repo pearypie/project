@@ -95,7 +95,7 @@ class _admin_orderlistState extends State<admin_orderpackgelist> {
                                     title: Text(
                                         'รหัสออเดอร์ : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
                                     subtitle: Text(
-                                        'ที่มา : ${_Export_product![index].order_by}'),
+                                        'ที่มา : ${_Export_product![index].user_name}  ${_Export_product![index].user_surname}'),
                                     tileColor: Colors.yellow,
                                     onTap: () {
                                       Navigator.push(context,
@@ -164,23 +164,45 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
               FloatingActionButton.extended(
                 heroTag: 1,
                 onPressed: () async {
-                  Art_Services()
-                      .acceptpackge_order(widget.order_id)
-                      .then((value) => {
-                            Fluttertoast.showToast(
-                                msg: "จัดส่งเรียบร้อย",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor:
-                                    Color.fromARGB(255, 0, 255, 30),
-                                textColor: Colors.white,
-                                fontSize: 16.0),
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return admin_orderpackgelist();
-                            }))
-                          });
+                  showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('ยืนยันการแพ็คของ'),
+                          content:
+                              const Text('ต้องการที่จะยืนยันการแพ็คของไหม?'),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("ไม่"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Utils(context).startLoading();
+                                Art_Services()
+                                    .acceptpackge_order(widget.order_id)
+                                    .then((value) => {
+                                          Fluttertoast.showToast(
+                                              msg: "จัดส่งเรียบร้อย",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 0, 255, 30),
+                                              textColor: Colors.white,
+                                              fontSize: 16.0),
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return admin_orderpackgelist();
+                                          }))
+                                        });
+                              },
+                              child: const Text("ใช่"),
+                            ),
+                          ],
+                        );
+                      });
                 },
                 label: Text("รับออเดอร์"),
                 icon: Icon(Icons.near_me),

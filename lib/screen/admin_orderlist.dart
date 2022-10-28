@@ -101,7 +101,7 @@ class _admin_orderlistState extends State<admin_orderlist> {
                                     title: Text(
                                         'วันที่สั่ง : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
                                     subtitle: Text(
-                                        'ที่มา : ${_Export_product![index].order_by}'),
+                                        'ที่มา : ${_Export_product![index].user_name}  ${_Export_product![index].user_surname}'),
                                     tileColor: Colors.yellow,
                                     onTap: () {
                                       Navigator.push(context,
@@ -176,19 +176,43 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
               FloatingActionButton.extended(
                 heroTag: 1,
                 onPressed: () async {
-                  Art_Services().accept_order(widget.order_id).then((value) => {
-                        Fluttertoast.showToast(
-                            msg: "จัดส่งเรียบร้อย",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Color.fromARGB(255, 0, 255, 30),
-                            textColor: Colors.white,
-                            fontSize: 16.0),
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return admin_orderlist();
-                        }))
+                  showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('รับออเดอร์'),
+                          content: const Text('ต้องการที่จะรอออเดอร์ไหม?'),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("ไม่"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Utils(context).startLoading();
+                                Art_Services()
+                                    .accept_order(widget.order_id)
+                                    .then((value) => {
+                                          Fluttertoast.showToast(
+                                              msg: "จัดส่งเรียบร้อย",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 0, 255, 30),
+                                              textColor: Colors.white,
+                                              fontSize: 16.0),
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return admin_orderlist();
+                                          }))
+                                        });
+                              },
+                              child: const Text("ใช่"),
+                            ),
+                          ],
+                        );
                       });
                 },
                 label: Text("รับออเดอร์"),
@@ -261,7 +285,6 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text('${widget.order_id}'),
                         SizedBox(height: 20),
                         Text(
                             'คนรับผิดชอบงาน :  ${widget.order_responsible_person}'),

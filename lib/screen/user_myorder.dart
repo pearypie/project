@@ -675,23 +675,46 @@ class user_order_detaill_waitcancelState
                 backgroundColor: Colors.redAccent,
                 heroTag: '1',
                 onPressed: () {
-                  Art_Services()
-                      .waitcancel_order(
-                          widget.import_order_id, 'รอการยืนยันจาก Admin')
-                      .then((value) => {
-                            Fluttertoast.showToast(
-                                msg: "ขอยกเลิกการสั่งเรียบร้อย",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Color.fromARGB(255, 255, 0, 0),
-                                textColor: Colors.white,
-                                fontSize: 16.0),
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return user_order();
-                            })),
-                          });
+                  showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('ร้องขอการยกเลิก'),
+                          content:
+                              const Text('ต้องการที่จะร้องขอการยกเลิกไหม?'),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("ไม่"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Utils(context).startLoading();
+                                Art_Services()
+                                    .waitcancel_order(widget.import_order_id,
+                                        'รอการยืนยันจาก Admin')
+                                    .then((value) => {
+                                          Fluttertoast.showToast(
+                                              msg: "ขอยกเลิกการสั่งเรียบร้อย",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 255, 0, 0),
+                                              textColor: Colors.white,
+                                              fontSize: 16.0),
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return user_order();
+                                          })),
+                                        });
+                              },
+                              child: const Text("ใช่"),
+                            ),
+                          ],
+                        );
+                      });
                 },
                 label: Text('ยกเลิกการสั่งสินค้า'),
               ),

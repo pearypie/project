@@ -560,8 +560,8 @@ class _admin_productdetailState extends State<admin_productdetail> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('ออกจากระบบ'),
-                              content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                              title: const Text('ลบข้อมูล'),
+                              content: const Text('ต้องการที่จะลบข้อมูลไหม?'),
                               actions: <Widget>[
                                 ElevatedButton(
                                   onPressed: () => Navigator.of(context).pop(),

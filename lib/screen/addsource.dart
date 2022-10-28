@@ -458,9 +458,9 @@ class _addpromotionState extends State<addsource> {
                                                 builder: (context) {
                                                   return AlertDialog(
                                                     title: const Text(
-                                                        'ออกจากระบบ'),
+                                                        'แก้ไขแหล่งที่มา'),
                                                     content: const Text(
-                                                        'ต้องการที่จะออกจากระบบไหม?'),
+                                                        'ต้องการที่จะแก้ไขแหล่งที่มาไหม?'),
                                                     actions: <Widget>[
                                                       ElevatedButton(
                                                         onPressed: () =>

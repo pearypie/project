@@ -392,8 +392,8 @@ class _import_order_detailState extends State<import_order_detail> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text('ออกจากระบบ'),
-                            content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                            title: const Text('ยืนยันการรับ'),
+                            content: const Text('ต้องการที่ยืนยันการรับไหม?'),
                             actions: <Widget>[
                               ElevatedButton(
                                 onPressed: () => Navigator.of(context).pop(),

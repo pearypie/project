@@ -10,6 +10,7 @@ import 'package:project_bekery/model/export_product_detail.dart';
 import 'package:project_bekery/mysql/service.dart';
 import 'package:project_bekery/widgets/adminAppbar.dart';
 import 'package:http/http.dart' as http;
+import 'package:project_bekery/widgets/loadingscreen.dart';
 
 class admin_ordercancellist extends StatefulWidget {
   const admin_ordercancellist({Key? key}) : super(key: key);
@@ -520,29 +521,55 @@ class _admin_oderlist_user_detailState
               FloatingActionButton.extended(
                 heroTag: 2,
                 onPressed: () async {
-                  for (var i = 0; i < datalenght; i++) {
-                    print('ชื่อสินค้า : ${_orderdetail![i].product_name}');
-                    print(
-                        'จำนวนของสินค้า : ${_orderdetail![i].product_amount}');
-                    _updateImport(
-                      _orderdetail![i].product_name.toString(),
-                      int.parse(_orderdetail![i].product_amount.toString()),
-                    );
-                  }
-                  Art_Services().cancel_order(widget.order_id).then((value) {
-                    Fluttertoast.showToast(
-                        msg: "คืนของเข้าคลังเรียบร้อย",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Color.fromARGB(255, 255, 0, 0),
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return admin_ordercancellist();
-                    }));
-                  });
+                  showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('ไม่อนุมัติให้ยกเลิก'),
+                          content: const Text('ต้องการที่จะไม่อนุมัติหรือไหม?'),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("ไม่"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Utils(context).startLoading();
+                                for (var i = 0; i < datalenght; i++) {
+                                  print(
+                                      'ชื่อสินค้า : ${_orderdetail![i].product_name}');
+                                  print(
+                                      'จำนวนของสินค้า : ${_orderdetail![i].product_amount}');
+                                  _updateImport(
+                                    _orderdetail![i].product_name.toString(),
+                                    int.parse(_orderdetail![i]
+                                        .product_amount
+                                        .toString()),
+                                  );
+                                }
+                                Art_Services()
+                                    .cancel_order(widget.order_id)
+                                    .then((value) {
+                                  Fluttertoast.showToast(
+                                      msg: "คืนของเข้าคลังเรียบร้อย",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor:
+                                          Color.fromARGB(255, 255, 0, 0),
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return admin_ordercancellist();
+                                  }));
+                                });
+                              },
+                              child: const Text("ใช่"),
+                            ),
+                          ],
+                        );
+                      });
                 },
                 label: Text("ยกเลิกออเดอร์"),
                 icon: Icon(Icons.near_me),

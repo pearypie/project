@@ -261,8 +261,9 @@ class _admin_userdetailState extends State<admin_userdetail> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: const Text('ออกจากระบบ'),
-                        content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                        title: const Text('แก้ไขข้อมูลผู้ใช้'),
+                        content:
+                            const Text('ต้องการที่จะแก้ไขข้อมูลผู้ใช้ไหม?'),
                         actions: <Widget>[
                           ElevatedButton(
                             onPressed: () => Navigator.of(context).pop(),
@@ -334,8 +335,8 @@ class _admin_userdetailState extends State<admin_userdetail> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: const Text('ออกจากระบบ'),
-                        content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                        title: const Text('ลบข้อมูลผู้ใช้'),
+                        content: const Text('ต้องการที่จะลบข้อมูลผู้ใช้ไหม?'),
                         actions: <Widget>[
                           ElevatedButton(
                             onPressed: () => Navigator.of(context).pop(),
@@ -602,8 +603,8 @@ class _admin_riderdetailState extends State<admin_riderdetail> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: const Text('ออกจากระบบ'),
-                        content: const Text('ต้องการที่จะออกจากระบบไหม?'),
+                        title: const Text('แก้ไขข้อมูลผู้ใช้'),
+                        content: const Text('ต้องการที่แก้ไขข้อมูลผู้ใช้ไหม?'),
                         actions: <Widget>[
                           ElevatedButton(
                             onPressed: () => Navigator.of(context).pop(),
