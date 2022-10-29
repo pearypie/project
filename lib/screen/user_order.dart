@@ -48,7 +48,6 @@ class _OrderpageState extends State<Orderpage> {
 
   _getBasket() async {
     String email = await SessionManager().get("email");
-    print("function working");
     Art_Services().getuserbasket(email.toString()).then((basket) {
       setState(() {
         userbasket = basket;
@@ -143,70 +142,6 @@ class _OrderpageState extends State<Orderpage> {
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
                     )),
-                /*Container(
-                  height: 50.0,
-                  child: ListView(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.greenAccent),
-                            ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return data_product_sql_more('1');
-                              }));
-                            },
-                            child: Text('ข้าวสาร'),
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.greenAccent),
-                            ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return data_product_sql_more('2');
-                              }));
-                            },
-                            child: Text('อุปกรณ์เครื่องใช้ในครัว'),
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.greenAccent),
-                            ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return data_product_sql_more('3');
-                              }));
-                            },
-                            child: Text('เครื่องปรุง'),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),*/
-
                 Container(
                   height: 55.0,
                   child: ListView.builder(
@@ -241,24 +176,16 @@ class _OrderpageState extends State<Orderpage> {
                                                   .toString());
                                         }));
                                       },
-                                      child: Text(producttype![index]
-                                          .product_type_name
-                                          .toString(),style: TextStyle(color: Colors.blue),),
+                                      child: Text(
+                                        producttype![index]
+                                            .product_type_name
+                                            .toString(),
+                                        style: TextStyle(color: Colors.blue),
+                                      ),
                                     ),
                             ),
                           )),
                 ),
-                /*
-                Container(
-                  height: 230,
-                  child: ListView.builder(
-                      padding: EdgeInsets.all(0),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount:
-                          producttype != null ? (producttype?.length ?? 0) : 0,
-                      itemBuilder: ((_, index) => data_product_sql('1'))),
-                ),*/
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   height: 225.0,
@@ -379,9 +306,7 @@ class data_product_sql_moreState extends State<data_product_sql_more> {
             child: const Text(
           'รายการสินค้า',
           style: TextStyle(
-              color: Colors.blue,
-              fontSize: 24,
-              fontWeight: FontWeight.bold),
+              color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
         )),
         actions: <Widget>[
           IconButton(

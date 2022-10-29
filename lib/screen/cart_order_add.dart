@@ -41,7 +41,6 @@ class _cart_order_addState extends State<cart_order_add> {
   }
 
   _getBasket() {
-    print("function working");
     Art_Services().getuserbasket(widget.email.toString()).then((basket) {
       setState(() {
         userbasket = basket;
@@ -54,7 +53,6 @@ class _cart_order_addState extends State<cart_order_add> {
   }
 
   _getonlyuser() {
-    print("function working");
     Art_Services().geyonlyuser(widget.email.toString()).then((user) {
       setState(() {
         _user = user;
@@ -62,25 +60,17 @@ class _cart_order_addState extends State<cart_order_add> {
     });
   }
 
-  _getImportorder(length) {
-    Utils(context).startLoading();
+  _getImportorder(length) async {
     int Import_totalprice = 0;
     var Import_order_id = Uuid().v1();
     print('length data for loop === ${length}');
     print('-----------รายการที่จะส่ง-------------');
     print('---รหัสสินค้า [${Import_order_id}]---');
     for (int i = 0; i < length; i++) {
-      print('รายการที่[${i}]');
-      print(
-          'รหัสรายการสิ้นค้า ----> [${userbasket![i].user_basket_product_id.toString()}]');
-      print(
-          'จำนวนสิ้นค้า ----> [${userbasket![i].user_basket_quantity.toString()}]');
-      print('ราคารวม ----> [${userbasket![i].totalprice.toString()}]');
-      print('วันเวลาที่สั่ง ----> [${DateTime.now()}]');
       setState(() {
         Import_totalprice += int.parse(userbasket![i].totalprice.toString());
       });
-      Art_Services().addOrderdtail(
+      await Art_Services().addOrderdtail(
         Import_order_id.toString(),
         userbasket![i].user_basket_product_id.toString(),
         userbasket![i].user_basket_quantity.toString(),
@@ -89,14 +79,11 @@ class _cart_order_addState extends State<cart_order_add> {
         userbasket![i].basket_product_promotionvalue.toString(),
       );
 
-      Art_Services().product_quantity_update(
+      await Art_Services().product_quantity_update(
           userbasket![i].user_basket_product_id.toString(),
           userbasket![i].user_basket_quantity.toString());
     }
-    print("ราคารวมรายการ : ${Import_totalprice}");
-    print(
-        'userLocation : ${_user![0].user_latitude}  ,  ${_user![0].user_longitude}');
-    Art_Services().add_order(
+    await Art_Services().add_order(
         Import_order_id.toString(),
         widget.email.toString(),
         usermap![0].user_latitude.toString(),
@@ -110,7 +97,7 @@ class _cart_order_addState extends State<cart_order_add> {
     setState(() {
       Import_totalprice = 0;
     });
-    Art_Services().deleteuserbasket(widget.email).then((value) => {
+    await Art_Services().deleteuserbasket(widget.email).then((value) => {
           Fluttertoast.showToast(
               msg: "สั่งซื้อเสร็จสิ้น",
               toastLength: Toast.LENGTH_SHORT,
@@ -192,8 +179,8 @@ class _cart_order_addState extends State<cart_order_add> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                print('USERMAP ==> ${usermap!.length}');
+                              onPressed: () async {
+                                Utils(context).startLoading();
                                 if (usermap?.length == 0) {
                                   Navigator.pop(context);
                                   Fluttertoast.showToast(
@@ -206,7 +193,8 @@ class _cart_order_addState extends State<cart_order_add> {
                                       textColor: Colors.white,
                                       fontSize: 16.0);
                                 } else {
-                                  _getImportorder(length);
+                                  Utils(context).startLoading();
+                                  await _getImportorder(length);
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
                                     return Orderpage();
@@ -221,7 +209,7 @@ class _cart_order_addState extends State<cart_order_add> {
                       });
                 }
               },
-              label: Text("ราคารวม : ${simpletotal.toString()}"),
+              label: Text("ยืนยันการซื้อ"),
               icon: Icon(Icons.shopping_bag),
               backgroundColor: Colors.red,
             ),

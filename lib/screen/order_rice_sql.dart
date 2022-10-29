@@ -130,11 +130,10 @@ class _order_rice_sqlState extends State<order_rice_sql> {
   }
 
   _getpromotion() {
-    print("function working");
     print(
       widget.product_id,
     );
-    print(DateFormat('yyyy-MM-d').format(DateTime.now()).toString());
+
     Art_Services()
         .getonlyvalue_product_promotion(widget.product_id,
             DateFormat('yyyy-MM-d').format(DateTime.now()).toString())
