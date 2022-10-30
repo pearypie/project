@@ -242,7 +242,24 @@
 
     if("GET_ONLY_PRODUCT" == $action){
         $db_data = array();
-        $sql = "SELECT * FROM product WHERE product_type_id = $where";
+        $sql = "SELECT * FROM product WHERE product_type_id = $where LIMIT 3";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
+    if("GET_ALL_PRODUCTBYTYPE" == $action){
+        $db_data = array();
+        $sql = "SELECT * FROM product WHERE product_type_id = $where ";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){

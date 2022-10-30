@@ -83,20 +83,20 @@ class _user_profileState extends State<user_profile> {
                   });
             },
           ),
-          backgroundColor: Colors.greenAccent,
+          backgroundColor: Colors.white,
           elevation: 0,
           title: Center(
               child: const Text(
             'แก้ไขโปรไฟล์',
             style: TextStyle(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+                color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
           )),
           actions: <Widget>[],
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colorz.complexDrawerBlack,
+          color: Color.fromARGB(255, 238, 238, 238),
         ),
       );
     }
@@ -213,19 +213,19 @@ class _user_profileState extends State<user_profile> {
                                 onSaved: (email) {
                                   useremail = email!;
                                 },
-                                enabled: true,
+                                enabled: false,
                                 autofocus: false,
                                 initialValue: "${user![0].user_email}",
                                 style: TextStyle(color: Colors.black),
-                               decoration: InputDecoration(
-                                        enabledBorder: const OutlineInputBorder(
-                                          // width: 0.0 produces a thin "hairline" border
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(30)),
-                                          borderSide: const BorderSide(
-                                            color: Colors.blue,
-                                          ),
-                                        ),
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+                                    // width: 0.0 produces a thin "hairline" border
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    borderSide: const BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
                                   label: Text(
                                     'อีเมล์',
                                     style: TextStyle(color: Colors.blue),
@@ -234,10 +234,9 @@ class _user_profileState extends State<user_profile> {
                                     Icons.email,
                                     color: Colors.blue,
                                   ),
-                                   border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                        ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                 ),
                               ),
                               const SizedBox(

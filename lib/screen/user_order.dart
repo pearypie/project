@@ -245,18 +245,6 @@ class data_product_sql_more extends StatefulWidget {
   data_product_sql_moreState createState() => data_product_sql_moreState();
 }
 
-// Now we will write a class that will help in searching.
-// This is called a Debouncer class.
-// I have made other videos explaining about the debouncer classes
-// The link is provided in the description or tap the 'i' button on the right corner of the video.
-// The Debouncer class helps to add a delay to the search
-// that means when the class will wait for the user to stop for a defined time
-// and then start searching
-// So if the user is continuosly typing without any delay, it wont search
-// This helps to keep the app more performant and if the search is directly hitting the server
-// it keeps less hit on the server as well.
-// Lets write the Debouncer class
-
 class data_product_sql_moreState extends State<data_product_sql_more> {
   List<Product>? _product;
   List<Product>? _filterproduct;
@@ -273,7 +261,7 @@ class data_product_sql_moreState extends State<data_product_sql_more> {
 
   _getProduct() {
     print('ข้อมูล : ${widget.where}');
-    Art_Services().getonlyProduct(widget.where).then((product) {
+    Art_Services().getallProductbytype(widget.where).then((product) {
       print(
           "------------------------------------------------------------------------");
       setState(() {
@@ -282,7 +270,6 @@ class data_product_sql_moreState extends State<data_product_sql_more> {
         _filterproduct = product;
       });
       print("Length ${product.length}");
-      print(_product![0].product_name);
     });
   }
 

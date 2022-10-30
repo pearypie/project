@@ -294,6 +294,8 @@ class _user_mymapspageState extends State<user_mymapspage> {
                                                   children: [
                                                     ElevatedButton(
                                                       onPressed: () async {
+                                                        Utils(context)
+                                                            .startLoading();
                                                         if (fromKey
                                                             .currentState!
                                                             .validate()) {
@@ -351,6 +353,8 @@ class _user_mymapspageState extends State<user_mymapspage> {
                                                     ),
                                                     ElevatedButton(
                                                       onPressed: () async {
+                                                        Utils(context)
+                                                            .startLoading();
                                                         await Art_Services()
                                                             .deleteusermap(
                                                                 user_mymaps![

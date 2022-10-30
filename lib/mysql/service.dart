@@ -510,6 +510,28 @@ class Art_Services {
     }
   }
 
+  Future<List<Product>> getallProductbytype(where) async {
+    try {
+      var map = <String, dynamic>{};
+      print('${where}');
+      map["action"] = "GET_ALL_PRODUCTBYTYPE";
+      map["where"] = where;
+      final response = await http.post(url, body: map);
+      print("getallProductbytype >> Response:: ${response.body}");
+      if (response.statusCode == 200) {
+        List<Product> list = parseResponseProduct(response.body);
+        print("---------------------------------------------");
+        return list;
+      } else {
+        print("statusCode >> Response:: ${response.statusCode}");
+        throw <Product>[];
+      }
+    } catch (e) {
+      print(e);
+      return <Product>[];
+    }
+  }
+
   Future<List<source>> getSource() async {
     try {
       var map = <String, dynamic>{};

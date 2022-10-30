@@ -12,6 +12,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project_bekery/mysql/service.dart';
+import 'package:project_bekery/widgets/loadingscreen.dart';
 import 'package:project_bekery/widgets/userAppbar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -140,6 +141,7 @@ class _MapsPageState extends State<user_MapsPage> {
                   ElevatedButton(
                     onPressed: () async {
                       if (fromKey.currentState!.validate()) {
+                        Utils(context).startLoading();
                         fromKey.currentState!.save();
                         user_email = await SessionManager().get("email");
                         print(user_email);
@@ -198,13 +200,16 @@ class _MapsPageState extends State<user_MapsPage> {
                 print(Address);
                 showInFrom(context);
               },
-              icon: Icon(Icons.near_me,color: Colors.blue,)),
+              icon: Icon(
+                Icons.near_me,
+                color: Colors.blue,
+              )),
           appBarHeight: 85,
           appBarColor: Colors.white,
           title: Container(
             child: Center(
                 child: const Text(
-              'แผนที่ยืนยันตำแหน่ง',
+              'เพิ่มข้อมูลแผนที่',
               style: TextStyle(
                   color: Colors.blue,
                   fontSize: 24,

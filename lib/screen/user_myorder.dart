@@ -201,7 +201,7 @@ class _user_orderState extends State<user_order> {
                               title: Text(
                                   '${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${user_order![index].date}'))}'),
                               subtitle: Text(
-                                  'สถานะของรายการ : ${user_order![index].order_status.toString()}'),
+                                  'สถานะ : ${user_order![index].order_status.toString()}'),
                             ),
                           ]),
                         ),
