@@ -16,6 +16,7 @@ import 'package:project_bekery/screen/user_welcome.dart';
 import 'package:project_bekery/screen/admin_orderlist.dart';
 import 'package:project_bekery/widgets/adminAppbar.dart';
 import 'package:project_bekery/widgets/loadingscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   late bool UserSelected = true;
   late bool RiderSelected = false;
   final fromKey = GlobalKey<FormState>();
+
   late String email;
   late String password;
   Customer customer = Customer(
@@ -211,7 +213,9 @@ class _LoginPageState extends State<LoginPage> {
                               width: 340,
                               height: 50,
                               child: OutlinedButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
                                   if (fromKey.currentState!.validate()) {
                                     Utils(context).startLoading();
                                     fromKey.currentState!.save();
@@ -225,24 +229,57 @@ class _LoginPageState extends State<LoginPage> {
                                                 print(value.length),
                                                 if (value.isNotEmpty)
                                                   {
-                                                    await SessionManager().set(
-                                                        "id", '${customer.id}'),
-                                                    await SessionManager().set(
-                                                        "email",
-                                                        '${customer.email}'),
-                                                    await Art_Services()
-                                                        .adduserlog(
-                                                            'ล็อคอิน',
-                                                            value[0]
-                                                                .user_id
-                                                                .toString(),
-                                                            DateTime.now()
-                                                                .toString()),
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) {
-                                                      return Orderpage();
-                                                    })),
+                                                    await prefs.setString(
+                                                        'email',
+                                                        customer.email
+                                                            .toString()),
+                                                    await prefs.setString(
+                                                        'role',
+                                                        value[0].user_role),
+                                                    if (value[0].user_role ==
+                                                        'customer')
+                                                      {
+                                                        await SessionManager()
+                                                            .set("id",
+                                                                '${customer.id}'),
+                                                        await SessionManager().set(
+                                                            "email",
+                                                            '${customer.email}'),
+                                                        await Art_Services()
+                                                            .adduserlog(
+                                                                'ล็อคอิน',
+                                                                value[0]
+                                                                    .user_id
+                                                                    .toString(),
+                                                                DateTime.now()
+                                                                    .toString()),
+                                                        Navigator.push(context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) {
+                                                          return Orderpage();
+                                                        })),
+                                                      }
+                                                    else
+                                                      {
+                                                        Utils(context)
+                                                            .stopLoading(),
+                                                        Fluttertoast.showToast(
+                                                            msg:
+                                                                "ไม่มีข้อมูลผู้ใช้ในระบบของUser",
+                                                            toastLength: Toast
+                                                                .LENGTH_SHORT,
+                                                            gravity:
+                                                                ToastGravity
+                                                                    .BOTTOM,
+                                                            timeInSecForIosWeb:
+                                                                1,
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0),
+                                                      }
                                                   }
                                                 else
                                                   {
@@ -272,6 +309,13 @@ class _LoginPageState extends State<LoginPage> {
                                                 print(value.length),
                                                 if (value.isNotEmpty)
                                                   {
+                                                    await prefs.setString(
+                                                        'email',
+                                                        customer.email
+                                                            .toString()),
+                                                    await prefs.setString(
+                                                        'role',
+                                                        value[0].rider_role),
                                                     await SessionManager().set(
                                                         "email",
                                                         '${customer.email}'),

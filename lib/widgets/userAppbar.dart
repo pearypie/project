@@ -13,6 +13,7 @@ import 'package:project_bekery/screen/user_myorder.dart';
 import 'package:project_bekery/screen/user_order.dart';
 import 'package:project_bekery/screen/user_profire.dart';
 import 'package:project_bekery/widgets/loadingscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserAppBar extends StatefulWidget {
   const UserAppBar({Key? key}) : super(key: key);
@@ -248,6 +249,10 @@ class _UserAppBarState extends State<UserAppBar> {
                             ElevatedButton(
                               onPressed: () async {
                                 Utils(context).startLoading();
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.remove('email');
+                                await prefs.remove('role');
                                 await Art_Services().adduserlog(
                                     'ล็อคเอาท์',
                                     user?[0].user_id,

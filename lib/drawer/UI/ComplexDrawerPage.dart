@@ -19,6 +19,7 @@ import 'package:project_bekery/screen/admin_report_order.dart';
 import 'package:project_bekery/screen/admin_userlist.dart';
 import 'package:project_bekery/screen/adminaddrider.dart';
 import 'package:project_bekery/screen/float_add_order.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ComplexDrawerPage extends StatefulWidget {
   const ComplexDrawerPage({Key? key}) : super(key: key);
@@ -429,7 +430,11 @@ class _ComplexDrawerState extends State<ComplexDrawer> {
                                     child: const Text("ไม่"),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.remove('email');
+                                      await prefs.remove('role');
                                       Navigator.of(context).pushAndRemoveUntil(
                                         CupertinoPageRoute(
                                             builder: (context) => LoginPage()),

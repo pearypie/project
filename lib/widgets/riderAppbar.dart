@@ -10,6 +10,7 @@ import 'package:project_bekery/screen/rider_changepassword.dart';
 import 'package:project_bekery/screen/rider_map.dart';
 import 'package:project_bekery/screen/rider_myorder.dart';
 import 'package:project_bekery/screen/rider_profire.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RiderAppBar extends StatefulWidget {
   const RiderAppBar({Key? key}) : super(key: key);
@@ -166,7 +167,11 @@ class _UserAppBarState extends State<RiderAppBar> {
                               child: const Text("ไม่"),
                             ),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.remove('email');
+                                await prefs.remove('role');
                                 Navigator.of(context).pushAndRemoveUntil(
                                   CupertinoPageRoute(
                                       builder: (context) => LoginPage()),
