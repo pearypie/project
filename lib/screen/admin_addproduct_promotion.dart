@@ -573,8 +573,11 @@ class _admin_addproductpromotionState extends State<admin_addproductpromotion> {
                                                             ),
                                                           ),
                                                           ElevatedButton(
-                                                            onPressed: () {
-                                                              Art_Services()
+                                                            onPressed:
+                                                                () async {
+                                                              Utils(context)
+                                                                  .startLoading();
+                                                              await Art_Services()
                                                                   .deleteproduct_promotion(
                                                                       Promotion
                                                                           .product_id

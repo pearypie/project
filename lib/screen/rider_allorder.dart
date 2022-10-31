@@ -114,6 +114,12 @@ class _rider_allorderState extends State<rider_allorder> {
                                                   user_order![index]
                                                       .date
                                                       .toString(),
+                                                  user_order![index]
+                                                      .user_name
+                                                      .toString(),
+                                                  user_order![index]
+                                                      .user_surname
+                                                      .toString(),
                                                 );
                                               }));
                                             },
@@ -137,9 +143,14 @@ class _rider_allorderState extends State<rider_allorder> {
 }
 
 class user_order_detail extends StatefulWidget {
-  final String import_order_id, Import_product_pricetotal, order_by, order_date;
+  final String import_order_id,
+      Import_product_pricetotal,
+      order_by,
+      order_date,
+      username,
+      usersername;
   const user_order_detail(this.import_order_id, this.Import_product_pricetotal,
-      this.order_by, this.order_date,
+      this.order_by, this.order_date, this.username, this.usersername,
       {Key? key})
       : super(key: key);
 
@@ -239,7 +250,8 @@ class _import_order_detailState extends State<user_order_detail> {
                           SizedBox(height: 20),
                           Text('สั่งในวันที่ : ${widget.order_date}'),
                           SizedBox(height: 20),
-                          Text('สั่งซื้อโดย :${widget.order_by}'),
+                          Text(
+                              'สั่งซื้อโดย : ${widget.username} ${widget.usersername}'),
                           SizedBox(height: 20),
                           ListView.builder(
                             scrollDirection: Axis.vertical,

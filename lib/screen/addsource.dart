@@ -489,39 +489,43 @@ class _addpromotionState extends State<addsource> {
                                                               print(val.length);
                                                               if (val.length ==
                                                                   0) {
-                                                                Art_Services().editsource(
-                                                                    current_sourceid,
-                                                                    sourcename,
-                                                                    sourceaddress,
-                                                                    sourcephone);
-                                                                Fluttertoast.showToast(
-                                                                    msg:
-                                                                        "แก้ไขข้อมูลสำเร็จ",
-                                                                    toastLength:
-                                                                        Toast
-                                                                            .LENGTH_SHORT,
-                                                                    gravity: ToastGravity
-                                                                        .BOTTOM,
-                                                                    timeInSecForIosWeb:
-                                                                        1,
-                                                                    backgroundColor:
-                                                                        Color.fromARGB(
-                                                                            255,
-                                                                            13,
-                                                                            255,
-                                                                            0),
-                                                                    textColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    fontSize:
-                                                                        16.0);
-                                                                Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) {
-                                                                  return addsource();
-                                                                }));
+                                                                Art_Services()
+                                                                    .editsource(
+                                                                        current_sourceid,
+                                                                        sourcename,
+                                                                        sourceaddress,
+                                                                        sourcephone)
+                                                                    .then(
+                                                                        (value) {
+                                                                  Fluttertoast.showToast(
+                                                                      msg:
+                                                                          "แก้ไขข้อมูลสำเร็จ",
+                                                                      toastLength:
+                                                                          Toast
+                                                                              .LENGTH_SHORT,
+                                                                      gravity: ToastGravity
+                                                                          .BOTTOM,
+                                                                      timeInSecForIosWeb:
+                                                                          1,
+                                                                      backgroundColor:
+                                                                          Color.fromARGB(
+                                                                              255,
+                                                                              13,
+                                                                              255,
+                                                                              0),
+                                                                      textColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      fontSize:
+                                                                          16.0);
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) {
+                                                                    return addsource();
+                                                                  }));
+                                                                });
                                                               } else {
                                                                 Utils(context)
                                                                     .stopLoading();
