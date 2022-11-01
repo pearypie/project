@@ -666,7 +666,7 @@ class _Import_quantityState extends State<Import_quantity> {
             ),
             onTap: () {
               setState(() {
-                quantity--;
+                quantity <= 1 ? 1 : quantity--;
               });
             }),
         SizedBox(
