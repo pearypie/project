@@ -3,7 +3,7 @@ class Import_detail {
   String? Import_product_pricetotal;
   String? product_name;
   String? product_image;
-  String? product_price;
+  String? import_price;
   String? basket_product_quantity;
   String? basket_product_pricetotal;
   String? sumImport;
@@ -13,7 +13,7 @@ class Import_detail {
     required this.Import_product_pricetotal,
     required this.product_name,
     required this.product_image,
-    required this.product_price,
+    required this.import_price,
     required this.basket_product_quantity,
     required this.basket_product_pricetotal,
     required this.sumImport,
@@ -25,7 +25,7 @@ class Import_detail {
       Import_product_pricetotal: json['Import_product_pricetotal'],
       product_name: json['product_name'],
       product_image: json['product_image'],
-      product_price: json['product_price'],
+      import_price: json['import_price'],
       basket_product_quantity: json['basket_product_quantity'],
       basket_product_pricetotal: json['basket_product_pricetotal'],
       sumImport: json['SUM(import_order_detail.basket_product_quantity)'],
@@ -37,7 +37,7 @@ class Import_detail {
         'Import_product_pricetotal': Import_product_pricetotal,
         'product_name': product_name,
         'product_image': product_image,
-        'product_price': product_price,
+        'import_price': import_price,
         'basket_product_quantity': basket_product_quantity,
         'basket_product_pricetotal': basket_product_pricetotal,
       };

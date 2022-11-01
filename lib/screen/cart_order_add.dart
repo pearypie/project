@@ -84,15 +84,18 @@ class _cart_order_addState extends State<cart_order_add> {
           userbasket![i].user_basket_quantity.toString());
     }
     await Art_Services().add_order(
-        Import_order_id.toString(),
-        widget.email.toString(),
-        usermap![0].user_latitude.toString(),
-        usermap![0].user_longitude.toString(),
-        'ยังไม่มีคนรับผิดชอบ'.toString(),
-        Import_totalprice.toString(),
-        'รอการยืนยันจาก Admin',
-        DateTime.now().toString(),
-        length.toString());
+      Import_order_id.toString(),
+      widget.email.toString(),
+      usermap![0].user_latitude.toString(),
+      usermap![0].user_longitude.toString(),
+      'ยังไม่มีคนรับผิดชอบ'.toString(),
+      Import_totalprice.toString(),
+      'รอการยืนยันจาก Admin',
+      DateTime.now().toString(),
+      length.toString(),
+      usermap![0].user_maps_detail.toString(),
+    );
+
     print('-----------จบการส่งข้อมูล-------------');
     setState(() {
       Import_totalprice = 0;

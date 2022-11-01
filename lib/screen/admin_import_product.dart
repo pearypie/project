@@ -101,6 +101,7 @@ class _admin_import_sourceState extends State<admin_import_source> {
                           ),
                           child: Column(children: [
                             ListTile(
+                              trailing: Icon(Icons.arrow_forward_ios),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0)),
                               title: Text(
@@ -175,7 +176,9 @@ class _import_product_menuState extends State<import_product_menu> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return admin_import_source();
+            }));
           },
         ),
         backgroundColor: Color(0xFF9f86c0),
@@ -194,7 +197,8 @@ class _import_product_menuState extends State<import_product_menu> {
             ),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Admincraftimprotproduct(widget.source_id);
+                return Admincraftimprotproduct(
+                    widget.source_id, widget.source_name);
               }));
               // do somethingNavigator.push(context,
             },
@@ -433,16 +437,13 @@ class _import_product_detailState extends State<import_product_detail> {
                 left: height / 42.2,
                 right: height / 42.2,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
                         },
                         child: AppIcon(icon: Icons.arrow_back_ios)),
-                    GestureDetector(
-                        onTap: () {},
-                        child: AppIcon(icon: Icons.shopping_cart_outlined))
                   ],
                 )),
             Positioned(
@@ -549,7 +550,7 @@ class _Import_quantityState extends State<Import_quantity> {
             ),
             onTap: () {
               setState(() {
-                quantity--;
+                quantity <= 1 ? 1 : quantity--;
               });
             }),
         SizedBox(
@@ -577,32 +578,42 @@ class _Import_quantityState extends State<Import_quantity> {
           width: 10,
         ),
         InkWell(
-          onTap: () {
+          onTap: () async {
             try {
-              print("---------> ${widget}");
-              _addproducttocart(widget.product_id, quantity,
-                      widget.product_price, widget.source_id)
-                  .then((value) {
-                Fluttertoast.showToast(
-                    msg: "ซื้อของเรียบร้อย",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.green,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
-                Navigator.of(context).pop();
-              });
+              Utils(context).startLoading();
+              await Art_Services()
+                  .checkimportbasket(widget.product_id, widget.source_id)
+                  .then(((value) {
+                print(value);
+                if (value.length == 0) {
+                  _addproducttocart(widget.product_id, quantity,
+                          widget.product_price, widget.source_id)
+                      .then((value) {
+                    Fluttertoast.showToast(
+                        msg: "ซื้อของเรียบร้อย",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                    Utils(context).stopLoading();
+                    Navigator.of(context).pop();
+                  });
+                } else {
+                  Utils(context).stopLoading();
+                  Fluttertoast.showToast(
+                      msg: "ของชิ้นนี้ถูกซื้อไปแล้ว",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
+              }));
             } catch (e) {
               print(e);
-              Fluttertoast.showToast(
-                  msg: "ของชิ้นนี้ถูกซื้อไปแล้ว",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 16.0);
             }
           },
           child: Container(
@@ -627,8 +638,9 @@ class _Import_quantityState extends State<Import_quantity> {
 }
 
 class Admincraftimprotproduct extends StatefulWidget {
-  final String source_id;
-  const Admincraftimprotproduct(this.source_id, {Key? key}) : super(key: key);
+  final String source_id, source_name;
+  const Admincraftimprotproduct(this.source_id, this.source_name, {Key? key})
+      : super(key: key);
 
   @override
   State<Admincraftimprotproduct> createState() =>
@@ -801,16 +813,33 @@ class _AdmincraftimprotproductState extends State<Admincraftimprotproduct> {
                                   ),
                                   title: Text(
                                       _basket![index].product_name.toString()),
-                                  subtitle: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          'จำนวน : ${_basket![index].basket_product_quantity.toString()}'),
-                                      Text(
-                                          'ราคารวม : ${_basket![index].basket_product_pricetotal.toString()}'),
-                                    ],
-                                  ),
+                                  subtitle: Text(
+                                      'จำนวน : ${_basket![index].basket_product_quantity.toString()}'),
+                                  trailing: IconButton(
+                                      onPressed: () async {
+                                        Utils(context).startLoading();
+                                        await Art_Services()
+                                            .deleteonlyimportbasket(
+                                                _basket![index].basket_id);
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                "ลบสินค้า ${_basket![index].product_name} เรียบร้อย",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor:
+                                                Color.fromARGB(255, 255, 0, 0),
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return import_product_menu(
+                                              widget.source_id,
+                                              widget.source_name);
+                                        }));
+                                      },
+                                      icon: Icon(Icons.delete)),
                                   tileColor: Colors.yellow,
                                   onTap: () {},
                                 ),

@@ -43,7 +43,7 @@ class _user_orderState extends State<user_order> {
     initializeDateFormatting();
     super.initState();
     user_order = [];
-    _getImport_product('ส่งเรียบร้อย');
+    _getImport_product('ของกำลังส่ง');
   }
 
   _getImport_product(order_status) async {

@@ -194,7 +194,8 @@ class Art_Services {
       total_price,
       order_status,
       date,
-      product_amount) async {
+      product_amount,
+      map_detail) async {
     try {
       var map = <String, dynamic>{};
       map["action"] = _ADD_USER_ORDER_ACTION;
@@ -207,6 +208,8 @@ class Art_Services {
       map["order_status"] = order_status;
       map["date"] = date;
       map["product_amount"] = product_amount;
+      map["map_detail"] = map_detail;
+      print('maps ------------> ${map_detail}');
       final response = await http.post(url, body: map);
       print("add_order >> Response:: ${response.body}");
       return response.body;
@@ -638,6 +641,28 @@ class Art_Services {
     } catch (e) {
       print(e);
       return <User_Basket>[];
+    }
+  }
+
+  Future<List<Basket>> checkimportbasket(where, soure) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "CHECK_IMPORT_BASKET";
+      map["where"] = where;
+      map["soure"] = soure;
+      final response = await http.post(url, body: map);
+      print("checkimportbasket >> Response:: ${response.body}");
+      if (response.statusCode == 200) {
+        List<Basket> list = parseResponsebasket(response.body);
+        print("---------------------------------------------");
+        return list;
+      } else {
+        print("statusCode >> Response:: ${response.statusCode}");
+        throw <Basket>[];
+      }
+    } catch (e) {
+      print(e);
+      return <Basket>[];
     }
   }
 
@@ -1164,6 +1189,19 @@ class Art_Services {
       map["where"] = where;
       final response = await http.post(url, body: map);
       print("deleteonlybasket >> Response:: ${response.body}");
+      return response.body;
+    } catch (e) {
+      return 'error';
+    }
+  }
+
+  Future<String> deleteonlyimportbasket(where) async {
+    try {
+      var map = <String, dynamic>{};
+      map["action"] = "DELETE_ONLY_IMPORTBASKET";
+      map["where"] = where;
+      final response = await http.post(url, body: map);
+      print("deleteonlyimportbasket >> Response:: ${response.body}");
       return response.body;
     } catch (e) {
       return 'error';

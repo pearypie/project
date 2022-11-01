@@ -93,7 +93,7 @@ class _admin_orderlistState extends State<admin_orderpackgelist> {
                                         borderRadius:
                                             BorderRadius.circular(30.0)),
                                     title: Text(
-                                        'รหัสออเดอร์ : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
+                                        '${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Export_product![index].date}'))}'),
                                     subtitle: Text(
                                         'ที่มา : ${_Export_product![index].user_name}  ${_Export_product![index].user_surname}'),
                                     tileColor: Colors.yellow,
@@ -310,7 +310,7 @@ class _admin_oderlist_detailState extends State<admin_oderlist_detail> {
                                         );
                                       });
                                 },
-                                label: Text("รับออเดอร์"),
+                                label: Text("ยืนยันแพ็คของ"),
                                 backgroundColor: Colors.green,
                               ),
                               FloatingActionButton.extended(

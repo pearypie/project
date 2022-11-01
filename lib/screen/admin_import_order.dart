@@ -100,6 +100,7 @@ class _admin_import_orderState extends State<admin_import_order> {
                             ),
                             child: Column(children: [
                               ListTile(
+                                trailing: Icon(Icons.arrow_forward_ios),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                                 title: Text(
@@ -238,7 +239,7 @@ class _adminhistoryimportState extends State<adminhistoryimport> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                                 title: Text(
-                                    'วันที่สั่ง : ${_Import_product![index].Import_date.toString()}'),
+                                    'วันที่สั่ง : ${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${_Import_product![index].Import_date.toString()}'))}'),
                                 subtitle: Text(
                                     'ที่มา : ${_Import_product![index].source_name.toString()}'),
                                 tileColor: Colors.yellow,
@@ -499,7 +500,7 @@ class _import_order_detailState extends State<import_order_detail> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                        'ราคาต่อชิ้น : ${_Import_product![index].product_price}'),
+                                        'ราคาต่อชิ้น : ${_Import_product![index].import_price}'),
                                   ],
                                 ),
                                 SizedBox(height: 10),
@@ -583,7 +584,17 @@ class _import_history_detailState extends State<import_history_detail> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text('${widget.import_order_id}'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text('ชื่อร้าน : ${widget.source_name}'),
+                              SizedBox(height: 10),
+                              Text('เบอร์โทรติดต่อ : ${widget.source_number}'),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 20),
                         ListView.builder(
                           scrollDirection: Axis.vertical,
@@ -611,7 +622,7 @@ class _import_history_detailState extends State<import_history_detail> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                        'ราคาต่อชิ้น : ${_Import_product![index].product_price}'),
+                                        'ราคาต่อชิ้น : ${_Import_product![index].import_price}'),
                                   ],
                                 ),
                                 SizedBox(height: 10),

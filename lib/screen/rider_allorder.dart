@@ -139,7 +139,7 @@ class _rider_allorderState extends State<rider_allorder> {
                                           title: Text(
                                               '${DateFormat('วันที่ d เดือน MMMM ปี y', 'th').format(DateTime.parse('${user_order![index].date}'))}'),
                                           subtitle: Text(
-                                              'สถานะ : ${user_order![index].order_status}'),
+                                              'ที่อยู่ : ${user_order![index].mpas_detail}'),
                                           tileColor: Colors.white,
                                         ),
                                       ])))),

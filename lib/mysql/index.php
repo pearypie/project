@@ -333,7 +333,7 @@
         $sql = "SELECT *
         FROM import_order
         INNER JOIN source
-        ON import_order.Import_source_id = source.source_id where import_order.Import_status = '$where'";
+        ON import_order.Import_source_id = source.source_id where import_order.Import_status = '$where' ORDER BY import_order.Import_date DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -350,7 +350,7 @@
 
     if("GET_IMPORT_PRODUCTDETAI" == $action){
         $db_data = array();
-        $sql = "SELECT import_order.Import_order_id,import_order.Import_product_pricetotal,product.product_name,product.product_image,product.product_price,import_order_detail.basket_product_quantity,import_order_detail.basket_product_pricetotal FROM import_order INNER JOIN source ON import_order.Import_source_id = source.source_id INNER JOIN import_order_detail ON import_order.Import_order_id = import_order_detail.Import_order_id INNER JOIN product ON import_order_detail.basket_product_id = product.product_id
+        $sql = "SELECT import_order.Import_order_id,import_order.Import_product_pricetotal,product.product_name,product.product_image,product.import_price,import_order_detail.basket_product_quantity,import_order_detail.basket_product_pricetotal FROM import_order INNER JOIN source ON import_order.Import_source_id = source.source_id INNER JOIN import_order_detail ON import_order.Import_order_id = import_order_detail.Import_order_id INNER JOIN product ON import_order_detail.basket_product_id = product.product_id
         WHERE import_order.Import_order_id = '$where' ";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
@@ -480,6 +480,27 @@
         return;
     }
 
+    if("CHECK_IMPORT_BASKET" == $action){
+        $soure = $_POST['soure'];
+        $db_data = array();
+        $sql = "SELECT * FROM basket
+        INNER JOIN product
+        ON basket.basket_product_id = product.product_id
+        WHERE basket.basket_product_id = '$where' AND basket.basket_product_source = '$soure'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $db_data[] = $row;
+            }
+
+            echo json_encode($db_data);
+        }else{
+            echo "error";
+        }
+        $conn->close();
+        return;
+    }
+
 
     if("GET_EXPORT_PRODUCT" == $action){
         $db_data = array();
@@ -488,7 +509,8 @@
         FROM user_order
         INNER JOIN user
         ON user_order.order_by = user.user_email
-        where order_status = '$where'";
+        where order_status = '$where'
+        ORDER BY user_order.order_date DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -506,7 +528,7 @@
     if("GET_ONLY_EXPORT_PRODUCT" == $action){
         $db_data = array();
         $order_status = $_POST['order_status'];
-        $sql = "SELECT * FROM user_order where order_by = '$where' AND order_status = '$order_status'";
+        $sql = "SELECT * FROM user_order where order_by = '$where' AND order_status = '$order_status' ORDER BY user_order.order_date DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -526,7 +548,8 @@
         $sql = "SELECT * FROM user_order
         INNER JOIN user 
         ON user.user_email = user_order.order_by
-        where order_status = '$where'";
+        where order_status = '$where'
+        ORDER BY user_order.order_date DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -546,7 +569,8 @@
         $db_data = array();
         $sql = "SELECT * FROM user_order
         INNER JOIN user 
-        ON user.user_email = user_order.order_by where order_responsible_person = '$where' AND order_status = '$where2'";
+        ON user.user_email = user_order.order_by where order_responsible_person = '$where' AND order_status = '$where2'
+        ORDER BY user_order.order_date DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
@@ -894,8 +918,9 @@
         $order_status = $_POST['order_status'];
         $date = $_POST['date'];
         $product_amount = $_POST['product_amount'];
+        $map_detail = $_POST['map_detail'];
 
-        $sql = "INSERT INTO user_order(order_id,order_by,user_latitude,user_longitude,order_responsible_person,total_price,order_status,order_date,product_amount) VALUES ('$order_id','$order_by','$user_latitude','$user_longitude','$order_responsible_person','$total_price','$order_status','$date','$product_amount')";
+        $sql = "INSERT INTO user_order(order_id,order_by,user_latitude,user_longitude,order_responsible_person,total_price,order_status,order_date,product_amount,mpas_detail) VALUES ('$order_id','$order_by','$user_latitude','$user_longitude','$order_responsible_person','$total_price','$order_status','$date','$product_amount','$map_detail')";
         $result = $conn->query($sql);
         echo "success";
         $conn->close();
@@ -1083,6 +1108,14 @@
 
     if("DELETE_ONLY_BASKET" == $action){ 
         $sql = "DELETE FROM user_basket WHERE user_basket.user_basket_id = '$where'";
+        $result = $conn->query($sql);
+        echo "success";
+        $conn->close();
+        return;
+    }
+
+    if("DELETE_ONLY_IMPORTBASKET" == $action){ 
+        $sql = "DELETE FROM `basket` WHERE basket.basket_id = '$where'";
         $result = $conn->query($sql);
         echo "success";
         $conn->close();

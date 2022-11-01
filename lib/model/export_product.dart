@@ -12,6 +12,7 @@ class Export_product {
   String? product_amount;
   String? user_name;
   String? user_surname;
+  String? mpas_detail;
 
   Export_product({
     required this.order_id,
@@ -25,6 +26,7 @@ class Export_product {
     required this.product_amount,
     required this.user_name,
     required this.user_surname,
+    required this.mpas_detail,
   });
 
   factory Export_product.fromJson(Map<String, dynamic> json) {
@@ -40,6 +42,7 @@ class Export_product {
       product_amount: json['product_amount'],
       user_name: json['user_name'],
       user_surname: json['user_surname'],
+      mpas_detail: json['mpas_detail'],
     );
   }
 
@@ -53,5 +56,6 @@ class Export_product {
         'order_status': order_status,
         'date': date,
         'product_amount': product_amount,
+        'mpas_detail': mpas_detail,
       };
 }

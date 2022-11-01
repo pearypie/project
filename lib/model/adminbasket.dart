@@ -10,7 +10,7 @@ class Basket {
   String? product_price;
   String? product_quantity;
   String? export_product;
-  String? import_product;
+  String? import_price;
   String? prouct_type_id;
 
   Basket(
@@ -25,7 +25,7 @@ class Basket {
       required this.product_price,
       required this.product_quantity,
       required this.export_product,
-      required this.import_product,
+      required this.import_price,
       required this.prouct_type_id});
 
   factory Basket.fromJson(Map<String, dynamic> json) {
@@ -41,7 +41,7 @@ class Basket {
       product_price: json['product_price'],
       product_quantity: json['product_quantity'],
       export_product: json['export_product'],
-      import_product: json['import_product'],
+      import_price: json['import_price'],
       prouct_type_id: json['prouct_type_id'],
     );
   }
@@ -58,7 +58,7 @@ class Basket {
         'product_price': product_price,
         'product_quantity': product_quantity,
         'export_product': export_product,
-        'import_product': import_product,
+        'import_price': import_price,
         'prouct_type_id': prouct_type_id,
       };
 }
