@@ -353,7 +353,7 @@ class _import_order_detailState extends State<user_order_detail> {
                                                   fontSize: 10.0),
                                             });
                                   },
-                                  label: Text("ยืนยันการสั่งซื้อ"),
+                                  label: Text("ยืนยันการส่ง"),
                                 ),
                               ),
                               SizedBox(
